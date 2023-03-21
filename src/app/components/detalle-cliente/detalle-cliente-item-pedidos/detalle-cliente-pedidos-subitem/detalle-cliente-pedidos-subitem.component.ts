@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DetalleClienteServiceService } from 'src/app/components/detalle-cliente/detalle-cliente-service.service';
+import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
 import { Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { DetalleClienteModalComponent } from '../../detalle-cliente-modal/detalle-cliente-modal.component';
 
@@ -21,8 +21,8 @@ export class DetalleClientePedidosSubitemComponent implements OnInit {
     this.modalRef.close();
  }
 
- constructor(private detalleClienteService:DetalleClienteServiceService ) {
-  this.modalRef = detalleClienteService.modalRef;
+ constructor(private clienteService:ClienteService ) {
+  this.modalRef = clienteService.modalRef;
 
   console.log("modalRef:\n", this.modalRef)
  }

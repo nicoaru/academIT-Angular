@@ -1,5 +1,5 @@
 <div
-    *ngIf="cliente"
+    *ngIf="pedidos"
     cdkAccordionItem
     #accordionItemPedidos="cdkAccordionItem"
     class="acordionDetalleCliente-itemPedidos"
@@ -28,7 +28,7 @@
         id="accordion-body-2"
         aria-labelledby="accordion-header-2"
     >
-        <app-detalle-cliente-pedidos-subitem *ngFor="let pedido of cliente.pedidos" [pedido]="pedido" [muebles]="pedido.muebles">
+        <app-detalle-cliente-pedidos-subitem *ngFor="let pedido of pedidos" [pedido]="pedido" [muebles]="pedido.muebles">
         </app-detalle-cliente-pedidos-subitem>
 
 

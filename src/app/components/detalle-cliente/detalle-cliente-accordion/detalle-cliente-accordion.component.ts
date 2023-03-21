@@ -15,9 +15,9 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./detalle-cliente-accordion.component.css']
 })
 export class DetalleClienteAccordionComponent {
-  @Input() cliente:Cliente;
+  // @Input() cliente:Cliente;
   //@Input() muebles:Mueble[];
-  @Input() tiposCliente:TipoCliente[];  
+  // @Input() tiposCliente:TipoCliente[];  
 
   constructor(
   ) {

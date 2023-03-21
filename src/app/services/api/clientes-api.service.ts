@@ -28,9 +28,9 @@ export class ClientesApiService {
       .get<Cliente[]>(this.urlBase+'/clientes/list', this.httpOptions)
   }
 
-  updateById(idCliente:number, updatedCliente:Cliente):Observable<number> {
+  updateById(idCliente:number, updatedCliente:Cliente):Observable<Cliente> {
     return this.httpClient
-    .put<number>(this.urlBase+'/clientes/'+idCliente, updatedCliente, this.httpOptions, )
+    .put<Cliente>(this.urlBase+'/clientes/'+idCliente, updatedCliente, this.httpOptions, )
   }
 
 

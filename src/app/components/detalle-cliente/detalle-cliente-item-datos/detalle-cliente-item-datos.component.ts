@@ -5,6 +5,8 @@ import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EditNombreComponent } from './detalle-cliente-edit-nombre/edit-nombre.component';
 import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
+import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detalle-cliente-item-datos',
@@ -12,12 +14,16 @@ import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
   styleUrls: ['./detalle-cliente-item-datos.component.css']
 })
 export class DetalleClienteItemDatosComponent implements OnInit {
-  @Input() cliente:Cliente
-  @Input() tiposCliente:TipoCliente[];  
+  cliente:Cliente
+  tiposCliente:TipoCliente[];  
 
   editable:boolean = false;
   formDatosCliente:FormGroup;
   dialogEditNombreRef:MatDialogRef<EditNombreComponent>;
+  private subscribtionCliente$: Subscription;
+  
+
+
 
   toggleEdit():void {
     this.formDatosCliente.enabled
@@ -48,12 +54,14 @@ export class DetalleClienteItemDatosComponent implements OnInit {
     updatedCliente.notas = this.formDatosCliente.value.notas,
     updatedCliente.tipoCliente = {id: this.formDatosCliente.value.tipoCliente}
 
-    console.log("clienteActualizado: ", updatedCliente)
+    console.log("cliente a actualizar: ", updatedCliente)
     this.clientesAPI.updateById(this.cliente.id, updatedCliente)
     .subscribe({
         next: (data) => {
-          console.log("Cliente actualizado: ", data);
-          this.cliente = updatedCliente;
+          console.log("cliente actualizado: ", data);
+          this.clienteService.setClienteParaDetalle(data);
+          this.clienteService.updateCliente(data);
+          //this.cliente = updatedCliente;
         },
         error: (err) => {
           console.log("err \n", err)
@@ -97,7 +105,8 @@ export class DetalleClienteItemDatosComponent implements OnInit {
   constructor(
     private formBuilder:FormBuilder,
     private matDialog: MatDialog,
-    private clientesAPI:ClientesApiService
+    private clientesAPI:ClientesApiService,
+    private clienteService:ClienteService,
   ) {
     //* creo el form
     this.formDatosCliente = this.formBuilder.group({
@@ -117,12 +126,25 @@ export class DetalleClienteItemDatosComponent implements OnInit {
 
 //** ngOnInit **/
   ngOnInit(): void {
+    this.subscribtionCliente$ = this.clienteService.clienteParaDetalle$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.cliente = data
+      console.log("Cliente para detalle: ",data);
+    });
+
+    this.tiposCliente = this.clienteService.tiposCliente;
+
     this.formDatosCliente.controls['nombre'].setValue(this.cliente.nombre);
     this.formDatosCliente.controls['apellido'].setValue(this.cliente.apellido);
     this.formDatosCliente.controls['telefono'].setValue(this.cliente.telefono);
     this.formDatosCliente.controls['email'].setValue(this.cliente.email);
     this.formDatosCliente.controls['tipoCliente'].setValue(this.cliente.tipoCliente?.id);
     this.formDatosCliente.controls['notas'].setValue(this.cliente.notas);       
+  }
+
+  ngOnDestroy(): void {
+    this.subscribtionCliente$.unsubscribe();
   }
 
 

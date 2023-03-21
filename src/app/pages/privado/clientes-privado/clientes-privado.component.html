@@ -5,7 +5,7 @@
 
 
 <div class="tableContainer" *ngIf="!loading && clientes">
-    <app-tabla-info [columns]="columns" [data]="clientes" class="mat-elevation-z2" (onViewDetails)="showDetails($event, '500ms', '500ms')"></app-tabla-info>    
+    <app-tabla-info [columns]="columns" [data]="clientes" class="mat-elevation-z2" (onViewDetails)="showDetails($event)"></app-tabla-info>    
 </div>
 
 <app-spinner *ngIf="loading && !clientes" size="50px"></app-spinner>

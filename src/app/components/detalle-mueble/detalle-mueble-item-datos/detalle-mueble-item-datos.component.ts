@@ -43,10 +43,6 @@ export class DetalleMuebleItemDatosComponent {
     updatedMueble.estado = {id: this.formDatosMueble.controls['estado'].value};
     updatedMueble.notas = this.formDatosMueble.controls['notas'].value;
 
-
-
-
-
     console.log("Pedido que se va a guardar: ", updatedMueble)
 
     this.mueblesAPI.updateById(this.mueble.id, updatedMueble)

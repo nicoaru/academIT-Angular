@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 
 @Component({
@@ -6,10 +6,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './tabla-info.component.html',
   styleUrls: ['./tabla-info.component.css']
 })
-export class TablaInfoComponent implements OnInit {
+export class TablaInfoComponent implements OnInit, OnChanges {
   @Input() columns:ColumnTableInfoDefinition[];
   @Input() data:any[];
-  @Input() linkToDetail:string;
+  //@Input() linkToDetail:string;
   @Output() onViewDetails = new EventEmitter<any>();
 
   rows:any[];
@@ -39,12 +39,17 @@ export class TablaInfoComponent implements OnInit {
 
   constructor() {}
 
+
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     console.log("columns: \n", this.columns)
     console.log("Data que llega a tabla: \n", this.data)
     this.rows = this.getRows();
     console.log("rows: \n", this.rows)
   }
+
 
 }
 
