@@ -1,0 +1,50 @@
+<div mat-dialog-content class="detalleClienteContainer">
+    <!--* Nombre -->
+    <div class="formControlContainer">
+        <label class="formControlLabel" for="nombre">Nombre</label>
+        <input 
+        class="formControl"
+        type="text" 
+        id="nombre"
+        name="nombre"
+        [(ngModel)]="data.nombre"
+        >
+    </div>
+    <!--* Apellido -->
+    <div class="formControlContainer mt-3">
+        <label class="formControlLabel" for="apellido">Apellido</label>
+        <input 
+        class="formControl"
+        type="text" 
+        id="apellido"
+        name="apellido"
+        [(ngModel)]="data.apellido"
+        >
+    </div>    
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button (click)="confirmChanges()">Ok</button>
+    <button mat-raised-button (click)="discardChanges()">Canclear</button>
+</div>
+
+
+<!-- 
+    <mat-form-field appearance="outline" class="">
+        <mat-label>Nombre</mat-label>
+        <input
+        matInput 
+        placeholder="Nombre" 
+        [(ngModel)]="data.nombre"
+        name="nombre"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="">
+        <mat-label>Apellido</mat-label>
+        <input
+        matInput 
+        placeholder="Apellido" 
+        [(ngModel)]="data.apellido"
+        name="apellido"
+        >
+    </mat-form-field>
+--->

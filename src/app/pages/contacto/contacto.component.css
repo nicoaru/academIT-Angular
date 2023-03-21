@@ -1,0 +1,41 @@
+main {
+    position: relative;
+}
+/*** FORM ***/
+form {
+    width: 500px;
+    padding: 15px;
+    /* height: 150px; */
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    /* background-color: rgba(28, 24, 24, 0.05); */
+}
+
+form input, form textarea {
+    display: block;
+    margin: 15px auto;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+    width: 300px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+form input::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+form textarea {
+    height: 250px;
+    resize: none;
+}
+
+form button {
+    display: block;
+    margin: 0 auto;
+    background-color: inherit;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}

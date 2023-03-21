@@ -1,0 +1,3 @@
+.routerOutletContainer {
+    min-height: calc(100vh - 194px);
+}

@@ -1,0 +1,60 @@
+.acordionDetalleCliente-itemPedidos {
+    padding: 0px 10px;
+}
+
+.acordionDetalleCliente-itemPedidos-header {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.acordionDetalleCliente-itemPedidos-body {
+    margin-top: 10px;
+    padding: 0px 10px 20px 10px;
+}
+
+.buttonsContainer {
+    margin-top: 15px;
+}
+
+.acordionDetalleCliente-itemPedidos-header {
+    cursor: pointer;
+}
+
+.acordionDetalleCliente-itemPedidos:first-child {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+}
+
+.acordionDetalleCliente-itemPedidos:last-child {
+border-bottom-left-radius: 4px;
+border-bottom-right-radius: 4px;
+}
+
+/* 
+.acordionDetalleCliente-itemPedidos-header {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+
+.acordionDetalleCliente-itemPedidos-header,
+.acordionDetalleCliente-itemPedidos-body {
+    padding: 0px 16px;
+}
+
+.acordionDetalleCliente-itemPedidos-header {
+    cursor: pointer;
+}
+
+.acordionDetalleCliente-itemPedidos:first-child {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+}
+
+.acordionDetalleCliente-itemPedidos:last-child {
+border-bottom-left-radius: 4px;
+border-bottom-right-radius: 4px;
+} 
+*/

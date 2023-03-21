@@ -1,0 +1,14 @@
+.errorMessage {
+    margin: 50px;
+}
+.tableContainer {
+    margin: 50px;
+    /* max-height: 90vh;
+    overflow: scroll; */
+}
+app-spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

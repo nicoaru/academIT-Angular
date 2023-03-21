@@ -1,0 +1,5 @@
+<app-header [navItems]="isPrivate ? navItemsPrivate : navItemsPublic" ></app-header>
+
+<ng-content></ng-content>
+
+<app-footer [navItems]="isPrivate ? navItemsPrivateFooter : navItemsPublic" ></app-footer>

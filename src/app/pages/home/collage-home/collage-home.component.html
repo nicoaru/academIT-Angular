@@ -1,0 +1,25 @@
+<section id="collageContainer">
+
+    <div class="collageRow">
+        <div *ngFor="let imgUrl of imgUrlsGrupo1">
+            <img src={{imgUrl}} alt="" class="collageImg" (click)="showModal($event.target, collageModalImg, collageModal)">
+        </div>
+    </div>
+    <div class="collageRow">
+        <div *ngFor="let imgUrl of imgUrlsGrupo2">
+            <img src={{imgUrl}} alt="" class="collageImg" (click)="showModal($event.target, collageModalImg, collageModal)">
+        </div>
+    </div>
+    <div class="collageRow">
+        <div *ngFor="let imgUrl of imgUrlsGrupo3">
+            <img src={{imgUrl}} alt="" class="collageImg" (click)="showModal($event.target, collageModalImg, collageModal)">
+        </div>
+    </div>    
+
+    <div id="collageModal" #collageModal>
+        <i id="closeModalBtn" class="fa-solid fa-circle-xmark fa-2x closeModalBtn" #collageCloseModalBtn (click)="closeModal(collageModal)"></i>
+        <div id="collageModalBody">
+            <img src="" alt="" id="collageModalImg" #collageModalImg>                    
+        </div>
+    </div>
+</section>

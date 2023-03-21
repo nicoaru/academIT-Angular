@@ -1,0 +1,37 @@
+<div
+    *ngIf="cliente"
+    cdkAccordionItem
+    #accordionItemPedidos="cdkAccordionItem"
+    class="acordionDetalleCliente-itemPedidos"
+    tabindex="1"
+    id="accordion-header-2"
+    [attr.aria-expanded]="accordionItemPedidos.expanded"
+    aria-controls="accordion-body-1"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetalleCliente-itemPedidos-header" (click)="accordionItemPedidos.toggle()">
+        <h5>Pedidos</h5>
+        <span role="button">
+            <mat-icon *ngIf="accordionItemPedidos.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionItemPedidos.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetalleCliente-itemPedidos-body"
+        role="region"
+        [style.display]="accordionItemPedidos.expanded ? '' : 'none'"
+        id="accordion-body-2"
+        aria-labelledby="accordion-header-2"
+    >
+        <app-detalle-cliente-pedidos-subitem *ngFor="let pedido of cliente.pedidos" [pedido]="pedido" [muebles]="pedido.muebles">
+        </app-detalle-cliente-pedidos-subitem>
+
+
+    </div>
+
+</div>

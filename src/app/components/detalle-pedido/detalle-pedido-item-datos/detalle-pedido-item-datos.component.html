@@ -1,0 +1,118 @@
+<div
+    *ngIf="pedido"
+    cdkAccordionItem
+    #accordionDatosPedido="cdkAccordionItem"
+    class="acordionDetallePedido-itemPedido"
+    tabindex="0"
+    id="accordion-header-1"
+    [attr.aria-expanded]="accordionDatosPedido.expanded"
+    aria-controls="accordion-body-1"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetallePedido-itemPedido-header" (click)="accordionDatosPedido.toggle()">
+        <h5>Detalles del pedido</h5>
+        <span role="button">
+            <mat-icon *ngIf="accordionDatosPedido.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionDatosPedido.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetallePedido-itemPedido-body"
+        role="region"
+        [style.display]="accordionDatosPedido.expanded ? '' : 'none'"
+        id="accordion-body-1"
+        aria-labelledby="accordion-header-1"
+    >
+
+        <form [formGroup]="formDatosPedido" action="" class="formDatosPedido"> 
+            <div class="d-flex flex-row justify-content-between">
+                <div class="d-flex flex-column"> 
+                    <!--* cliente -->
+                    <div class="formControlContainer" style="width: 100%">
+                        <label class="formControlLabel" for="cliente">Cliente</label>
+                        <select 
+                        style="width: 100%"
+                        class="formControl"
+                        type="text" 
+                        id="cliente"
+                        name="cliente"
+                        formControlName="cliente"
+                        >
+                        <option *ngFor="let option of listaClientes" value={{option.id}}>
+                            {{option.nombre+' '+option.apellido}}
+                        </option>
+                        </select>
+                    </div>  
+                    <!--* fechas -->
+                    <div class="my-3 d-flex flex-row justify-content-between">
+                        <!--* fechaEntrada -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="fechaEntrada">Fecha Entrada</label>
+                            <input 
+                            class="formControl"
+                            [size]="formDatosPedido.value.fechaEntrada.length"
+                            type="date" 
+                            id="fechaEntrada"
+                            name="fechaEntrada"
+                            formControlName="fechaEntrada"
+                            >
+                        </div>
+                        <!--* fechaEntrega -->
+                        <div class="formControlContainer ms-3">
+                            <label class="formControlLabel" for="fechaEntrega">Fecha Entrega</label>
+                            <input 
+                            class="formControl"
+                            [size]="formDatosPedido.value.fechaEntrega.length"
+                            type="date" 
+                            id="fechaEntrega"
+                            name="fechaEntrega"
+                            formControlName="fechaEntrega"
+                            >
+                        </div>                           
+                    </div>        
+                    <!--* direccionEntrega -->
+                    <div class="formControlContainer" style="width: 100%">
+                        <label class="formControlLabel" for="direccionEntrega">Dirección Entrega</label>
+                        <input 
+                        style="width: 100%"
+                        class="formControl"
+                        [size]="formDatosPedido.value.direccionEntrega.length"
+                        type="text" 
+                        id="direccionEntrega"
+                        name="direccionEntrega"
+                        formControlName="direccionEntrega"
+                        >
+                    </div>                          
+                </div>
+                
+                <div class="flex-grow-1 ms-4 me-3" >
+                    <!--* notas -->
+                    <div class="formControlContainer notas" style="height: 100%; width: 100%">
+                        <label class="formControlLabel" for="notas">Notas</label>
+                        <textarea 
+                        class="formControl"
+                        type="text" 
+                        id="notas"
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </div>    
+                                
+                </div>
+
+            </div>
+            <div class="buttonsContainer">
+                <button (click)="toggleEdit()" *ngIf="formDatosPedido.disabled" mat-raised-button>Editar</button>
+                <button *ngIf="formDatosPedido.enabled" [disabled]="formDatosPedido.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
+                <button *ngIf="formDatosPedido.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
+            </div>
+        </form> 
+    </div>
+
+</div>

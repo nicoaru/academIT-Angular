@@ -1,0 +1,162 @@
+<div
+    *ngIf="mueble && modelos && colores"
+    cdkAccordionItem
+    #accordionDatosPedido="cdkAccordionItem"
+    class="acordionDetallePedido-itemPedido"
+    tabindex="0"
+    id="accordion-header-1"
+    [attr.aria-expanded]="accordionDatosPedido.expanded"
+    aria-controls="accordion-body-1"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetallePedido-itemPedido-header" (click)="accordionDatosPedido.toggle()">
+        <h5>Datos del mueble</h5>
+        <span role="button">
+            <mat-icon *ngIf="accordionDatosPedido.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionDatosPedido.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetallePedido-itemPedido-body"
+        role="region"
+        [style.display]="accordionDatosPedido.expanded ? '' : 'none'"
+        id="accordion-body-1"
+        aria-labelledby="accordion-header-1"
+    >
+
+        <form [formGroup]="formDatosMueble" action="" class="formDatosMueble"> 
+            <div class="d-flex flex-row justify-content-between">
+                <div class=""> 
+                    <div class="mb-3 d-flex flex-row flex-wrap justify-content-between">
+                        <!--* Modelo -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="modelo">Modelo</label>
+                            <select 
+                            class="formControl"
+                            id="modelo"
+                            name="modelo"
+                            formControlName="modelo"
+                            >
+                                <option *ngFor="let modelo of modelos" value={{modelo.id}}>{{modelo.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <!--* Color -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="color">Color</label>
+                            <select 
+                            class="formControl"
+                            id="color"
+                            name="color"
+                            formControlName="color"
+                            >
+                                <option  *ngFor="let color of colores" value={{color.id}}>{{color.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <!--* Cantidad -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="cantidad">Cantidad</label>
+                            <input 
+                            class="formControl"
+                            [size]="formDatosMueble.value.cantidad.toString().length"
+                            type="text" 
+                            id="cantidad"
+                            name="cantidad"
+                            formControlName="cantidad"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-flex flex-row flex-wrap justify-content-between" style="column-gap: 15px;">
+                        <!--* Largo -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="largo">Largo</label>
+                            <input 
+                            style="width:100%"
+                            class="formControl"
+                            [size]="formDatosMueble.value.largo.toString().length"
+                            type="text" 
+                            id="largo"
+                            name="largo"
+                            formControlName="largo"
+                            >
+                        </div>
+
+                        <!--* Alto -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="alto">Alto</label>
+                            <input 
+                            style="width:100%"
+                            class="formControl"
+                            [size]="formDatosMueble.value.alto.toString().length"
+                            type="text" 
+                            id="alto"
+                            name="alto"
+                            formControlName="alto"
+                            >
+                        </div>
+
+                        <!--* Profundidad -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="profundidad">Prof.</label>
+                            <input
+                            style="width:100%"
+                            class="formControl"
+                            [size]="formDatosMueble.value.profundidad.toString().length"
+                            type="text" 
+                            id="profundidad"
+                            name="profundidad"
+                            formControlName="profundidad"
+                            >
+                        </div>                        
+                    </div>
+                                       
+                    <!--* Estado -->
+                    <div class="formControlContainer">
+                        <label class="formControlLabel" for="estado">Estado</label>
+                        <select 
+                        class="formControl"
+                        type="text" 
+                        id="estado"
+                        name="estado"
+                        formControlName="estado"
+                        >
+                            <option *ngFor="let option of estados" value={{option.id}}>
+                                {{option.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex-grow-1 ms-4 me-3" >
+                    <!--* notas -->
+                    <div class="formControlContainer notas" style="height: 100%; width: 100%">
+                        <label class="formControlLabel" for="notas">Notas</label>
+                        <textarea 
+                        class="formControl"
+                        type="text" 
+                        id="notas"
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </div>    
+                                
+                </div>
+
+            </div>
+            <div class="buttonsContainer">
+                <button (click)="toggleEdit()" *ngIf="formDatosMueble.disabled" mat-raised-button>Editar</button>
+                <button *ngIf="formDatosMueble.enabled" [disabled]="formDatosMueble.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
+                <button *ngIf="formDatosMueble.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
+            </div>
+        </form> 
+    </div>
+
+</div>

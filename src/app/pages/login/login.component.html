@@ -1,0 +1,48 @@
+<main>
+    <form [formGroup]="loginFormGroup" action="">
+
+        <input 
+            type="text" 
+            name="username" 
+            id="usernameInput" 
+            formControlName="username"
+            placeholder="usuario"
+
+            [placeholder]="(loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].errors['required'] && loginFormGroup.controls['username'].dirty) ? '* usuario' : 'usuario'"
+            [class]="{
+                'controlRequiredAlert': (loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].errors['required'] && loginFormGroup.controls['username'].dirty)                
+            }"
+        >
+
+        <input 
+            type="password" 
+            name="password" 
+            id="passwordInput" 
+            formControlName="password"
+
+            [placeholder]="(loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].errors['required'] && loginFormGroup.controls['password'].dirty) ? '* contraseña' : 'contraseña'"
+            [class]="{
+                'controlRequiredAlert': (loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].errors['required'] && loginFormGroup.controls['password'].dirty)                
+            }"
+        >
+
+
+
+
+        <button id="loginButton" [disabled]="loginFormGroup.invalid" (click)="login()">Login</button>
+
+        <div id="pista">
+            
+            <p><i>Usuarios válidos para probar:</i></p>
+            <p><i>nicoaru / 1234</i></p>
+            <p><i>juanperez / 2345</i></p>
+            <p><i>anaprada / 3456</i></p>
+        </div>
+
+
+        <app-spinner size="60px" colorClassBS="text-info" *ngIf="showSpinner"></app-spinner>
+
+
+    </form>
+
+

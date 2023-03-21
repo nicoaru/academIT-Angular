@@ -1,0 +1,70 @@
+/* TIENDAS */
+#tiendasContainer {
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    flex-basis: 1;
+}
+    #tiendasContainer div {
+        position: relative;
+        width: 0;
+        flex-grow: 1;
+        overflow: hidden;
+        transition: all 1.5s ease;
+    }
+    #tiendasContainer img {
+        height: 100%;
+        object-fit: cover;
+        object-position: left;
+        opacity: 0.7;
+        transition: all 1.5s ease;
+    }
+    #tiendasContainer div>h3 {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        font-size: 2.5rem;
+        font-weight: 400;
+        transition: opacity 1s ease;
+    }
+    #tiendasContainer div article {
+        width: 50%;
+        height: 50%;
+        background-color: #28242464;
+        border-radius: 4px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity .5s ease;
+    }
+    #tiendasContainer div article h4 {
+        color: whitesmoke;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    #tiendasContainer div article p {
+        color: whitesmoke;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    /* hovers */
+    #tiendasContainer div:hover {
+        width: 70%;
+        opacity: 1;
+    }        
+    #tiendasContainer div:hover img {
+        opacity: 1;
+    }   
+    #tiendasContainer div:hover>h3 {
+        opacity: 0;
+    }
+    #tiendasContainer div:hover article {
+        opacity: 1;
+        transition: opacity 1s ease .3s;
+    }

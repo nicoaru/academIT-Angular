@@ -1,0 +1,26 @@
+    /* INFO */
+    #infoContainer {
+        width: 70%;
+        margin: 175px auto;
+        font-weight: 700;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+    #infoContainer div {
+        text-align: center;
+        transition: all 1.5s ease;
+    }
+        #infoContainer i {
+            font-size: 6rem;
+            color: rgba(235, 184, 31, 0.619);
+            margin-bottom: 25px;
+        }
+        #infoContainer p {
+            margin-bottom: 0.5em;
+        }
+    /* hovers */
+    #infoContainer div:hover {
+        transform: scale(120%);
+    }

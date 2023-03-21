@@ -1,0 +1,20 @@
+/* .closeModalBtn {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-shadow: 0px 0px 10px rgba(242,237,237,0.73);
+    transform: translate(-10px, 10px);
+} */
+
+
+.detalleClienteContainer{
+    background-color: rgb(255, 255, 255);
+    /* border-radius: 2px; */
+    padding: 0px 25px 25px 25px;
+    /* overflow: scroll; */
+}
+
+.btnClose{
+    cursor: pointer;
+}

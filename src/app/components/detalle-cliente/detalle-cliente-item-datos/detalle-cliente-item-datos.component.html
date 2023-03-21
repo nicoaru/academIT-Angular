@@ -1,0 +1,183 @@
+<div
+    *ngIf="cliente && tiposCliente"
+    cdkAccordionItem
+    #accordionDatosCliente="cdkAccordionItem"
+    class="acordionDetalleCliente-itemCliente"
+    tabindex="0"
+    id="accordion-header-1"
+    [attr.aria-expanded]="accordionDatosCliente.expanded"
+    aria-controls="accordion-body-1"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetalleCliente-itemCliente-header" (click)="accordionDatosCliente.toggle()">
+        <h5>Datos del cliente</h5>
+        <span role="button">
+            <mat-icon *ngIf="accordionDatosCliente.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionDatosCliente.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetalleCliente-itemCliente-body"
+        role="region"
+        [style.display]="accordionDatosCliente.expanded ? '' : 'none'"
+        id="accordion-body-1"
+        aria-labelledby="accordion-header-1"
+    >
+
+        <form [formGroup]="formDatosCliente" action="" class="formDatosCliente"> 
+            <div class="d-flex flex-row justify-content-between">
+                <div> 
+                    <div class="d-flex flex-row">
+                        <!--* Nombre -->
+                        <div class="formControlContainer me-3 flex-grow-1">
+                            <label class="formControlLabel" for="nombreCompleto">Nombre</label>
+                            <input
+                            class="formControl nombreCompleto"
+                            (click)="showModalEditNombre()"
+                            [disabled]="formDatosCliente.disabled"
+                            [value]="formDatosCliente.controls['nombre'].value+' '+formDatosCliente.controls['apellido'].value"
+                            id="nombreCompleto"
+                            name="nombreCompleto"
+                            >
+                        </div>
+                     
+                        <!--* Tipo cliente -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="nombre">Tipo cliente</label>
+                            <select
+                            class="formControl"
+                            name="tipoCliente"
+                            formControlName="tipoCliente"
+                            >
+                                <option 
+                                *ngFor="let option of tiposCliente" 
+                                [value]="option.id">
+                                    {{option.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row mt-3">
+                        <!--* Teléfono -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="telefono">Teléfono</label>
+                            <input 
+                            class="formControl"
+                            [size]="formDatosCliente.value.telefono.length"
+                            type="text" 
+                            id="telefono"
+                            name="telefono"
+                            formControlName="telefono"
+                            >
+                        </div>
+
+                        <!--* Email -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="email">Email</label>
+                            <input 
+                            class="formControl"
+                            [size]="formDatosCliente.value.email.length"
+                            type="text" 
+                            id="email"
+                            name="email"
+                            formControlName="email"
+                            >
+                        </div>                    
+                    </div>
+                </div>
+                
+                <div class="flex-grow-1 ms-3">
+                    <!--* Notas -->
+                    <div class="formControlContainer notas">
+                        <label class="formControlLabel" for="notas">Notas</label>
+                        <textarea 
+                        class="formControl"
+                        type="text" 
+                        id="notas"
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </div>                             
+                </div>
+
+            </div>
+            <div class="mt-4">
+                <button (click)="toggleEdit()" *ngIf="formDatosCliente.disabled" mat-raised-button>Editar</button>
+                <button *ngIf="formDatosCliente.enabled" [disabled]="formDatosCliente.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
+                <button *ngIf="formDatosCliente.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
+            </div>
+        </form> 
+    </div>
+
+</div>
+
+
+<!-- <mat-form-field appearance="outline" class="ms-3 me-1">
+    <mat-label>Nombre</mat-label>
+    <input
+    (click)="showModalEditNombre()"
+    disabled={{formDatosCliente.disabled}}
+    matInput 
+    [value]="formDatosCliente.controls['nombre'].value+' '+formDatosCliente.controls['apellido'].value"
+    name="nombreCompleto"
+    >
+    <mat-hint *ngIf="formDatosCliente.controls['nombre'].invalid || formDatosCliente.controls['apellido'].invalid" style="color: red; overflow: visible; white-space: nowrap">*Nombre y apellido son requeridos</mat-hint>
+</mat-form-field> 
+
+
+                        <mat-form-field appearance="outline" class="ms-3">
+                            <mat-label>Tipo cliente</mat-label>
+                            <mat-select
+                                name="tipoCliente"
+                                formControlName="tipoCliente"
+                            >
+                                <mat-option 
+                                *ngFor="let option of tiposCliente" 
+                                [value]="option.id"
+                                >
+                                    {{option.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="outline" class="ms-3 me-1">
+                            <mat-label>Teléfono</mat-label>
+                            <input 
+                            matInput 
+                            name="telefono"
+                            formControlName="telefono"
+                        >
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="ms-3">
+                            <mat-label>Email</mat-label>
+                            <input 
+                            matInput 
+                            name="email"
+                            formControlName="email"
+                        >
+                            <mat-hint *ngIf="formDatosCliente.controls['email'].errors && formDatosCliente.controls['email'].errors['email']" style="color: red; overflow: visible; white-space: nowrap">*Formato inválido</mat-hint>
+                        </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="formDatosCliente-notas">
+                        <mat-label>Notas</mat-label>
+                        <textarea 
+                        matInput 
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </mat-form-field>     
+
+
+
+
+
+-->

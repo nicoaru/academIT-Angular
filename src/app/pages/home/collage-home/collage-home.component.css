@@ -1,0 +1,123 @@
+ /* COLLAGE */
+#collageContainer {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+   #collageContainer .collageRow {
+        display: flex;
+        flex-flow: row nowrap;
+        column-gap: 2px;
+        margin: 1px 0px;
+    }
+   #collageContainer .collageRow:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+   #collageContainer .collageRow div {
+        position: relative;
+        width: 30%;
+        height: 200px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        cursor: pointer;
+
+        transition: all .7s ease;
+    }
+   #collageContainer .collageRow div:nth-child(odd) {
+        width: 30%;
+    }
+   #collageContainer .collageRow div:nth-child(even) {
+        width: 20%;            
+    }
+   #collageContainer .collageRow img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    /* COLLAGE MODAL */
+    #collageModal {
+        position: absolute;
+        display: none;
+        height: 60%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        transition: opacity 5s ease;
+    }
+    #collageModalBody {
+        height: 100%;
+    }
+    #collageModal img {
+        height: 100%;
+        box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.4);
+    }
+    #collageModal .closeModalBtn {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        text-shadow: 0px 0px 10px rgba(242,237,237,0.73);
+        
+        transform: translate(-50%, -50%);
+    }
+    
+    /* hover */
+   #collageContainer .collageRow div:hover {
+        transform: scale(110%);
+        border: 2px solid whitesmoke;
+        z-index: 10;
+    }
+    /* toggle modal */
+   #collageContainer #collageModal[data-show="true"] {
+        display: block;
+        z-index: 20;
+    }
+   #collageContainer #collageModal[data-show="false"] {
+        display: none;
+    }
+
+
+
+/*** MODAL ***/
+/* 
+#modal {
+    position: absolute;
+    display: none;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: whitesmoke;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    transition: opacity 5s ease;
+}
+#modalBody {
+    height: 100%;
+    padding: 50px 25px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+#modal .closeModalBtn {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    text-shadow: 0px 0px 10px rgba(242,237,237,0.73);
+    
+    transform: translate(-50%, -50%);
+} */
+
+    /*** toggle modal ***/
+/* 
+    #modal[data-show="true"] {
+        display: block;
+        z-index: 20;
+    }
+    #modal[data-show="false"] {
+        display: none;
+    } */

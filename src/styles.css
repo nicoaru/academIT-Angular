@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+font-family: 'Roboto', sans-serif;
+400 700
+font-family: 'Roboto Slab', serif;
+700
+
+*/
+
+/* ..... RESET CSS ..... */
+html {
+    font-size: 16px;
+}
+body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+  
+body::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+*, p {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+
+}
+li {
+    list-style: none ;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* .....  ..... */
+
+body {
+    background-color: whitesmoke;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(28, 24, 24);
+}
+
+a:hover {
+    font-weight: 700;
+}
+
+
+
+/* .....  ..... */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+
+
+
+
+
+/* .....  ..... */
+/* .....  ..... */
+/* .....  ..... */
+

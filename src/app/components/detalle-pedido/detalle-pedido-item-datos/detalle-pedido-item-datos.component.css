@@ -1,0 +1,79 @@
+.formControlContainer {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+}
+.formControlLabel {
+    font-size: 0.8rem;
+    line-height: 100%;
+    background-color: inherit;
+    position: absolute;
+    left: 7px;
+    top: 0px;
+    transform: translateY(-50%);
+}
+.formControl {
+    border: 1.5px solid rgb(190, 93, 201);
+    color: rgb(28, 24, 24);
+    background-color: inherit;
+    border-radius: 5px;
+    padding: 5px;
+}
+.formControl:disabled {
+    border: 1px solid black;
+}
+.formControl:focus {
+    border: 2px solid rgb(190, 93, 201);
+}
+
+
+textarea {
+    height: 100%;
+    width: 100%;
+}
+
+.formControlContainer.notas {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+/*  */
+
+.acordionDetallePedido-itemPedido {
+    padding: 0px 10px;
+}
+
+.acordionDetallePedido-itemPedido-header {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.acordionDetallePedido-itemPedido-body {
+    margin-top: 10px;
+    padding: 0px 10px 20px 10px;
+}
+
+.buttonsContainer {
+    margin-top: 15px;
+}
+
+.acordionDetallePedido-itemPedido-header {
+    cursor: pointer;
+}
+
+.acordionDetallePedido-itemPedido:first-child {
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+}
+
+.acordionDetallePedido-itemPedido:last-child {
+border-bottom-left-radius: 4px;
+border-bottom-right-radius: 4px;
+}

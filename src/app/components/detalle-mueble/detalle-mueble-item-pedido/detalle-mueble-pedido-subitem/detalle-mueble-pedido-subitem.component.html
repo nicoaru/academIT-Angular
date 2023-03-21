@@ -1,0 +1,42 @@
+<div
+    cdkAccordionItem
+    #accordionSubItemPedido="cdkAccordionItem"
+    class="acordionDetalleCliente-subItemPedidos"
+    tabindex=3
+    id="accordion-header-3"
+    [attr.aria-expanded]="accordionSubItemPedido.expanded"
+    aria-controls="accordion-body-3"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetalleCliente-subItemPedidos-header" (click)="accordionSubItemPedido.toggle()">
+        <h6>Otros muebles del mismo pedido</h6>
+        <span role="button">
+            <mat-icon *ngIf="accordionSubItemPedido.expanded" aria-hidden="false" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionSubItemPedido.expanded" aria-hidden="false" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetalleCliente-subItemPedidos-body"
+        role="region"
+        [style.display]="accordionSubItemPedido.expanded ? '' : 'none'"
+        id="accordion-body-2"
+        aria-labelledby="accordion-header-2"
+    >
+
+        <a *ngFor="let mueble of muebles" [routerLink]="'privado/muebles/'+mueble.id" (click)="closeModal()">
+            <p>
+                {{ mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado.nombre }}                
+            </p>
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- {{mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estadosHistoricos.sort((a,b) => a.fecha-b.fecha)[mueble.estadosHistoricos.length-1]} -->

@@ -1,0 +1,6 @@
+<div *ngIf="show" id="modal" [ngStyle]="styles">
+    <i id="closeModalBtn" class="fa-solid fa-circle-xmark fa-1x closeModalBtn" (click)="closeModal()"></i>
+    <div id="modalBody">
+        <ng-content></ng-content>            
+    </div>
+</div>

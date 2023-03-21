@@ -1,0 +1,26 @@
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" scope="col">{{column.title}}</th>
+      </tr>
+    </thead>
+    
+    <tbody *ngIf="rows">
+      <tr *ngFor="let row of rows">
+        <ng-container *ngFor="let column of columns">
+
+          <td *ngIf="row[column.field].type !== 'HTMLElement' && !row[column.field].isComponent">{{row[column.field].value}}</td>
+
+          <td *ngIf="row[column.field].type === 'HTMLElement'" #elementContainer>
+            {{renderer.appendChild(elementContainer, row[column.field].value)}}
+          </td>
+
+          <td *ngIf="row[column.field].isComponent" #componentContainer>
+            {{ generarComponente(row[column.field].value.componentType, componentContainer, row[column.field].value.inputs) }}
+          </td>
+
+        </ng-container>
+      </tr>
+
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+<div *ngIf="!loading && !muebles" class="errorMessage">
+    <h1>{{errorMessage}}</h1>
+    <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+</div>
+
+
+<div class="tableContainer" *ngIf="!loading && muebles">
+    <app-tabla-info [columns]="columns" [data]="muebles" class="mat-elevation-z2" (onViewDetails)="showDetails($event)"></app-tabla-info>    
+</div>
+
+<app-spinner *ngIf="loading && !muebles" size="50px"></app-spinner>

@@ -1,0 +1,38 @@
+<div
+    *ngIf="muebles"
+    cdkAccordionItem
+    #accordionDatosMuebles="cdkAccordionItem"
+    class="acordionDetallePedido-itemMuebles"
+    tabindex="1"
+    id="accordion-header-2"
+    [attr.aria-expanded]="accordionDatosMuebles.expanded"
+    aria-controls="accordion-body-2"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetallePedido-itemMuebles-header" (click)="accordionDatosMuebles.toggle()">
+        <h5>Muebles del pedido</h5>
+        <span role="button">
+            <mat-icon *ngIf="accordionDatosMuebles.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionDatosMuebles.expanded" aria-hidden="false" aria-label="Example home icon" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetallePedido-itemMuebles-body"
+        role="region"
+        [style.display]="accordionDatosMuebles.expanded ? '' : 'none'"
+        id="accordion-body-1"
+        aria-labelledby="accordion-header-1"
+    >
+        <a *ngFor="let mueble of muebles" [routerLink]="'privado/muebles/'+mueble.id" (click)="closeModal()">
+            <p>
+                {{ mueble.cantidad+' - '+mueble.modelo?.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado?.nombre }}                
+            </p>
+        </a>
+    </div>
+
+</div>

@@ -1,0 +1,26 @@
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns" scope="col">{{column.title}}</th>
+      </tr>
+    </thead>
+    
+    <tbody *ngIf="rows">
+      <tr *ngFor="let row of rows">
+        <ng-container *ngFor="let column of columns">
+          <td>{{row[column.field]}}</td>
+        </ng-container>
+        <td>
+          <span role="button" (click)="viewDetails(row.id)">
+            <i class="fa-solid fa-circle-info"></i>
+          </span>
+        </td>
+      </tr>
+
+    </tbody>
+</table>
+
+<!-- 
+  "{{'privado/detalle-cliente/'+row.id}}"
+
+ -->

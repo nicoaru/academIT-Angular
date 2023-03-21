@@ -1,0 +1,56 @@
+<div
+    *ngIf="pedido && muebles"
+    cdkAccordionItem
+    #accordionSubItemPedidos="cdkAccordionItem"
+    class="acordionDetalleCliente-subItemPedidos"
+    tabindex={{tabIndex}}
+    id="accordion-header-2"
+    [attr.aria-expanded]="accordionSubItemPedidos.expanded"
+    [attr.aria-controls]="'accordion-body-'+tabIndex"
+    expanded="false"
+>
+
+    <!--* Accordion header -->
+    <div class="acordionDetalleCliente-subItemPedidos-header" (click)="accordionSubItemPedidos.toggle()">
+        <h6>{{'Pedido N° '+pedido.id}}</h6>
+        <span role="button">
+            <mat-icon *ngIf="accordionSubItemPedidos.expanded" aria-hidden="false" fontIcon="keyboard_arrow_up"></mat-icon>
+            <mat-icon *ngIf="!accordionSubItemPedidos.expanded" aria-hidden="false" fontIcon="keyboard_arrow_down"></mat-icon>
+        </span>
+    </div>
+
+    
+    <!--* Accordion body -->
+    <div
+        class="acordionDetalleCliente-subItemPedidos-body"
+        role="region"
+        [style.display]="accordionSubItemPedidos.expanded ? '' : 'none'"
+        id="accordion-body-2"
+        aria-labelledby="accordion-header-2"
+    >
+
+        
+        <ng-container *ngIf="muebles">
+            <p *ngIf="muebles.length === 0">
+                No hay muebles en este pedido
+            </p>
+            <a *ngFor="let mueble of muebles" [routerLink]="'/privado/muebles/'+mueble.id" (click)="closeModal()">
+                <p>
+                    {{ mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado.nombre }}
+                </p>
+            </a>
+       
+        </ng-container>
+
+        <button [routerLink]="'privado/pedidos/'+pedido.id" mat-raised-button class="mt-2 mb-2" (click)="closeModal()">Ver pedido</button>   
+         
+
+
+
+
+    </div>
+
+</div>
+
+
+<!-- {{mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estadosHistoricos.sort((a,b) => a.fecha-b.fecha)[mueble.estadosHistoricos.length-1]} -->

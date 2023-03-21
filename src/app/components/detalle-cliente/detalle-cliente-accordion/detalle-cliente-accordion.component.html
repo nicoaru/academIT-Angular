@@ -1,0 +1,16 @@
+<div 
+    *ngIf="cliente"
+    cdkAccordion
+    [multi]="true"
+    class="acordionDetalleCliente"
+    multi="true"
+>
+            
+    <!--* Primer accordion: Datos cliente -->
+    <app-detalle-cliente-item-datos [cliente]="cliente" [tiposCliente]="tiposCliente"></app-detalle-cliente-item-datos>
+    <!--* Segundo accordion: Pedidos -->
+    <app-detalle-cliente-item-pedidos [cliente]="cliente" ></app-detalle-cliente-item-pedidos>
+
+</div>
+
+<!-- [muebles]="muebles" -->
