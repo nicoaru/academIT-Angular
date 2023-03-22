@@ -36,7 +36,7 @@
             </p>
             <a *ngFor="let mueble of muebles" [routerLink]="'/privado/muebles/'+mueble.id" (click)="closeModal()">
                 <p>
-                    {{ mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado.nombre }}
+                    {{ mueble.cantidad+' - '+mueble.modelo?.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado?.nombre }}
                 </p>
             </a>
        

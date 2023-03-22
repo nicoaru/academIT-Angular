@@ -25,7 +25,7 @@ export class ClienteService {
 
   //** Constructor **//
   //** Constructor **//
-  constructor(private clientesAPI:ClientesApiService) { }
+  constructor() { }
 
 
   //** Métodos **//

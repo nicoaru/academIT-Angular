@@ -6,6 +6,11 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DetallePedidoModalComponent } from 'src/app/components/detalle-pedido/detalle-pedido-modal/detalle-pedido-modal.component';
 import { getLocaleDateStringFromUnixTime } from 'src/app/utils/utils';
 import { DetalleMuebleModalComponent } from 'src/app/components/detalle-mueble/detalle-mueble-modal/detalle-mueble-modal.component';
+import { Subscription } from 'rxjs';
+import { ColoresApiService } from 'src/app/services/api/colores-api.service';
+import { EstadosApiService } from 'src/app/services/api/estados-api.service';
+import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
+import { MuebleService } from './mueble.service';
 
 @Component({
   selector: 'app-muebles-privado',
@@ -13,9 +18,7 @@ import { DetalleMuebleModalComponent } from 'src/app/components/detalle-mueble/d
   styleUrls: ['./muebles-privado.component.css']
 })
 export class MueblesPrivadoComponent {
-  dialogDetalleRef:MatDialogRef<DetalleMuebleModalComponent>;
-
-  columns:ColumnTableInfoDefinition[] = [
+   columns:ColumnTableInfoDefinition[] = [
     {
       title: "N°",
       field: "id"
@@ -73,66 +76,147 @@ export class MueblesPrivadoComponent {
         return mueble.pedido?.id
       }
     }
-  ];
-
+  ]; 
+  dialogDetalleRef:MatDialogRef<DetalleMuebleModalComponent>;
+  
+  private subscriptionMuebles$:Subscription;  
   muebles:Mueble[];
-
 
   loading:boolean = false;
   errorMessage:string;
-
   showModal:boolean =  false;
 
+
+
+
+  //** Constructor **//
+  //** Constructor **//
+  constructor(
+    private mueblesAPI:MueblesApiService,
+    private modelosAPI:ModelosApiService,
+    private coloresAPI:ColoresApiService,
+    private estadosAPI:EstadosApiService,
+    private muebleService:MuebleService,
+    private dialog: MatDialog
+  ) {}
+
+
+
+
+
+  //** Métodos **//
+  //** Métodos **//
   showDetails(id:number): void {
     const muebleParaDetalle = this.muebles.find(mueble => mueble.id === id);
-    console.log("mueble que recupera el showDetails:\n", muebleParaDetalle)
+    this.muebleService.setMuebleParaDetalle(muebleParaDetalle);
+
     this.dialogDetalleRef = this.dialog.open(DetalleMuebleModalComponent, {
       width: '80%',
       maxHeight: '80%',
-      enterAnimationDuration: '500ms',
-      exitAnimationDuration: '500ms',
-      autoFocus: false,
-      data: muebleParaDetalle
+      enterAnimationDuration:'500ms',
+      exitAnimationDuration:'500ms',
+      autoFocus: false
+      //data: clienteParaDetalle
     });
 
-    this.dialogDetalleRef.afterClosed().subscribe(() => this.getMuebles())
-}
-
-
-getMuebles():void {
-    this.loading = true;  
-    this.mueblesAPI.getAll()
-      .subscribe({
-        next: (data:Mueble[]) => {
-          console.log("data: \n", data);
-          this.muebles = data;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.log("err \n", err)
-          err.status === 0
-            ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-            : err.status === 401
-              ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-              : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
-
-            this.loading = false;
-        }        
-      })
-}
-
-
-
-
-  constructor(
-    private mueblesAPI:MueblesApiService,
-    private dialog: MatDialog
-  ) {}
- 
-  ngOnInit() {
-    this.getMuebles();
-
   }
+
+  getMuebles():void {
+      this.loading = true;  
+      this.mueblesAPI.getAll()
+        .subscribe({
+          next: (data:Mueble[]) => {
+            console.log("data getMuebles: \n", data);
+            this.muebleService.setMuebles(data)
+            this.loading = false;
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            err.status === 0
+              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+              : err.status === 401
+                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
+
+              this.loading = false;
+          }        
+        })
+  }
+
+  getColores():void {
+    this.coloresAPI.getAll()
+    .subscribe({
+      next: (data) => {
+        console.log("data colores: \n", data);
+        this.muebleService.colores = data;
+      },
+      error: (err) => {
+        console.log("err \n", err)
+        let modalMessage:string;
+        err.status === 0
+          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+          : err.status === 401
+            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+      }})        
+  }
+
+  getModelos():void {
+    this.modelosAPI.getAll()
+    .subscribe({
+      next: (data) => {
+        console.log("data modelos: \n", data);
+        this.muebleService.modelos = data;
+      },
+      error: (err) => {
+        console.log("err \n", err)
+        let modalMessage:string;
+        err.status === 0
+          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+          : err.status === 401
+            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+      }})        
+  }
+
+  getEstados():void {
+    this.estadosAPI.getAll()
+    .subscribe({
+      next: (data) => {
+        console.log("data estados: \n", data);
+        this.muebleService.estados = data;
+      },
+      error: (err) => {
+        console.log("err \n", err)
+        let modalMessage:string;
+        err.status === 0
+          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+          : err.status === 401
+            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+      }})        
+  }
+
+
+
+
+ngOnInit() {
+  this.subscriptionMuebles$ = this.muebleService.muebles$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.muebles = [...data]
+      console.log("Muebles del observable ese en MueblePrivado: ",data);
+    });
+
+  this.getMuebles();
+  this.getModelos();
+  this.getEstados();
+  this.getColores();
+}
+
+ngOnDestroy(): void {
+  this.subscriptionMuebles$.unsubscribe();
+}
 
 
 }

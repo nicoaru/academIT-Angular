@@ -1,6 +1,6 @@
 <div mat-dialog-title style="margin-top: -25px;">
     <div class="d-flex justify-content-between align-items-center">
-        <h3>Mueble N° {{mueble.id}} - {{mueble.modelo.nombre}}</h3>
+        <h3>Mueble N° {{mueble.id}} - {{mueble.modelo?.nombre}}</h3>
         <mat-icon class="btnClose" fontIcon="close" role="butotn" mat-dialog-close=""></mat-icon>
     </div>
 
@@ -10,6 +10,6 @@
 
 <div mat-dialog-content class="detalleClienteContainer">
     <!-- mat-elevation-z5 -->
-    <app-detalle-mueble-accordion [mueble]="mueble" [modelos]="modelos" [colores]="colores" [estados]="estados"></app-detalle-mueble-accordion>
+    <app-detalle-mueble-accordion></app-detalle-mueble-accordion>
 </div>
 

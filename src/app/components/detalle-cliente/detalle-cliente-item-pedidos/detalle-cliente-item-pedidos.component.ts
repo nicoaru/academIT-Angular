@@ -9,9 +9,6 @@ import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.s
   styleUrls: ['./detalle-cliente-item-pedidos.component.css']
 })
 export class DetalleClienteItemPedidosComponent implements OnInit, OnDestroy {
-  // @Input() cliente:Cliente;
-  // @Input() muebles:Mueble[];
-
   pedidos:Pedido[];
   private subscribtionCliente$: Subscription;
 
@@ -21,6 +18,9 @@ export class DetalleClienteItemPedidosComponent implements OnInit, OnDestroy {
 
 
 
+
+  //** LifeCycles **//
+  //** LifeCycles **//
   ngOnInit(): void {
     this.subscribtionCliente$ = this.clienteService.clienteParaDetalle$
     .subscribe(data => {
@@ -33,14 +33,5 @@ export class DetalleClienteItemPedidosComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscribtionCliente$.unsubscribe();
   }
-
-
-  //** Métodos **//
-  //** Métodos **//
-
-  
-
-
-
 
 }

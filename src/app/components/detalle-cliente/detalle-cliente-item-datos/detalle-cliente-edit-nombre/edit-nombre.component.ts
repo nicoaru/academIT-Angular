@@ -7,8 +7,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./edit-nombre.component.css']
 })
 export class EditNombreComponent {
-
-
   data:any;
 
   confirmChanges():void {

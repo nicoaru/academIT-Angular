@@ -9,26 +9,34 @@ import { DetalleClienteModalComponent } from '../../detalle-cliente-modal/detall
   templateUrl: './detalle-cliente-pedidos-subitem.component.html',
   styleUrls: ['./detalle-cliente-pedidos-subitem.component.css']
 })
-export class DetalleClientePedidosSubitemComponent implements OnInit {
+export class DetalleClientePedidosSubitemComponent {
+  modalRef:MatDialogRef<DetalleClienteModalComponent>
+  
   @Input() pedido:Pedido;
   @Input() muebles:Mueble[];
   @Input() tabIndex:number;
-  //mueblesPedido: Mueble[];
 
-  modalRef:MatDialogRef<DetalleClienteModalComponent>
+
+
+
+
+  //** Constructor **//
+  //** Constructor **//
+  constructor(private clienteService:ClienteService ) {
+    this.modalRef = this.clienteService.modalRef;
+
+    console.log("modalRef:\n", this.modalRef)
+  }
+
+
+
+
+  //** Métodos **//
+  //** Métodos **//
 
   closeModal():void {
     this.modalRef.close();
- }
-
- constructor(private clienteService:ClienteService ) {
-  this.modalRef = clienteService.modalRef;
-
-  console.log("modalRef:\n", this.modalRef)
- }
-
-  ngOnInit(): void {
-    //this.mueblesPedido =  this.muebles.filter(mueble => mueble.pedido.id === this.pedido.id)
   }
+
 
 }

@@ -3,6 +3,8 @@ import { Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DetallePedidoService } from '../detalle-pedido.service';
+import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,13 +14,48 @@ import { DetallePedidoService } from '../detalle-pedido.service';
 })
 export class DetallePedidoModalComponent {
   pedido:Pedido;
-  //muebles:Mueble[];
-
-  //** Esto lo voy a usar para el afterClosed
   modalRef:MatDialogRef<DetallePedidoModalComponent>;
-  
+  private subscribtionPedido$: Subscription;
 
-  //** Para traer datos del back **/
+
+
+
+  //** Constructor **//
+  //** Constructor **//
+  constructor(
+    // private mueblesAPI:MueblesApiService,
+    // @Inject(MAT_DIALOG_DATA) pedido: Pedido
+    private pedidoService:PedidoService,
+    modalRef:MatDialogRef<DetallePedidoModalComponent>, // lo uso para pasarle la Ref a los métodos que utilizan close() y afterClosed()
+  ) {
+    // this.pedido = pedido;
+    this.modalRef = modalRef;
+    this.pedidoService.modalRef = this.modalRef;
+  }
+
+
+
+
+  //** LifeCycles **//
+  //** LifeCycles **//
+  ngOnInit(): void {
+    this.subscribtionPedido$ = this.pedidoService.pedidoParaDetalle$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.pedido = data
+      console.log("Pedido para detalle: ",data);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscribtionPedido$.unsubscribe();
+  }
+
+
+}
+
+
+//** Para traer datos del back **/
 /*
   getMueblesDelPedido():void {
     this.mueblesAPI.getMueblesPorIdPedido(this.pedido.id)
@@ -38,29 +75,3 @@ export class DetallePedidoModalComponent {
       }})        
   }
 */
-
-
-
-//** Constructor & ngOnInit **/
-
-  constructor(
-    private mueblesAPI:MueblesApiService,
-    private detallePedidoService:DetallePedidoService,
-    modalRef:MatDialogRef<DetallePedidoModalComponent>,
-    @Inject(MAT_DIALOG_DATA) pedido: Pedido
-  ) {
-    this.pedido = pedido;
-    this.modalRef = modalRef;
-    this.detallePedidoService.modalRef = this.modalRef;
-  
-    // console.log("cliente en modal: \n", cliente)
-  }
-
-
-  ngOnInit(): void {
-    //this.getMueblesDelPedido();
-  }
-
-
-
-}

@@ -31,9 +31,9 @@ export class MueblesApiService {
     .get<Mueble[]>(this.urlBase+`/pedidos/${idPedido}/muebles`, this.httpOptions)
   }
 
-  updateById(idMueble:number, updatedMueble:Mueble):Observable<number> {
+  updateById(idMueble:number, updatedMueble:Mueble):Observable<Mueble> {
     return this.httpClient
-    .put<number>(this.urlBase+'/muebles/'+idMueble, updatedMueble, this.httpOptions, )
+    .put<Mueble>(this.urlBase+'/muebles/'+idMueble, updatedMueble, this.httpOptions, )
   }
 
 

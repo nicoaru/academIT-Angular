@@ -7,6 +7,8 @@ import { PedidosApiService } from 'src/app/services/api/pedidos-api.service';
 import { getISODateStringFromISOString, getISODateStringFromUnixTime, getUnixTimeFromString } from 'src/app/utils/utils';
 import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
+import { Subscription } from 'rxjs';
+import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
 
 @Component({
   selector: 'app-detalle-pedido-item-datos',
@@ -14,11 +16,45 @@ import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
   styleUrls: ['./detalle-pedido-item-datos.component.css']
 })
 export class DetallePedidoItemDatosComponent {
-  @Input() pedido:Pedido;
-
+  pedido:Pedido;
   listaClientes:Cliente[];
   editable:boolean = false;
   formDatosPedido:FormGroup;
+  private subscribtionPedido$: Subscription;
+
+
+
+
+
+
+
+  //** Constructor **/
+  //** Constructor **/
+
+  constructor(
+    private formBuilder:FormBuilder,
+    private matDialog: MatDialog,
+    private pedidosAPI:PedidosApiService,
+    private pedidoService:PedidoService
+  ) {
+    //* creo el form
+    this.formDatosPedido = this.formBuilder.group({
+      cliente:[''],
+      direccionEntrega: [''],
+      fechaEntrada: [''],
+      fechaEntrega: [''],
+      notas: [''],
+      nombreCliente: ['']
+    })
+    //* set disable
+    this.formDatosPedido.disable();
+  }
+
+
+
+
+  //** Métodos **/
+  //** Métodos **/
 
   toggleEdit():void {
     this.formDatosPedido.enabled
@@ -43,7 +79,8 @@ export class DetallePedidoItemDatosComponent {
       .subscribe({
           next: (data) => {
             console.log("Pedido actualizado: ", data);
-            this.pedido = updatedPedido;
+            this.pedidoService.setPedidoParaDetalle(data);
+            this.pedidoService.updatePedido(data);
           },
           error: (err) => {
             console.log("err \n", err)
@@ -81,23 +118,6 @@ export class DetallePedidoItemDatosComponent {
     this.toggleEdit();
   }
 
-  getListaClientes():void {
-    this.clienteAPI.geList()
-      .subscribe({
-        next: (data) => {
-          console.log("tiposCliente: ", data);
-          this.listaClientes = data;
-        },
-        error: (err) => {
-          console.log("err \n", err)
-        }
-      })
-  }
-
-
-
-
-
   restoreFormValues():void {
     this.formDatosPedido.controls['cliente'].setValue(this.pedido.cliente?.id);
     this.formDatosPedido.controls['direccionEntrega'].setValue(this.pedido.direccionEntrega);
@@ -107,33 +127,28 @@ export class DetallePedidoItemDatosComponent {
     this.formDatosPedido.controls['nombreCliente'].setValue(this.pedido.cliente?.nombre+' '+this.pedido.cliente?.apellido);   
   }
 
-//** Constructor **/
-  constructor(
-    private formBuilder:FormBuilder,
-    private matDialog: MatDialog,
-    private pedidosAPI:PedidosApiService,
-    private clienteAPI:ClientesApiService
-  ) {
-    //* creo el form
-    this.formDatosPedido = this.formBuilder.group({
-      cliente:[''],
-      direccionEntrega: [''],
-      fechaEntrada: [''],
-      fechaEntrega: [''],
-      notas: [''],
-      nombreCliente: ['']
-    })
-    //* set disable
-    this.formDatosPedido.disable();
-  }
+
 
 
 
 //** ngOnInit **/
   ngOnInit(): void {
-    this.restoreFormValues();
-    this.getListaClientes();
-    console.warn("Form:\n", this.formDatosPedido)  
+    this.subscribtionPedido$ = this.pedidoService.pedidoParaDetalle$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.pedido = data
+      console.log("Pedido para detalle: ",data);
+    });
+
+    this.listaClientes = this.pedidoService.clientesList;
+    console.log("Lista clientes - en item datos \n", this.listaClientes)
+
+    this.restoreFormValues();  
+    console.warn("Form:\n", this.formDatosPedido)
+  }
+
+  ngOnDestroy(): void {
+    this.subscribtionPedido$.unsubscribe();
   }
 
 

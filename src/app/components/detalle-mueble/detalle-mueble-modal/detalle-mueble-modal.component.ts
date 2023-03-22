@@ -1,11 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { Color, Estado, Modelo, Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
-import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
+import { Mueble } from 'src/app/models/interfaces/entidades.interfaces';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DetalleMuebleService } from '../detalle-mueble.service';
-import { ColoresApiService } from 'src/app/services/api/colores-api.service';
-import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
-import { EstadosApiService } from 'src/app/services/api/estados-api.service';
+import { MuebleService } from 'src/app/pages/privado/muebles-privado/mueble.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detalle-mueble-modal',
@@ -14,74 +11,41 @@ import { EstadosApiService } from 'src/app/services/api/estados-api.service';
 })
 export class DetalleMuebleModalComponent {
   mueble:Mueble;
-  modelos:Modelo[];
-  colores:Color[];
-  estados:Estado[];
-  
-  //** Esto lo voy a usar para el afterClosed
-  modalRef:MatDialogRef<DetalleMuebleModalComponent>;
-  
+  modalRef:MatDialogRef<DetalleMuebleModalComponent>;  // lo uso para pasarle la Ref a los métodos que utilizan close() y afterClosed()
+  private subscribtionMueble$: Subscription;
 
-  //** Para traer datos del back **/
 
-  getModelos():void {
-    this.modelosAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("dataModelos: \n", data);
-        this.modelos = data;
-      },
-      error: (err) => {
-        console.log("error trayendo modelos del servidor \n", err)
-      }})        
-  }
 
-  getColores():void {
-    this.coloresAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("dataColores: \n", data);
-        this.colores = data;
-      },
-      error: (err) => {
-        console.log("error trayendo colores del servidor \n", err)
-      }})        
-  }
 
-  getEstados():void {
-    this.estadosAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("dataEstados: \n", data);
-        this.estados = data;
-      },
-      error: (err) => {
-        console.log("error trayendo estados del servidor \n", err)
-      }})        
-  }
-
-  //** Constructor & ngOnInit **/
-
+  //** Constructor **//
+  //** Constructor **//
   constructor(
-    private modelosAPI:ModelosApiService,
-    private coloresAPI:ColoresApiService,
-    private estadosAPI:EstadosApiService,
-    private detalleMuebleService:DetalleMuebleService,
-    modalRef:MatDialogRef<DetalleMuebleModalComponent>,
-    @Inject(MAT_DIALOG_DATA) mueble: Mueble
+    private muebleService:MuebleService,
+    modalRef:MatDialogRef<DetalleMuebleModalComponent>
   ) {
-    this.mueble = mueble;
     this.modalRef = modalRef;
-    this.detalleMuebleService.modalRef = this.modalRef;
+    this.muebleService.modalRef = this.modalRef;
   
     // console.log("cliente en modal: \n", cliente)
   }
 
 
+
+
+  //** LifeCycles **//
+  //** LifeCycles **//
   ngOnInit(): void {
-    this.getModelos();
-    this.getColores();
-    this.getEstados();
+    this.subscribtionMueble$ = this.muebleService.muebleParaDetalle$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.mueble = data
+      console.log("Mueble para detalle: ",data);
+    });
   }
+
+  ngOnDestroy(): void {
+    this.subscribtionMueble$.unsubscribe();
+  }
+
   
 }

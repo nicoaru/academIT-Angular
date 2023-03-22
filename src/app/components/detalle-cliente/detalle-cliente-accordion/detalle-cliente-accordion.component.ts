@@ -15,15 +15,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./detalle-cliente-accordion.component.css']
 })
 export class DetalleClienteAccordionComponent {
-  // @Input() cliente:Cliente;
-  //@Input() muebles:Mueble[];
-  // @Input() tiposCliente:TipoCliente[];  
 
-  constructor(
-  ) {
-    // console.log("cliente en accordion: \n", this.cliente);
-    // console.log("tiposCliente en accordion: \n", this.tiposCliente);
-    // console.log("muebles en accordion: \n", this.muebles);
-  }
+  constructor() { }
 
 }

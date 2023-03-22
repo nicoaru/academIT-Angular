@@ -27,7 +27,7 @@
         id="accordion-body-2"
         aria-labelledby="accordion-header-2"
     >
-
+        <p *ngIf="!muebles || muebles?.length === 0">No hay otros muebles para este pedido</p>
         <a *ngFor="let mueble of muebles" [routerLink]="'privado/muebles/'+mueble.id" (click)="closeModal()">
             <p>
                 {{ mueble.cantidad+' - '+mueble.modelo.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado.nombre }}                

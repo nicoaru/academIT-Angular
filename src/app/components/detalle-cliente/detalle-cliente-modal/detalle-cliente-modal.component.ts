@@ -15,11 +15,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./detalle-cliente-modal.component.css']
 })
 export class DetalleClienteModalComponent {
-  //muebles:Mueble[];
- 
   cliente:Cliente;
-  tiposCliente:TipoCliente[];
-  modalRef:MatDialogRef<DetalleClienteModalComponent>;  
+  modalRef:MatDialogRef<DetalleClienteModalComponent>;  // lo uso para pasarle la Ref a los métodos que utilizan close() y afterClosed()
   private subscribtionCliente$: Subscription;
 
 
@@ -28,67 +25,21 @@ export class DetalleClienteModalComponent {
   //** Constructor **//
   //** Constructor **//
   constructor(
-    private tiposClienteAPI:TiposClienteApiService,
-    private mueblesAPI:MueblesApiService,
+    // private tiposClienteAPI:TiposClienteApiService,
+    // private mueblesAPI:MueblesApiService,
+    // @Inject(MAT_DIALOG_DATA) cliente: Cliente
     private clienteService:ClienteService,
     modalRef:MatDialogRef<DetalleClienteModalComponent>,
-    @Inject(MAT_DIALOG_DATA) cliente: Cliente
   ) {
     this.modalRef = modalRef;
     this.clienteService.modalRef = this.modalRef;
-    
   }
 
 
 
 
-  //** Métodos **//
-  //** Métodos **//
-  /*
-  getTiposCliente():void {
-    this.tiposClienteAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        // console.log("data: \n", data);
-        this.tiposCliente = data;
-      },
-      error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-      }})        
-  }
-  */
-  // getMueblesDelCliente():void {
-  //   this.mueblesAPI.getMueblesPorIdCliente(this.cliente.id)
-  //   .subscribe({
-  //     next: (data) => {
-  //       // console.log("data: \n", data);
-  //       this.muebles = data;
-  //     },
-  //     error: (err) => {
-  //       console.log("err \n", err)
-  //       let modalMessage:string;
-  //       err.status === 0
-  //         ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-  //         : err.status === 401
-  //           ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-  //           : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-  //     }})        
-  // }
-
-
-
-
-
-
-
-//** Constructor & ngOnInit **/
-
+  //** LifeCycles **//
+  //** LifeCycles **//
   ngOnInit(): void {
     this.subscribtionCliente$ = this.clienteService.clienteParaDetalle$
     .subscribe(data => {
@@ -98,13 +49,9 @@ export class DetalleClienteModalComponent {
     });
   }
 
-    
-
   ngOnDestroy(): void {
     this.subscribtionCliente$.unsubscribe();
   }
-
-
 
 }
 

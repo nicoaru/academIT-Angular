@@ -21,10 +21,38 @@ export class DetalleClienteItemDatosComponent implements OnInit {
   formDatosCliente:FormGroup;
   dialogEditNombreRef:MatDialogRef<EditNombreComponent>;
   private subscribtionCliente$: Subscription;
+
+
+
+
+  //** Constructor **/
+  //** Constructor **/
+  constructor(
+    private formBuilder:FormBuilder,
+    private matDialog: MatDialog,
+    private clientesAPI:ClientesApiService,
+    private clienteService:ClienteService,
+  ) {
+    //* creo el form
+    this.formDatosCliente = this.formBuilder.group({
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      telefono: [''],
+      email: ['', Validators.email],
+      tipoCliente: [''],
+      notas: ['']
+    })
+    //* set disable
+    this.formDatosCliente.disable();
+
+    //this.formDatosCliente.controls['email'].errors && this.formDatosCliente.controls['email'].errors['email'] // creo que esto lo puedo sacar
+  }
+
+
+
+  //** Métodos **//
+  //** Métodos **//
   
-
-
-
   toggleEdit():void {
     this.formDatosCliente.enabled
       ? this.formDatosCliente.disable()
@@ -45,86 +73,73 @@ export class DetalleClienteItemDatosComponent implements OnInit {
   }
 
   saveChanges():void {
-    let updatedCliente:Cliente = {...this.cliente}
+    try{
+      let updatedCliente:Cliente = {...this.cliente}
 
-    updatedCliente.nombre = this.formDatosCliente.value.nombre,
-    updatedCliente.apellido = this.formDatosCliente.value.apellido,
-    updatedCliente.telefono = this.formDatosCliente.value.telefono,
-    updatedCliente.email = this.formDatosCliente.value.email,
-    updatedCliente.notas = this.formDatosCliente.value.notas,
-    updatedCliente.tipoCliente = {id: this.formDatosCliente.value.tipoCliente}
+      updatedCliente.nombre = this.formDatosCliente.value.nombre,
+      updatedCliente.apellido = this.formDatosCliente.value.apellido,
+      updatedCliente.telefono = this.formDatosCliente.value.telefono,
+      updatedCliente.email = this.formDatosCliente.value.email,
+      updatedCliente.notas = this.formDatosCliente.value.notas,
+      updatedCliente.tipoCliente = {id: this.formDatosCliente.value.tipoCliente}
+  
+      console.log("cliente a actualizar: ", updatedCliente)
+      this.clientesAPI.updateById(this.cliente.id, updatedCliente)
+      .subscribe({
+          next: (data) => {
+            console.log("Actualizado OK: ", data);
+            this.clienteService.setClienteParaDetalle(data);
+            this.clienteService.updateCliente(data);
+            //this.cliente = updatedCliente;
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            //** Restaura los datos del formulario
+            this.restoreFormValues();
+  
+            let errorMessage:string;
+            err.status === 0
+              ? errorMessage = "Hubo un error, no pudimos actualizar los datos del cliente"
+              : err.status === 401
+                ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : errorMessage = "Hubo un error con el servidor, no pudimos actualizar los datos del cliente"
+  
+            this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+  
+          }})    
+  
+    }
+    catch(err) {
+      console.log("err \n", err)
+      this.restoreFormValues();
 
-    console.log("cliente a actualizar: ", updatedCliente)
-    this.clientesAPI.updateById(this.cliente.id, updatedCliente)
-    .subscribe({
-        next: (data) => {
-          console.log("cliente actualizado: ", data);
-          this.clienteService.setClienteParaDetalle(data);
-          this.clienteService.updateCliente(data);
-          //this.cliente = updatedCliente;
-        },
-        error: (err) => {
-          console.log("err \n", err)
-          //** Restaura los datos del formulario
-          this.formDatosCliente.controls['nombre'].setValue(this.cliente.nombre);
-          this.formDatosCliente.controls['apellido'].setValue(this.cliente.apellido);
-          this.formDatosCliente.controls['telefono'].setValue(this.cliente.telefono);
-          this.formDatosCliente.controls['email'].setValue(this.cliente.email);
-          this.formDatosCliente.controls['tipoCliente'].setValue(this.cliente.tipoCliente?.id);
-          this.formDatosCliente.controls['notas'].setValue(this.cliente.notas);  
+      let errorMessage:string = "Hubo un error, no pudimos actualizar los datos del cliente";
 
-          let errorMessage:string;
-          err.status === 0
-            ? errorMessage = "Hubo un error, no pudimos actualizar los datos del cliente"
-            : err.status === 401
-              ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-              : errorMessage = "Hubo un error con el servidor, no pudimos actualizar los datos del cliente"
-
-          this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
-
-        }})    
-    
-    this.toggleEdit();   
-
+      this.matDialog.open(AlertModalComponent, { data: {message: errorMessage} })
+    }
+    finally {
+      this.toggleEdit();        
+    }
   }
 
   cancelChanges():void {
+    this.restoreFormValues()
+    this.toggleEdit();
+  }
 
+  restoreFormValues():void {
     this.formDatosCliente.controls['nombre'].setValue(this.cliente.nombre);
     this.formDatosCliente.controls['apellido'].setValue(this.cliente.apellido);
     this.formDatosCliente.controls['telefono'].setValue(this.cliente.telefono);
     this.formDatosCliente.controls['email'].setValue(this.cliente.email);
     this.formDatosCliente.controls['tipoCliente'].setValue(this.cliente.tipoCliente?.id);
-    this.formDatosCliente.controls['notas'].setValue(this.cliente.notas);
-
-    this.toggleEdit();
+    this.formDatosCliente.controls['notas'].setValue(this.cliente.notas);     
   }
 
+  
+  //** LifeCycles **/
+  //** LifeCycles **/
 
-//** Constructor **/
-  constructor(
-    private formBuilder:FormBuilder,
-    private matDialog: MatDialog,
-    private clientesAPI:ClientesApiService,
-    private clienteService:ClienteService,
-  ) {
-    //* creo el form
-    this.formDatosCliente = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      telefono: [''],
-      email: ['', Validators.email],
-      tipoCliente: [''],
-      notas: ['']
-    })
-    //* set disable
-    this.formDatosCliente.disable();
-
-    this.formDatosCliente.controls['email'].errors && this.formDatosCliente.controls['email'].errors['email']
-
-  }
-
-//** ngOnInit **/
   ngOnInit(): void {
     this.subscribtionCliente$ = this.clienteService.clienteParaDetalle$
     .subscribe(data => {
@@ -135,12 +150,7 @@ export class DetalleClienteItemDatosComponent implements OnInit {
 
     this.tiposCliente = this.clienteService.tiposCliente;
 
-    this.formDatosCliente.controls['nombre'].setValue(this.cliente.nombre);
-    this.formDatosCliente.controls['apellido'].setValue(this.cliente.apellido);
-    this.formDatosCliente.controls['telefono'].setValue(this.cliente.telefono);
-    this.formDatosCliente.controls['email'].setValue(this.cliente.email);
-    this.formDatosCliente.controls['tipoCliente'].setValue(this.cliente.tipoCliente?.id);
-    this.formDatosCliente.controls['notas'].setValue(this.cliente.notas);       
+    this.restoreFormValues();  
   }
 
   ngOnDestroy(): void {

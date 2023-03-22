@@ -39,9 +39,10 @@ export class ClientesPrivadoComponent implements OnInit {
       }
     }
   ];
-  clientes:Cliente[];
   dialogDetalleRef:MatDialogRef<DetalleClienteModalComponent>;
-  private subscriptionClientes$:Subscription;
+  private subscriptionClientes$:Subscription;  
+
+  clientes:Cliente[];
 
   loading:boolean = false;
   errorMessage:string;
@@ -123,9 +124,9 @@ export class ClientesPrivadoComponent implements OnInit {
   }
 
 
+  //** LifeCycles **//
+  //** LifeCycles **//
 
-
- 
   ngOnInit() {
     this.subscriptionClientes$ = this.clienteService.clientes$
       .subscribe(data => {

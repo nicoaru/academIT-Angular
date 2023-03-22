@@ -28,6 +28,7 @@
         id="accordion-body-2"
         aria-labelledby="accordion-header-2"
     >
+        <p *ngIf="pedidos.length === 0">No hay pedidos cargados</p>
         <app-detalle-cliente-pedidos-subitem *ngFor="let pedido of pedidos" [pedido]="pedido" [muebles]="pedido.muebles">
         </app-detalle-cliente-pedidos-subitem>
 
