@@ -1,0 +1,116 @@
+<div mat-dialog-title>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Nuevo cliente</h3>
+        <mat-icon class="btnClose" fontIcon="close" role="butotn" mat-dialog-close=""></mat-icon>
+    </div>
+
+</div>
+
+<div mat-dialog-content>
+
+    <div class="content">
+
+        <form [formGroup]="formDatosCliente" action="" class="formDatosCliente"> 
+            <div class="d-flex flex-row justify-content-between">
+                <div> 
+                    <div class="d-flex flex-row">
+                        <!--* Nombre -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="nombre">Nombre</label>
+                            <input 
+                            class="formControl"
+
+                            type="text" 
+                            id="nombre"
+                            name="nombre"
+                            formControlName="nombre"
+                            >
+                        </div>
+
+                        <!--* Apellido -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="apellido">Apellido</label>
+                            <input 
+                            class="formControl"
+
+                            type="text" 
+                            id="apellido"
+                            name="apellido"
+                            formControlName="apellido"
+                            >
+                        </div>
+                    
+                        <!--* Tipo cliente -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="nombre">Tipo cliente</label>
+                            <select
+                            class="formControl"
+                            name="tipoCliente"
+                            formControlName="tipoCliente"
+                            >
+                                <option 
+                                *ngFor="let option of tiposCliente" 
+                                [value]="option.id">
+                                    {{option.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row mt-3">
+                        <!--* Teléfono -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="telefono">Teléfono</label>
+                            <input 
+                            class="formControl"
+
+                            type="text" 
+                            id="telefono"
+                            name="telefono"
+                            formControlName="telefono"
+                            >
+                        </div>
+
+                        <!--* Email -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="email">Email</label>
+                            <input 
+                            class="formControl"
+
+                            type="text" 
+                            id="email"
+                            name="email"
+                            formControlName="email"
+                            >
+                        </div>                    
+                    </div>
+                </div>
+                
+                <div class="flex-grow-1 ms-3">
+                    <!--* Notas -->
+                    <div class="formControlContainer notas">
+                        <label class="formControlLabel" for="notas">Notas</label>
+                        <textarea 
+                        class="formControl"
+                        type="text" 
+                        id="notas"
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </div>                             
+                </div>
+
+            </div>
+
+        </form> 
+
+    </div>
+
+</div>
+
+<div mat-dialog-actions align="end" class="buttonsContainer">
+    <button mat-raised-button (click)="cargarCliente()">Cargar</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+</div>
+
+

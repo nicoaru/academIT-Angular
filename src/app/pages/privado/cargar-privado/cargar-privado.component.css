@@ -1,0 +1,13 @@
+.btnCargaContainer {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    row-gap: 25px;
+
+}
+
+.btnNuevaCarga {
+    height: 100px;
+    width: 400px;
+    font-size: 1.1rem;
+}

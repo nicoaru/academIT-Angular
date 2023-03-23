@@ -42,6 +42,14 @@ export class ClienteService {
     this._clientes = clientesActualizado
     this.clientes.next(this._clientes)
   }
+  deleteCliente(idCliente:number):void {
+    let ix:number = this._clientes.findIndex(cl => cl.id === idCliente)
+    let clientesActualizado = [...this._clientes]
+    clientesActualizado.splice(ix, 1)
+    this._clientes = clientesActualizado
+    this.clientes.next(this._clientes)
+  }  
+  
   getClientes():Cliente[] {
     return this._clientes
   }

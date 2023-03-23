@@ -111,73 +111,9 @@
                 <button (click)="toggleEdit()" *ngIf="formDatosCliente.disabled" mat-raised-button>Editar</button>
                 <button *ngIf="formDatosCliente.enabled" [disabled]="formDatosCliente.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
                 <button *ngIf="formDatosCliente.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
+                <button *ngIf="formDatosCliente.disabled" (click)="cargarPedido()" mat-raised-button class="ms-3">Cargar pedido</button>
             </div>
         </form> 
     </div>
 
 </div>
-
-
-<!-- <mat-form-field appearance="outline" class="ms-3 me-1">
-    <mat-label>Nombre</mat-label>
-    <input
-    (click)="showModalEditNombre()"
-    disabled={{formDatosCliente.disabled}}
-    matInput 
-    [value]="formDatosCliente.controls['nombre'].value+' '+formDatosCliente.controls['apellido'].value"
-    name="nombreCompleto"
-    >
-    <mat-hint *ngIf="formDatosCliente.controls['nombre'].invalid || formDatosCliente.controls['apellido'].invalid" style="color: red; overflow: visible; white-space: nowrap">*Nombre y apellido son requeridos</mat-hint>
-</mat-form-field> 
-
-
-                        <mat-form-field appearance="outline" class="ms-3">
-                            <mat-label>Tipo cliente</mat-label>
-                            <mat-select
-                                name="tipoCliente"
-                                formControlName="tipoCliente"
-                            >
-                                <mat-option 
-                                *ngFor="let option of tiposCliente" 
-                                [value]="option.id"
-                                >
-                                    {{option.nombre}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-
-                        <mat-form-field appearance="outline" class="ms-3 me-1">
-                            <mat-label>Teléfono</mat-label>
-                            <input 
-                            matInput 
-                            name="telefono"
-                            formControlName="telefono"
-                        >
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline" class="ms-3">
-                            <mat-label>Email</mat-label>
-                            <input 
-                            matInput 
-                            name="email"
-                            formControlName="email"
-                        >
-                            <mat-hint *ngIf="formDatosCliente.controls['email'].errors && formDatosCliente.controls['email'].errors['email']" style="color: red; overflow: visible; white-space: nowrap">*Formato inválido</mat-hint>
-                        </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="formDatosCliente-notas">
-                        <mat-label>Notas</mat-label>
-                        <textarea 
-                        matInput 
-                        name="notas"
-                        formControlName="notas"
-                        >
-                        </textarea>
-                    </mat-form-field>     
-
-
-
-
-
--->

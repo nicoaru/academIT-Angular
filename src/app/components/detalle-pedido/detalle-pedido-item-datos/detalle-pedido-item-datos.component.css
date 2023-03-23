@@ -60,10 +60,6 @@ textarea {
     padding: 0px 10px 20px 10px;
 }
 
-.buttonsContainer {
-    margin-top: 15px;
-}
-
 .acordionDetallePedido-itemPedido-header {
     cursor: pointer;
 }
@@ -76,4 +72,8 @@ border-top-right-radius: 4px;
 .acordionDetallePedido-itemPedido:last-child {
 border-bottom-left-radius: 4px;
 border-bottom-right-radius: 4px;
+}
+
+.buttonsContainer {
+    margin-top: 15px;
 }

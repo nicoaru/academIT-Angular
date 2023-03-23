@@ -7,6 +7,8 @@ import { DetallePedidoModalComponent } from 'src/app/components/detalle-pedido/d
 import { Subscription } from 'rxjs';
 import { PedidoService } from './pedido.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
+import { CargaPedidoComponent } from 'src/app/components/cargar/carga-pedido/carga-pedido.component';
+import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
 
 
 @Component({
@@ -89,6 +91,44 @@ export class PedidosPrivadoComponent {
     // this.dialogDetalleRef.afterClosed().subscribe(() => this.getPedidos())
   }
 
+  deletePedido(id:number) {
+    this.pedidosAPI.deleteById(id)
+      .subscribe({
+        next: (data:Pedido) => {
+          console.log("Pedido eliminado ok: \n", data);
+          this.pedidoService.deletePedido(data.id)
+        },
+        error: (err) => {
+          console.log("err \n", err)
+          let errorMessage;
+          err.status === 0
+          ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el pedido"
+          : err.status === 401
+            ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el pedido"
+
+          this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+        }
+      })
+  }
+
+  cargarNuevo():void {
+    let dialogCargarClienteRef = this.dialog.open(CargaPedidoComponent, {
+      width: '80%',
+      maxHeight: '80vh',
+      enterAnimationDuration:'500ms',
+      exitAnimationDuration:'500ms',
+      autoFocus: false
+    });
+    dialogCargarClienteRef.beforeClosed()
+      .subscribe(seCreoPedido => {
+        if(seCreoPedido) {
+          this.dialog.open(AlertModalComponent, { data: {message: 'Pedido creado con éxito'}})
+          this.getPedidos();
+        }
+      })
+  }
+
   getPedidos():void {
       this.loading = true;  
       this.pedidosAPI.getAll()
@@ -112,7 +152,7 @@ export class PedidosPrivadoComponent {
   }
 
   getListaClientes():void {
-    this.clienteAPI.geList()
+    this.clienteAPI.getList()
     .subscribe({
       next: (data) => {
         console.log("data lista clientes: \n", data);

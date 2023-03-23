@@ -7,6 +7,8 @@ import { DetalleClienteModalComponent } from 'src/app/components/detalle-cliente
 import { ClienteService } from './cliente.service';
 import { Subscription } from 'rxjs';
 import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.service';
+import { CargaClienteComponent } from 'src/app/components/cargar/carga-cliente/carga-cliente.component';
+import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
 
 
 @Component({
@@ -82,6 +84,41 @@ export class ClientesPrivadoComponent implements OnInit {
     //this.dialogDetalleRef.afterClosed().subscribe(() => this.getClientes())
   }
 
+  deleteCliente(id:number) {
+    this.clientesAPI.deleteById(id)
+      .subscribe({
+        next: (data:Cliente) => {
+          console.log("Cliente eliminado ok: \n", data);
+          this.clienteService.deleteCliente(data.id)
+        },
+        error: (err) => {
+          console.log("err \n", err)
+          let errorMessage;
+          err.status === 0
+          ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el cliente"
+          : err.status === 401
+            ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el cliente"
+
+          this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+        }
+      })
+  }
+
+  cargarNuevo():void {
+    let dialogCargarClienteRef = this.dialog.open(CargaClienteComponent, {
+      enterAnimationDuration:'500ms',
+      exitAnimationDuration:'500ms',
+      autoFocus: false
+    });
+    dialogCargarClienteRef.beforeClosed()
+      .subscribe(seCreoCliente => {
+        if(seCreoCliente) {
+          this.dialog.open(AlertModalComponent, { data: {message: 'Cliente creado con éxito'}})
+          this.getClientes();
+        }
+      })
+  }
 
   getClientes():void {
       this.loading = true;  

@@ -28,11 +28,13 @@
         id="accordion-body-1"
         aria-labelledby="accordion-header-1"
     >
+        <p *ngIf="muebles?.length === 0">No hay muebles cargados en este pedido</p>
         <a *ngFor="let mueble of muebles" [routerLink]="'privado/muebles/'+mueble.id" (click)="closeModal()">
             <p>
                 {{ mueble.cantidad+' - '+mueble.modelo?.nombre+' - '+mueble.largo+' x '+mueble.alto+' x '+mueble.profundidad+' - '+mueble.estado?.nombre }}                
             </p>
         </a>
+
     </div>
 
 </div>

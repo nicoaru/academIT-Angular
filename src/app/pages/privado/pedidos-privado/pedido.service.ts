@@ -41,6 +41,14 @@ export class PedidoService {
     this._pedidos = pedidosActualizado
     this.pedidos.next(this._pedidos)
   }
+  deletePedido(idPedido:number):void {
+    let ix:number = this._pedidos.findIndex(cl => cl.id === idPedido)
+    let pedidosActualizado = [...this._pedidos]
+    pedidosActualizado.splice(ix, 1)
+    this._pedidos = pedidosActualizado
+    this.pedidos.next(this._pedidos)
+  }  
+
   getPedidos():Pedido[] {
     return this._pedidos
   }

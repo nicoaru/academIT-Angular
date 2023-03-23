@@ -42,6 +42,14 @@ export class MuebleService {
     this._muebles = mueblesActualizado
     this.muebles.next(this._muebles)
   }
+  deleteMueble(idPedido:number):void {
+    let ix:number = this._muebles.findIndex(cl => cl.id === idPedido)
+    let mueblesActualizado = [...this._muebles]
+    mueblesActualizado.splice(ix, 1)
+    this._muebles = mueblesActualizado
+    this.muebles.next(this._muebles)
+  }  
+
   getMuebles():Mueble[] {
     return this._muebles
   }

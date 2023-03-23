@@ -1,10 +1,11 @@
-.errorMessage {
-    margin: 50px;
-}
-.tableContainer {
-    margin: 50px;
+.container {
+    padding: 0px 50px;
     /* max-height: 90vh;
     overflow: scroll; */
+}
+.title {
+    display: flex;
+    justify-content: space-between;
 }
 app-spinner {
     position: absolute;

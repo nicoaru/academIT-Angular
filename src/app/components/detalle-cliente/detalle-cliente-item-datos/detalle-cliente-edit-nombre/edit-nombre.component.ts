@@ -7,10 +7,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./edit-nombre.component.css']
 })
 export class EditNombreComponent {
-  data:any;
+  nombreApellido:any;
 
   confirmChanges():void {
-    this.dialogRef.close(this.data)
+    this.dialogRef.close(this.nombreApellido)
   }
   discardChanges():void {
     this.dialogRef.close(null)
@@ -20,8 +20,8 @@ export class EditNombreComponent {
 
   constructor(
     private dialogRef: MatDialogRef<EditNombreComponent>,
-    @Inject(MAT_DIALOG_DATA) data:any) {
-    this.data = data
+    @Inject(MAT_DIALOG_DATA) nombreApellido:any) {
+    this.nombreApellido = nombreApellido
   }
 
 }

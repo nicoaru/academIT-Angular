@@ -1,11 +1,16 @@
-<div *ngIf="!loading && !muebles" class="errorMessage">
-    <h1>{{errorMessage}}</h1>
-    <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+<div class="container">
+
+    <h4>Muebles</h4>
+    <div class="tableContainer" *ngIf="!loading && muebles">
+        <app-tabla-info [columns]="columns" [data]="muebles" class="mat-elevation-z2" (onViewDetails)="showDetails($event)" (onDeleteElement)="deleteMueble($event)"></app-tabla-info>    
+    </div>
+
+    <!-- Spinner -->
+    <app-spinner *ngIf="loading && !muebles" size="50px"></app-spinner>
+    <!-- Mensage de error -->
+    <div *ngIf="!loading && !muebles" class="errorMessage">
+        <h1>{{errorMessage}}</h1>
+        <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+    </div>
+
 </div>
-
-
-<div class="tableContainer" *ngIf="!loading && muebles">
-    <app-tabla-info [columns]="columns" [data]="muebles" class="mat-elevation-z2" (onViewDetails)="showDetails($event)"></app-tabla-info>    
-</div>
-
-<app-spinner *ngIf="loading && !muebles" size="50px"></app-spinner>

@@ -86,6 +86,8 @@ export class DetalleMuebleItemDatosComponent {
             console.log("mueble actualizado: ", data);
             this.muebleService.setMuebleParaDetalle(data);
             this.muebleService.updateMueble(data);
+            let message = `Mueble modificado con éxito`
+            this.matDialog.open(AlertModalComponent, { data: {message}})
           },
           error: (err) => {
             console.log("err \n", err)

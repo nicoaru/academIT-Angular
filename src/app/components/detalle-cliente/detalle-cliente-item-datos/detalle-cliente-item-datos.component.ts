@@ -7,6 +7,7 @@ import { EditNombreComponent } from './detalle-cliente-edit-nombre/edit-nombre.c
 import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
 import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
 import { Subscription } from 'rxjs';
+import { CargaPedidoComponent } from '../../cargar/carga-pedido/carga-pedido.component';
 
 @Component({
   selector: 'app-detalle-cliente-item-datos',
@@ -90,7 +91,8 @@ export class DetalleClienteItemDatosComponent implements OnInit {
             console.log("Actualizado OK: ", data);
             this.clienteService.setClienteParaDetalle(data);
             this.clienteService.updateCliente(data);
-            //this.cliente = updatedCliente;
+            let message = `Cliente modificado con éxito`
+            this.matDialog.open(AlertModalComponent, { data: {message}})
           },
           error: (err) => {
             console.log("err \n", err)
@@ -125,6 +127,42 @@ export class DetalleClienteItemDatosComponent implements OnInit {
   cancelChanges():void {
     this.restoreFormValues()
     this.toggleEdit();
+  }
+
+  cargarPedido():void {
+    let cargaPedidoModalRef = this.matDialog.open(CargaPedidoComponent, {
+      data: this.cliente
+    })
+    cargaPedidoModalRef.beforeClosed().subscribe(seCreoMueble => {
+      if(seCreoMueble) this.refreshClienteFromDB()
+    })
+
+  }
+
+  refreshClienteFromDB():any {
+    this.clientesAPI.getById(this.cliente.id)
+      .subscribe({
+        next: (data) => {
+            console.log("Cliente con pedido nuevo: ", data);
+            this.clienteService.setClienteParaDetalle(data);
+            this.clienteService.updateCliente(data);
+            let message = `Cliente cargado con éxito`
+            this.matDialog.open(AlertModalComponent, { data: {message}})
+        },
+        error: (err) => {
+          console.log("err \n", err)
+
+          let errorMessage:string;
+          err.status === 0
+            ? errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+            : err.status === 401
+              ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+              : errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+
+          this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+
+        }
+      })
   }
 
   restoreFormValues():void {

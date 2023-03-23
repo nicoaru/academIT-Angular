@@ -10,7 +10,8 @@ export class TablaInfoComponent implements OnInit, OnChanges {
   @Input() columns:ColumnTableInfoDefinition[];
   @Input() data:any[];
   //@Input() linkToDetail:string;
-  @Output() onViewDetails = new EventEmitter<any>();
+  @Output() onViewDetails = new EventEmitter<number>();
+  @Output() onDeleteElement = new EventEmitter<number>();
 
   rows:any[];
 
@@ -33,6 +34,10 @@ export class TablaInfoComponent implements OnInit, OnChanges {
 
   viewDetails(id:number):void {
     this.onViewDetails.emit(id);
+  }
+
+  deleteElement(id:number):void {
+    this.onDeleteElement.emit(id);
   }
  
 

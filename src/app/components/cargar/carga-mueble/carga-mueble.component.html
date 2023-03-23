@@ -1,1 +1,156 @@
-<p>carga-mueble works!</p>
+<div *ngIf="pedido" mat-dialog-title>
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Nuevo mueble</h3>
+        <mat-icon class="btnClose" fontIcon="close" role="butotn" mat-dialog-close=""></mat-icon>
+    </div>
+
+</div>
+
+<div mat-dialog-content>
+
+    <div class="content">
+
+        <form [formGroup]="formDatosMueble" action="" class="formDatosMueble"> 
+            <div class="d-flex flex-row justify-content-between">
+                <div class=""> 
+                    <div class="mb-3 d-flex flex-row flex-wrap justify-content-between">
+                        <!--* Modelo -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="modelo">Modelo</label>
+                            <select 
+                            
+                            class="formControl"
+                            id="modelo"
+                            name="modelo"
+                            formControlName="modelo"
+                            >
+                                <option *ngFor="let modelo of modelos" value={{modelo.id}}>{{modelo.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <!--* Color -->
+                        <div class="formControlContainer me-3">
+                            <label class="formControlLabel" for="color">Color</label>
+                            <select 
+                            
+                            class="formControl"
+                            id="color"
+                            name="color"
+                            formControlName="color"
+                            >
+                                <option  *ngFor="let color of colores" value={{color.id}}>{{color.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <!--* Cantidad -->
+                        <div class="formControlContainer">
+                            <label class="formControlLabel" for="cantidad">Cantidad</label>
+                            <input 
+                            
+                            class="formControl"
+                            type="text" 
+                            id="cantidad"
+                            name="cantidad"
+                            formControlName="cantidad"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-flex flex-row flex-wrap justify-content-between" style="column-gap: 15px;">
+                        <!--* Largo -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="largo">Largo</label>
+                            <input 
+                            
+                            style="width:100%"
+                            class="formControl"
+                            type="text" 
+                            id="largo"
+                            name="largo"
+                            formControlName="largo"
+                            >
+                        </div>
+
+                        <!--* Alto -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="alto">Alto</label>
+                            <input 
+                            
+                            style="width:100%"
+                            class="formControl"
+
+                            type="text" 
+                            id="alto"
+                            name="alto"
+                            formControlName="alto"
+                            >
+                        </div>
+
+                        <!--* Profundidad -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="profundidad">Prof.</label>
+                            <input
+                            
+                            style="width:100%"
+                            class="formControl"
+
+                            type="text" 
+                            id="profundidad"
+                            name="profundidad"
+                            formControlName="profundidad"
+                            >
+                        </div>                        
+                    </div>
+                                       
+                    <!--* Estado -->
+                    <div class="formControlContainer">
+                        <label class="formControlLabel" for="estado">Estado</label>
+                        <select
+                        
+                        class="formControl"
+                        type="text" 
+                        id="estado"
+                        name="estado"
+                        formControlName="estado"
+                        >
+                            <option *ngFor="let option of estados" value={{option.id}}>
+                                {{option.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex-grow-1 ms-4 me-3" >
+                    <!--* notas -->
+                    <div class="formControlContainer notas" style="height: 100%; width: 100%">
+                        <label class="formControlLabel" for="notas">Notas</label>
+                        <textarea
+                        
+                        class="formControl"
+                        type="text" 
+                        id="notas"
+                        name="notas"
+                        formControlName="notas"
+                        >
+                        </textarea>
+                    </div>    
+                                
+                </div>
+
+            </div>
+
+        </form> 
+
+
+    </div>
+
+</div>
+
+<div mat-dialog-actions align="end" class="buttonsContainer">
+    <button *ngIf="pedido" mat-raised-button (click)="cargarMueble()">Cargar</button>
+    <button *ngIf="pedido" mat-raised-button mat-dialog-close>Cancelar</button>
+
+    <button *ngIf="!pedido && !disabled" mat-raised-button (click)="precargarAlPedido()">Guardar cambios</button>
+    <button *ngIf="!pedido && disabled" mat-raised-button (click)="toggleEdit()">Modificar mueble</button>
+
+</div>

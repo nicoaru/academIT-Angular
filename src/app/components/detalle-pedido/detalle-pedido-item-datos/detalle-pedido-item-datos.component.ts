@@ -9,6 +9,7 @@ import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.s
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { Subscription } from 'rxjs';
 import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
+import { CargaMuebleComponent } from '../../cargar/carga-mueble/carga-mueble.component';
 
 @Component({
   selector: 'app-detalle-pedido-item-datos',
@@ -81,6 +82,8 @@ export class DetallePedidoItemDatosComponent {
             console.log("Pedido actualizado: ", data);
             this.pedidoService.setPedidoParaDetalle(data);
             this.pedidoService.updatePedido(data);
+            let message = `Pedido modificado con éxito`
+            this.matDialog.open(AlertModalComponent, { data: {message}})
           },
           error: (err) => {
             console.log("err \n", err)
@@ -93,7 +96,7 @@ export class DetallePedidoItemDatosComponent {
                 ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
                 : errorMessage = "Hubo un error con el servidor, no pudimos actualizar los datos del cliente"
   
-            this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+            this.matDialog.open(AlertModalComponent, { data: {message: errorMessage} })
   
           }})    
     }
@@ -116,6 +119,42 @@ export class DetallePedidoItemDatosComponent {
   cancelChanges():void {
     this.restoreFormValues();
     this.toggleEdit();
+  }
+
+  cargarMueble():void {
+    let cargaMuebleModalRef = this.matDialog.open(CargaMuebleComponent, {
+      data: {pedido: this.pedido}
+    })
+    cargaMuebleModalRef.beforeClosed().subscribe(seCreoMueble => {
+      if(seCreoMueble) this.refreshPedidoFromDB()
+    })
+
+  }
+
+  refreshPedidoFromDB():any {
+    this.pedidosAPI.getById(this.pedido.id)
+      .subscribe({
+        next: (data) => {
+            console.log("Pedido con mueble nuevo: ", data);
+            this.pedidoService.setPedidoParaDetalle(data);
+            this.pedidoService.updatePedido(data);
+            let message = `Mueble cargado con éxito`
+            this.matDialog.open(AlertModalComponent, { data: {message}})
+        },
+        error: (err) => {
+          console.log("err \n", err)
+
+          let errorMessage:string;
+          err.status === 0
+            ? errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+            : err.status === 401
+              ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+              : errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+
+          this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+
+        }
+      })
   }
 
   restoreFormValues():void {

@@ -33,8 +33,20 @@ export class MueblesApiService {
 
   updateById(idMueble:number, updatedMueble:Mueble):Observable<Mueble> {
     return this.httpClient
-    .put<Mueble>(this.urlBase+'/muebles/'+idMueble, updatedMueble, this.httpOptions, )
+    .put<Mueble>(this.urlBase+'/muebles/'+idMueble, updatedMueble, this.httpOptions)
   }
+  
+  save(nuevoMueble:Mueble):Observable<Mueble> {
+    return this.httpClient
+    .post<Mueble>(this.urlBase+'/muebles/', nuevoMueble, this.httpOptions)
+  }
+
+  deleteById(idMueble:number):Observable<Mueble> {
+    return this.httpClient
+    .delete<Mueble>(this.urlBase+'/muebles/'+idMueble, this.httpOptions)
+  }
+  
+  
 
 
   constructor(

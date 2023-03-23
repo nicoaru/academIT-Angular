@@ -20,10 +20,25 @@ export class PedidosApiService {
       .get<Pedido[]>(this.urlBase+'/pedidos', this.httpOptions)
   }
 
-  updateById(idCliente:number, updatedPedido:Pedido):Observable<Pedido> {
+  getById(idPedido:number):Observable<Pedido>{
+    return this.httpClient
+      .get<Pedido>(this.urlBase+'/pedidos/'+idPedido, this.httpOptions)
+  }
+  
+  updateById(idPedido:number, updatedPedido:Pedido):Observable<Pedido> {
 
     return this.httpClient
-      .put<Pedido>(this.urlBase+'/pedidos/'+idCliente, updatedPedido, this.httpOptions)
+      .put<Pedido>(this.urlBase+'/pedidos/'+idPedido, updatedPedido, this.httpOptions)
+  }
+
+  save(nuevoPedido:Pedido):Observable<Pedido> {
+    return this.httpClient
+      .post<Pedido>(this.urlBase+'/pedidos/', nuevoPedido, this.httpOptions)
+  }
+
+  deleteById(idPedido:number):Observable<Pedido> {
+    return this.httpClient
+      .delete<Pedido>(this.urlBase+'/pedidos/'+idPedido, this.httpOptions)
   }
 
 

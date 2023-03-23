@@ -11,6 +11,7 @@ import { ColoresApiService } from 'src/app/services/api/colores-api.service';
 import { EstadosApiService } from 'src/app/services/api/estados-api.service';
 import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
 import { MuebleService } from './mueble.service';
+import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
 
 @Component({
   selector: 'app-muebles-privado',
@@ -119,6 +120,27 @@ export class MueblesPrivadoComponent {
       //data: clienteParaDetalle
     });
 
+  }
+
+  deleteMueble(id:number) {
+    this.mueblesAPI.deleteById(id)
+      .subscribe({
+        next: (data:Mueble) => {
+          console.log("Mueble eliminado ok: \n", data);
+          this.muebleService.deleteMueble(data.id)
+        },
+        error: (err) => {
+          console.log("err \n", err)
+          let errorMessage;
+          err.status === 0
+          ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el mueble"
+          : err.status === 401
+            ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el mueble"
+
+          this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+        }
+      })
   }
 
   getMuebles():void {
