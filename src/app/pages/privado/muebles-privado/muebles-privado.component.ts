@@ -12,6 +12,7 @@ import { EstadosApiService } from 'src/app/services/api/estados-api.service';
 import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
 import { MuebleService } from '../../../services/mueble.service';
 import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-muebles-privado',
@@ -98,7 +99,8 @@ export class MueblesPrivadoComponent {
     private coloresAPI:ColoresApiService,
     private estadosAPI:EstadosApiService,
     private muebleService:MuebleService,
-    private dialog: MatDialog
+    private dialog:MatDialog,
+    private route:ActivatedRoute
   ) {}
 
 
@@ -110,7 +112,7 @@ export class MueblesPrivadoComponent {
   showDetails(id:number): void {
     const muebleParaDetalle = this.muebles.find(mueble => mueble.id === id);
     this.muebleService.setMuebleParaDetalle(id);
-
+    
     this.dialogDetalleRef = this.dialog.open(DetalleMuebleModalComponent, {
       width: '80%',
       maxHeight: '80%',
@@ -119,30 +121,30 @@ export class MueblesPrivadoComponent {
       autoFocus: false
       //data: clienteParaDetalle
     });
-
+    
   }
-
+  
   deleteMueble(id:number) {
     this.mueblesAPI.deleteById(id)
-      .subscribe({
-        next: (data:Mueble) => {
-          console.log("Mueble eliminado ok: \n", data);
-          this.muebleService.deleteMueble(data.id)
-        },
-        error: (err) => {
-          console.log("err \n", err)
-          let errorMessage;
-          err.status === 0
-          ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el mueble"
-          : err.status === 401
-            ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el mueble"
-
-          this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
-        }
+    .subscribe({
+      next: (data:Mueble) => {
+        console.log("Mueble eliminado ok: \n", data);
+        this.muebleService.deleteMueble(data.id)
+      },
+      error: (err) => {
+        console.log("err \n", err)
+        let errorMessage;
+        err.status === 0
+        ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el mueble"
+        : err.status === 401
+        ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+        : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el mueble"
+        
+        this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+      }
       })
   }
-
+    
   async getMuebles():Promise<void> {
     this.loading = true;
     try {
@@ -154,11 +156,11 @@ export class MueblesPrivadoComponent {
     catch(err) {
       console.log("Error en getMuebles:\n", err)
       this.errorMessage = err.message;
-
+      
     } 
     finally{ this.loading = false; }  
   }
-
+  
   getColores():void {
     this.coloresAPI.getAll()
     .subscribe({
@@ -166,17 +168,11 @@ export class MueblesPrivadoComponent {
         console.log("data colores: \n", data);
         this.muebleService.colores = data;
       },
-      error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-      }})        
+    error: (err) => {
+      console.log("err trayendo los colores \n", err)
+    }})        
   }
-
+  
   getModelos():void {
     this.modelosAPI.getAll()
     .subscribe({
@@ -185,16 +181,11 @@ export class MueblesPrivadoComponent {
         this.muebleService.modelos = data;
       },
       error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+        console.log("err trayendo los modelos \n", err)
+
       }})        
   }
-
+    
   getEstados():void {
     this.estadosAPI.getAll()
     .subscribe({
@@ -203,46 +194,50 @@ export class MueblesPrivadoComponent {
         this.muebleService.estados = data;
       },
       error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
+        console.log("err trayendo los estados \n", err)
+
       }})        
   }
-
-
-
+        
+        
+        
+        
+  //** LifeCycles **//
+  //** LifeCycles **//
 
   ngOnInit() {
     this.subscriptionMuebles$ = this.muebleService.muebles$
-      .subscribe(data => {
-        // Cada vez que el observable emita un valor, se ejecutará este código
-        this.muebles = [...data]
-        console.log("Muebles del observable ese en MueblePrivado: ",data);
-      });
-
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.muebles = [...data]
+      console.log("Muebles del observable ese en MueblePrivado: ",data);
+    });
+  
     this.getMuebles();
     this.getModelos();
     this.getEstados();
     this.getColores();
-  }
 
+    let id = this.route.snapshot.paramMap.get('id');
+    console.log("Id mueble por parámetro: ", id)
+    if(Number(id)) {
+      this.showDetails(Number(id))
+    }
+  }
+  
   ngOnDestroy(): void {
     this.subscriptionMuebles$.unsubscribe();
   }
-
+  
 
 }
 
 
 /*
-  getMuebles():void {
-      this.loading = true;  
-      this.mueblesAPI.getAll()
-        .subscribe({
+getMuebles():void {
+  this.loading = true;  
+  this.mueblesAPI.getAll()
+  .subscribe({
           next: (data:Mueble[]) => {
             console.log("data getMuebles: \n", data);
             this.muebleService.setMuebles(data)

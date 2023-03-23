@@ -9,6 +9,7 @@ import { PedidoService } from '../../../services/pedido.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { CargaPedidoComponent } from 'src/app/components/cargar/carga-pedido/carga-pedido.component';
 import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -67,6 +68,7 @@ export class PedidosPrivadoComponent {
     private clienteAPI:ClientesApiService,
     private dialog: MatDialog,
     private pedidoService:PedidoService,
+    private route:ActivatedRoute
   ) {}
 
 
@@ -129,28 +131,6 @@ export class PedidosPrivadoComponent {
       })
   }
 
-  // getPedidos():void {
-  //     this.loading = true;  
-  //     this.pedidosAPI.getAll()
-  //       .subscribe({
-  //         next: (data:Pedido[]) => {
-  //           console.log("data getPedidos: \n", data);
-  //           this.pedidoService.setPedidos(data)
-  //           this.loading = false;
-  //         },
-  //         error: (err) => {
-  //           console.log("err \n", err)
-  //           err.status === 0
-  //             ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-  //             : err.status === 401
-  //               ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-  //               : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
-
-  //             this.loading = false;
-  //         }        
-  //       })
-  // }
-
   async getPedidos():Promise<void> {
     try {
       console.log("inicio")
@@ -199,6 +179,12 @@ export class PedidosPrivadoComponent {
 
     this.getPedidos();
     this.getListaClientes();
+
+    let id = this.route.snapshot.paramMap.get('id');
+    console.log("Id pedido por parámetro: ", id)
+    if(Number(id)) {
+      this.showDetails(Number(id))
+    }
   }
 
   ngOnDestroy(): void {
@@ -207,3 +193,28 @@ export class PedidosPrivadoComponent {
 
 
 }
+
+
+/*
+  // getPedidos():void {
+  //     this.loading = true;  
+  //     this.pedidosAPI.getAll()
+  //       .subscribe({
+  //         next: (data:Pedido[]) => {
+  //           console.log("data getPedidos: \n", data);
+  //           this.pedidoService.setPedidos(data)
+  //           this.loading = false;
+  //         },
+  //         error: (err) => {
+  //           console.log("err \n", err)
+  //           err.status === 0
+  //             ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+  //             : err.status === 401
+  //               ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+  //               : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
+
+  //             this.loading = false;
+  //         }        
+  //       })
+  // }
+  */
