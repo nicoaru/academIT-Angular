@@ -8,7 +8,7 @@ import { getISODateStringFromISOString, getISODateStringFromUnixTime, getUnixTim
 import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { Subscription } from 'rxjs';
-import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
+import { PedidoService } from 'src/app/services/pedido.service';
 import { CargaMuebleComponent } from '../../cargar/carga-mueble/carga-mueble.component';
 
 @Component({
@@ -74,14 +74,14 @@ export class DetallePedidoItemDatosComponent {
       updatedPedido.fechaEntrega = this.formDatosPedido.value.fechaEntrega,
       updatedPedido.notas = this.formDatosPedido.value.notas,
   
-      console.log("pedidoActualizado: ", updatedPedido)
+      console.log("pedido a actualizar ", updatedPedido)
   
       this.pedidosAPI.updateById(this.pedido.id, updatedPedido)
       .subscribe({
           next: (data) => {
             console.log("Pedido actualizado: ", data);
-            this.pedidoService.setPedidoParaDetalle(data);
             this.pedidoService.updatePedido(data);
+            this.pedidoService.setPedidoParaDetalle(data.id);
             let message = `Pedido modificado con éxito`
             this.matDialog.open(AlertModalComponent, { data: {message}})
           },
@@ -126,36 +126,49 @@ export class DetallePedidoItemDatosComponent {
       data: {pedido: this.pedido}
     })
     cargaMuebleModalRef.beforeClosed().subscribe(seCreoMueble => {
-      if(seCreoMueble) this.refreshPedidoFromDB()
+      if(seCreoMueble) this.refreshPedidos()
     })
 
   }
 
-  refreshPedidoFromDB():any {
-    this.pedidosAPI.getById(this.pedido.id)
-      .subscribe({
-        next: (data) => {
-            console.log("Pedido con mueble nuevo: ", data);
-            this.pedidoService.setPedidoParaDetalle(data);
-            this.pedidoService.updatePedido(data);
-            let message = `Mueble cargado con éxito`
-            this.matDialog.open(AlertModalComponent, { data: {message}})
-        },
-        error: (err) => {
-          console.log("err \n", err)
-
-          let errorMessage:string;
-          err.status === 0
-            ? errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
-            : err.status === 401
-              ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-              : errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
-
-          this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
-
-        }
-      })
+  async refreshPedidos():Promise<void> {
+    try {
+      console.log("inicio")
+      let result = await this.pedidoService.getPedidos()
+      console.log("resultado: ", result)
+    }
+    catch(err) {
+      console.log("Error en getCleintes:\n", err)
+      let errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+      this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+    } 
   }
+
+  // refreshPedidoFromDB():any {
+  //   this.pedidosAPI.getById(this.pedido.id)
+  //     .subscribe({
+  //       next: (data) => {
+  //           console.log("Pedido con mueble nuevo: ", data);
+  //           this.pedidoService.updatePedido(data);
+  //           this.pedidoService.setPedidoParaDetalle(data.id);
+  //           let message = `Mueble cargado con éxito`
+  //           this.matDialog.open(AlertModalComponent, { data: {message}})
+  //       },
+  //       error: (err) => {
+  //         console.log("err \n", err)
+
+  //         let errorMessage:string;
+  //         err.status === 0
+  //           ? errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+  //           : err.status === 401
+  //             ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+  //             : errorMessage = "Mueble cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+
+  //         this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+
+  //       }
+  //     })
+  // }
 
   restoreFormValues():void {
     this.formDatosPedido.controls['cliente'].setValue(this.pedido.cliente?.id);
@@ -183,7 +196,6 @@ export class DetallePedidoItemDatosComponent {
     console.log("Lista clientes - en item datos \n", this.listaClientes)
 
     this.restoreFormValues();  
-    console.warn("Form:\n", this.formDatosPedido)
   }
 
   ngOnDestroy(): void {

@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { DetallePedidoModalComponent } from 'src/app/components/detalle-pedido/detalle-pedido-modal/detalle-pedido-modal.component';
 import { Pedido, Cliente } from 'src/app/models/interfaces/entidades.interfaces';
+import { PedidosApiService } from 'src/app/services/api/pedidos-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class PedidoService {
 
   //** Constructor **//
   //** Constructor **//
-  constructor() { }
+  constructor(private pedidosAPI:PedidosApiService) { }
 
 
   //** Métodos **//
@@ -49,12 +50,34 @@ export class PedidoService {
     this.pedidos.next(this._pedidos)
   }  
 
-  getPedidos():Pedido[] {
-    return this._pedidos
+  getPedidos():any {
+    
+    return new Promise((resolve, reject)=>{
+
+      this.pedidosAPI.getAll()
+        .subscribe({
+          next: (data) => {
+            console.log("data getPedidos: \n", data);
+            this.setPedidos(data)
+            this.setPedidoParaDetalle(this.getPedidoParaDetalle()?.id)
+            resolve({ok: true})
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            let errorMessage:string;
+            err.status === 0
+              ? errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+              : err.status === 401
+                ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Pedidos"
+            reject({ok: false, error: err, message: errorMessage})
+          }        
+        })
+    })
   }
 
-  setPedidoParaDetalle(pedido:Pedido):void {
-    this._pedidoParaDetalle = {...pedido};
+  setPedidoParaDetalle(idPedido:number):void {
+    this._pedidoParaDetalle = this._pedidos.find(ped => ped.id === idPedido);
 
     this.pedidoParaDetalle.next(this._pedidoParaDetalle)
   }

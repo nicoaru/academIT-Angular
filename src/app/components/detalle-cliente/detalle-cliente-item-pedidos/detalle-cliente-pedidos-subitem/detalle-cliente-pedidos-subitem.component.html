@@ -43,7 +43,7 @@
         </ng-container>
 
         <button [routerLink]="'privado/pedidos/'+pedido.id" mat-raised-button class="mt-2 mb-2" (click)="closeModal()">Ver pedido</button>   
-         
+        <button mat-raised-button class="mt-2 mb-2 ms-2" (click)="deletePedido(pedido.id)">Eliminar pedido</button>   
 
 
 

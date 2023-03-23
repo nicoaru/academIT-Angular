@@ -3,7 +3,7 @@ import { Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DetallePedidoService } from '../detalle-pedido.service';
-import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
+import { PedidoService } from 'src/app/services/pedido.service';
 import { Subscription } from 'rxjs';
 
 

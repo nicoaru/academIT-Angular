@@ -5,14 +5,14 @@
         <button mat-stroked-button (click)="cargarNuevo()">Cargar nuevo</button>
     </div>
 
-    <div class="tableContainer" *ngIf="!loading && clientes">
+    <div class="tableContainer" *ngIf="!loading && clientes?.length>0">
         <app-tabla-info [columns]="columns" [data]="clientes" class="mat-elevation-z2" (onViewDetails)="showDetails($event)" (onDeleteElement)="deleteCliente($event)"></app-tabla-info>    
     </div>
 
     <!-- Spinner -->
-    <app-spinner *ngIf="loading && !clientes" size="50px"></app-spinner>
+    <app-spinner *ngIf="loading && clientes?.length===0" size="50px"></app-spinner>
     <!-- Mensage de error -->
-    <div *ngIf="!loading && !clientes" class="errorMessage">
+    <div *ngIf="!loading && clientes?.length===0" class="errorMessage">
         <h1>{{errorMessage}}</h1>
         <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
     </div>

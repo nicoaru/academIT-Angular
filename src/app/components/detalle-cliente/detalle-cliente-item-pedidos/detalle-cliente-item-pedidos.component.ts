@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Cliente, Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
-import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
+import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
   selector: 'app-detalle-cliente-item-pedidos',

@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Mueble } from 'src/app/models/interfaces/entidades.interfaces';
-import { PedidoService } from 'src/app/pages/privado/pedidos-privado/pedido.service';
+import { PedidoService } from 'src/app/services/pedido.service';
+import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
+import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
 import { DetallePedidoService } from '../detalle-pedido.service';
 
 @Component({
@@ -18,13 +21,45 @@ export class DetallePedidoItemMueblesComponent implements OnInit {
 
   //** Constructor **//
   //** Constructor **//
- constructor(private pedidoService:PedidoService) {}
+ constructor(
+  private mueblesAPI:MueblesApiService,
+  private pedidoService:PedidoService,
+  private dialog: MatDialog) {}
 
 
 
  
   //** Métodos **//
   //** Métodos **//
+
+  deleteMueble(id:number) {
+    this.mueblesAPI.deleteById(id)
+      .subscribe({
+        next: (data:Mueble) => {
+          console.log("Mueble eliminado ok: \n", data);
+          // this.pedidoService.deletePedido(data.id
+          this.pedidoService.getPedidos()
+            .catch((err)=>{
+              let errorMessage:string = "El mueble se eliminó correctamente, pero hubo un problema con el servidor luego...";
+              this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+            })
+        },
+        error: (err) => {
+          console.log("err \n", err)
+          let errorMessage:string;
+          err.status === 0
+          ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el mueble"
+          : err.status === 401
+            ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+            : errorMessage = "Lo siento hubo un problema en el servidor intentando eliminar el mueble"
+
+          this.dialog.open(AlertModalComponent, { data: {message: errorMessage} })
+        }
+      })
+  }
+
+
+
   closeModal():void {
     this.pedidoService.modalRef.close();
  }

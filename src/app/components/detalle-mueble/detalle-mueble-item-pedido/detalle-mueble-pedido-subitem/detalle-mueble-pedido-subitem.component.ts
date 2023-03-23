@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DetalleMuebleService } from 'src/app/components/detalle-mueble/detalle-mueble.service';
 import { Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
-import { MuebleService } from 'src/app/pages/privado/muebles-privado/mueble.service';
+import { MuebleService } from 'src/app/services/mueble.service';
 
 import { DetalleMuebleModalComponent } from '../../detalle-mueble-modal/detalle-mueble-modal.component';
 

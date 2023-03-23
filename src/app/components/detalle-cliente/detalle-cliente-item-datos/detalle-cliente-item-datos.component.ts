@@ -5,7 +5,7 @@ import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EditNombreComponent } from './detalle-cliente-edit-nombre/edit-nombre.component';
 import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
-import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { Subscription } from 'rxjs';
 import { CargaPedidoComponent } from '../../cargar/carga-pedido/carga-pedido.component';
 
@@ -89,8 +89,8 @@ export class DetalleClienteItemDatosComponent implements OnInit {
       .subscribe({
           next: (data) => {
             console.log("Actualizado OK: ", data);
-            this.clienteService.setClienteParaDetalle(data);
             this.clienteService.updateCliente(data);
+            this.clienteService.setClienteParaDetalle(data.id);
             let message = `Cliente modificado con éxito`
             this.matDialog.open(AlertModalComponent, { data: {message}})
           },
@@ -134,36 +134,49 @@ export class DetalleClienteItemDatosComponent implements OnInit {
       data: this.cliente
     })
     cargaPedidoModalRef.beforeClosed().subscribe(seCreoMueble => {
-      if(seCreoMueble) this.refreshClienteFromDB()
+      if(seCreoMueble) this.refreshClientes()
     })
 
   }
 
-  refreshClienteFromDB():any {
-    this.clientesAPI.getById(this.cliente.id)
-      .subscribe({
-        next: (data) => {
-            console.log("Cliente con pedido nuevo: ", data);
-            this.clienteService.setClienteParaDetalle(data);
-            this.clienteService.updateCliente(data);
-            let message = `Cliente cargado con éxito`
-            this.matDialog.open(AlertModalComponent, { data: {message}})
-        },
-        error: (err) => {
-          console.log("err \n", err)
-
-          let errorMessage:string;
-          err.status === 0
-            ? errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
-            : err.status === 401
-              ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-              : errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
-
-          this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
-
-        }
-      })
+  async refreshClientes():Promise<void> {
+    try {
+      console.log("inicio")
+      let result = await this.clienteService.getClientes()
+      console.log("resultado: ", result)
+    }
+    catch(err) {
+      console.log("Error en getCleintes:\n", err)
+      let errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+      this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+    } 
   }
+
+  // refreshClienteFromDB():any {
+  //   this.clientesAPI.getById(this.cliente.id)
+  //     .subscribe({
+  //       next: (data) => {
+  //           console.log("Cliente con pedido nuevo: ", data);
+  //           this.clienteService.setClienteParaDetalle(data.id);
+  //           this.clienteService.updateCliente(data);
+  //           let message = `Cliente cargado con éxito`
+  //           this.matDialog.open(AlertModalComponent, { data: {message}})
+  //       },
+  //       error: (err) => {
+  //         console.log("err \n", err)
+
+  //         let errorMessage:string;
+  //         err.status === 0
+  //           ? errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+  //           : err.status === 401
+  //             ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+  //             : errorMessage = "Pedido cargado con éxito pero quizas no lo puedas ver en pantalla porque algo falló"
+
+  //         this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
+
+  //       }
+  //     })
+  // }
 
   restoreFormValues():void {
     this.formDatosCliente.controls['nombre'].setValue(this.cliente.nombre);

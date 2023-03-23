@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Cliente, TipoCliente } from 'src/app/models/interfaces/entidades.interfaces';
-import { ClienteService } from 'src/app/pages/privado/clientes-privado/cliente.service';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.service';
 import { AlertModalComponent } from '../../alert-modal/alert-modal.component';

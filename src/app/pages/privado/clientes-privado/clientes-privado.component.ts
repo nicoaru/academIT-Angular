@@ -4,7 +4,7 @@ import { Cliente } from 'src/app/models/interfaces/entidades.interfaces';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DetalleClienteModalComponent } from 'src/app/components/detalle-cliente/detalle-cliente-modal/detalle-cliente-modal.component';
-import { ClienteService } from './cliente.service';
+import { ClienteService } from '../../../services/cliente.service';
 import { Subscription } from 'rxjs';
 import { TiposClienteApiService } from 'src/app/services/api/tipos-cliente-api.service';
 import { CargaClienteComponent } from 'src/app/components/cargar/carga-cliente/carga-cliente.component';
@@ -69,8 +69,8 @@ export class ClientesPrivadoComponent implements OnInit {
   //** Métodos **//
 
   showDetails(id:number): void {
-    const clienteParaDetalle = this.clientes.find(cliente => cliente.id == id);
-    this.clienteService.setClienteParaDetalle(clienteParaDetalle);
+    // const clienteParaDetalle = this.clientes.find(cliente => cliente.id == id);
+    this.clienteService.setClienteParaDetalle(id);
 
     this.dialogDetalleRef = this.dialog.open(DetalleClienteModalComponent, {
       width: '80%',
@@ -120,26 +120,22 @@ export class ClientesPrivadoComponent implements OnInit {
       })
   }
 
-  getClientes():void {
-      this.loading = true;  
-      this.clientesAPI.getAll()
-        .subscribe({
-          next: (data) => {
-            console.log("data getClientes: \n", data);
-            this.clienteService.setClientes(data)
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log("err \n", err)
-            err.status === 0
-              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-              : err.status === 401
-                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
 
-              this.loading = false;
-          }        
-        })
+
+  async getClientes():Promise<void> {
+    this.loading = true;
+    try {
+      console.log("inicio")
+      this.loading = true;
+      let result = await this.clienteService.getClientes()
+      console.log("resultado: ", result)
+    }
+    catch(err) {
+      console.log("Error en getCleintes:\n", err)
+      this.errorMessage = err.message;
+
+    } 
+    finally{ this.loading = false; }  
   }
 
   getTiposCliente():void {
@@ -175,6 +171,8 @@ export class ClientesPrivadoComponent implements OnInit {
     this.getClientes();
     this.getTiposCliente();
 
+    console.log("clientes en privado:\n",this.clientes)
+
   }
 
   ngOnDestroy(): void {
@@ -183,74 +181,14 @@ export class ClientesPrivadoComponent implements OnInit {
 
 }
 
-
 /*
-  clientes:Cliente[];
-
-  dialogDetalleRef:MatDialogRef<DetalleClienteModalComponent>;
-
-  columns:ColumnTableInfoDefinition[] = [
-    {
-      title: "Nombre",
-      field: "nombre",
-      getter: (cliente:Cliente) => {
-        return cliente.nombre+" "+cliente.apellido
-      }
-    },
-    {
-      title: "Teléfono",
-      field: "telefono",
-    },
-    {
-      title: "Email",
-      field: "email",
-    },
-    {
-      title: "Tipo cliente",
-      field: "tipoCliente",
-      getter: (cliente:Cliente) => {
-        return cliente.tipoCliente?.nombre
-      }
-    }
-  ];
-
-
-
-
-  loading:boolean = false;
-  errorMessage:string;
-
-  showModal:boolean =  false;
-  modalStyles:Object = {
-    width: '80%',
-    maxHeight: '80%',
-    border: "2px solid black",
-    borderRadius: "2px"
-  }
-
-  showDetails(id:number, enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const clienteParaDetalle = this.clientes.find(cliente => cliente.id == id);
-
-    this.dialogDetalleRef = this.dialog.open(DetalleClienteModalComponent, {
-      width: '80%',
-      maxHeight: '80%',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      autoFocus: false,
-      data: clienteParaDetalle
-    });
-
-    this.dialogDetalleRef.afterClosed().subscribe(() => this.getClientes())
-  }
-
-
-  getClientes():void {
+getClientes():void {
       this.loading = true;  
       this.clientesAPI.getAll()
         .subscribe({
           next: (data) => {
             console.log("data getClientes: \n", data);
-            this.clientes = data;
+            this.clienteService.setClientes(data)
             this.loading = false;
           },
           error: (err) => {
@@ -264,18 +202,5 @@ export class ClientesPrivadoComponent implements OnInit {
               this.loading = false;
           }        
         })
-  }
-
-
-
-  constructor(
-    private clientesAPI:ClientesApiService,
-    private dialog: MatDialog
-  ) {}
- 
-  ngOnInit() {
-    this.getClientes();
-
-
   }
 */

@@ -3,7 +3,7 @@ import { Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { DetalleMuebleService } from '../detalle-mueble.service';
 import { getISODateStringFromISOString, getISODateStringFromUnixTime } from 'src/app/utils/utils';
 import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
-import { MuebleService } from 'src/app/pages/privado/muebles-privado/mueble.service';
+import { MuebleService } from 'src/app/services/mueble.service';
 import { Subscription } from 'rxjs';
 
 @Component({

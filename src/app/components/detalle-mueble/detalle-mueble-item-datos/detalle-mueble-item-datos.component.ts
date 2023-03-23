@@ -9,7 +9,7 @@ import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
 import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
 import { ColoresApiService } from 'src/app/services/api/colores-api.service';
 import { Subscription } from 'rxjs';
-import { MuebleService } from 'src/app/pages/privado/muebles-privado/mueble.service';
+import { MuebleService } from 'src/app/services/mueble.service';
 
 @Component({
   selector: 'app-detalle-mueble-item-datos',
@@ -78,19 +78,20 @@ export class DetalleMuebleItemDatosComponent {
       updatedMueble.estado = {id: this.formDatosMueble.controls['estado'].value};
       updatedMueble.notas = this.formDatosMueble.controls['notas'].value;
 
-      console.log("Mueble que se va a guardar: ", updatedMueble)
+      console.log("Mueble que se va a actualizar: ", updatedMueble)
 
       this.mueblesAPI.updateById(this.mueble.id, updatedMueble)
       .subscribe({
           next: (data) => {
             console.log("mueble actualizado: ", data);
-            this.muebleService.setMuebleParaDetalle(data);
             this.muebleService.updateMueble(data);
+            this.muebleService.setMuebleParaDetalle(data.id);
             let message = `Mueble modificado con éxito`
             this.matDialog.open(AlertModalComponent, { data: {message}})
           },
           error: (err) => {
             console.log("err \n", err)
+            //** Restaura los datos del formulario
             this.restoreFormValues();
 
             let errorMessage:string;

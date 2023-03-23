@@ -5,7 +5,7 @@ import { PedidosApiService } from 'src/app/services/api/pedidos-api.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { DetallePedidoModalComponent } from 'src/app/components/detalle-pedido/detalle-pedido-modal/detalle-pedido-modal.component';
 import { Subscription } from 'rxjs';
-import { PedidoService } from './pedido.service';
+import { PedidoService } from '../../../services/pedido.service';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
 import { CargaPedidoComponent } from 'src/app/components/cargar/carga-pedido/carga-pedido.component';
 import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
@@ -76,8 +76,8 @@ export class PedidosPrivadoComponent {
   //** Métodos **//
 
   showDetails(id:number): void {
-    const pedidoParaDetalle = this.pedidos.find(pedido => pedido.id == id);
-    this.pedidoService.setPedidoParaDetalle(pedidoParaDetalle);
+    // const pedidoParaDetalle = this.pedidos.find(pedido => pedido.id == id);
+    this.pedidoService.setPedidoParaDetalle(id);
 
     this.dialogDetalleRef = this.dialog.open(DetallePedidoModalComponent, {
       width: '80%',
@@ -129,27 +129,42 @@ export class PedidosPrivadoComponent {
       })
   }
 
-  getPedidos():void {
-      this.loading = true;  
-      this.pedidosAPI.getAll()
-        .subscribe({
-          next: (data:Pedido[]) => {
-            console.log("data getPedidos: \n", data);
-            this.pedidoService.setPedidos(data)
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log("err \n", err)
-            err.status === 0
-              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-              : err.status === 401
-                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
+  // getPedidos():void {
+  //     this.loading = true;  
+  //     this.pedidosAPI.getAll()
+  //       .subscribe({
+  //         next: (data:Pedido[]) => {
+  //           console.log("data getPedidos: \n", data);
+  //           this.pedidoService.setPedidos(data)
+  //           this.loading = false;
+  //         },
+  //         error: (err) => {
+  //           console.log("err \n", err)
+  //           err.status === 0
+  //             ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+  //             : err.status === 401
+  //               ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+  //               : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
 
-              this.loading = false;
-          }        
-        })
-  }
+  //             this.loading = false;
+  //         }        
+  //       })
+  // }
+
+  async getPedidos():Promise<void> {
+    try {
+      console.log("inicio")
+      this.loading = true;
+      let result = await this.pedidoService.getPedidos()
+      console.log("resultado: ", result)
+    }
+    catch(err) {
+      console.log("Error en getPedidoss:\n", err)
+      this.errorMessage = err.message;
+
+    } 
+    finally{ this.loading = false; }  
+}
 
   getListaClientes():void {
     this.clienteAPI.getList()

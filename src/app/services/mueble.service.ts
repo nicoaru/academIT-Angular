@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { DetalleMuebleModalComponent } from 'src/app/components/detalle-mueble/detalle-mueble-modal/detalle-mueble-modal.component';
 import { Mueble, Modelo, Color, Estado } from 'src/app/models/interfaces/entidades.interfaces';
+import { MueblesApiService } from 'src/app/services/api/muebles-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class MuebleService {
 
   //** Constructor **//
   //** Constructor **//
-  constructor() { }
+  constructor(private mueblesAPI:MueblesApiService) { }
 
 
   //** Métodos **//
@@ -50,13 +51,35 @@ export class MuebleService {
     this.muebles.next(this._muebles)
   }  
 
-  getMuebles():Mueble[] {
-    return this._muebles
+  getMuebles():any {
+    
+    return new Promise((resolve, reject)=>{
+
+      this.mueblesAPI.getAll()
+        .subscribe({
+          next: (data) => {
+            console.log("data getMuebles: \n", data);
+            this.setMuebles(data)
+            this.setMuebleParaDetalle(this.getMuebleParaDetalle()?.id)
+            resolve({ok: true})
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            let errorMessage:string;
+            err.status === 0
+              ? errorMessage = "Lo siento tuvimos un problema intentando traer los datos de los Muebles"
+              : err.status === 401
+                ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Muebles"
+            reject({ok: false, error: err, message: errorMessage})
+          }        
+        })
+    })
   }
 
   
-  setMuebleParaDetalle(mueble:Mueble):void {
-    this._muebleParaDetalle = {...mueble};
+  setMuebleParaDetalle(idMueble:number):void {
+    this._muebleParaDetalle = this._muebles.find(mue => mue.id === idMueble);
 
     this.muebleParaDetalle.next(this._muebleParaDetalle)
   }

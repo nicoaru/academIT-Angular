@@ -25,7 +25,7 @@ export class ClienteService {
 
   //** Constructor **//
   //** Constructor **//
-  constructor() { }
+  constructor(private clientesAPI:ClientesApiService) { }
 
 
   //** Métodos **//
@@ -50,12 +50,35 @@ export class ClienteService {
     this.clientes.next(this._clientes)
   }  
   
-  getClientes():Cliente[] {
-    return this._clientes
+  getClientes():any {
+    
+    return new Promise((resolve, reject)=>{
+
+      this.clientesAPI.getAll()
+        .subscribe({
+          next: (data) => {
+            console.log("data getClientes: \n", data);
+            this.setClientes(data)
+            this.setClienteParaDetalle(this.getClienteParaDetalle()?.id)
+            resolve({ok: true})
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            let errorMessage:string;
+            err.status === 0
+              ? errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+              : err.status === 401
+                ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
+            reject({ok: false, error: err, message: errorMessage})
+          }        
+        })
+    })
   }
 
-  setClienteParaDetalle(cliente:Cliente):void {
-    this._clienteParaDetalle = {...cliente};
+  setClienteParaDetalle(idCliente:number):void {
+
+    this._clienteParaDetalle = this._clientes.find(cli => cli.id === idCliente);
 
     this.clienteParaDetalle.next(this._clienteParaDetalle)
   }

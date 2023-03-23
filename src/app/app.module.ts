@@ -58,10 +58,10 @@ import { MueblesPrivadoComponent } from './pages/privado/muebles-privado/muebles
 import { PedidosPrivadoComponent } from './pages/privado/pedidos-privado/pedidos-privado.component';
 
 import { appConfigInjector, AppConfig} from './config/app.config';
-import { CargarPrivadoComponent } from './pages/privado/cargar-privado/cargar-privado.component';
 import { CargaClienteComponent } from './components/cargar/carga-cliente/carga-cliente.component';
 import { CargaPedidoComponent } from './components/cargar/carga-pedido/carga-pedido.component';
 import { CargaMuebleComponent } from './components/cargar/carga-mueble/carga-mueble.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 
@@ -104,10 +104,10 @@ import { CargaMuebleComponent } from './components/cargar/carga-mueble/carga-mue
     DetalleMuebleItemDatosComponent,
     DetalleMuebleItemPedidoComponent,
     DetalleMueblePedidoSubitemComponent,
-    CargarPrivadoComponent,
     CargaClienteComponent,
     CargaPedidoComponent,
-    CargaMuebleComponent
+    CargaMuebleComponent,
+    PageNotFoundComponent
   ],
   imports: [
     FormsModule,

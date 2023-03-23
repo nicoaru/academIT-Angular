@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Mueble } from 'src/app/models/interfaces/entidades.interfaces';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MuebleService } from 'src/app/pages/privado/muebles-privado/mueble.service';
+import { MuebleService } from 'src/app/services/mueble.service';
 import { Subscription } from 'rxjs';
 
 @Component({

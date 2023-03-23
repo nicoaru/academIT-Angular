@@ -7,7 +7,7 @@ import { HomePrivadoComponent } from './pages/privado/home-privado/home-privado.
 import { ClientesPrivadoComponent } from './pages/privado/clientes-privado/clientes-privado.component';
 import { PedidosPrivadoComponent } from './pages/privado/pedidos-privado/pedidos-privado.component';
 import { MueblesPrivadoComponent } from './pages/privado/muebles-privado/muebles-privado.component';
-import { CargarPrivadoComponent } from './pages/privado/cargar-privado/cargar-privado.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'privado/pedidos/:id', component: PedidosPrivadoComponent},
   {path: 'privado/muebles', component: MueblesPrivadoComponent},
   {path: 'privado/muebles/:id', component: MueblesPrivadoComponent},
-  {path: 'privado/cargar', component: CargarPrivadoComponent}
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 

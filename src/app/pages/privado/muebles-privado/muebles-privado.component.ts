@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { ColoresApiService } from 'src/app/services/api/colores-api.service';
 import { EstadosApiService } from 'src/app/services/api/estados-api.service';
 import { ModelosApiService } from 'src/app/services/api/modelos-api.service';
-import { MuebleService } from './mueble.service';
+import { MuebleService } from '../../../services/mueble.service';
 import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
 
 @Component({
@@ -109,7 +109,7 @@ export class MueblesPrivadoComponent {
   //** Métodos **//
   showDetails(id:number): void {
     const muebleParaDetalle = this.muebles.find(mueble => mueble.id === id);
-    this.muebleService.setMuebleParaDetalle(muebleParaDetalle);
+    this.muebleService.setMuebleParaDetalle(id);
 
     this.dialogDetalleRef = this.dialog.open(DetalleMuebleModalComponent, {
       width: '80%',
@@ -143,26 +143,20 @@ export class MueblesPrivadoComponent {
       })
   }
 
-  getMuebles():void {
-      this.loading = true;  
-      this.mueblesAPI.getAll()
-        .subscribe({
-          next: (data:Mueble[]) => {
-            console.log("data getMuebles: \n", data);
-            this.muebleService.setMuebles(data)
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log("err \n", err)
-            err.status === 0
-              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-              : err.status === 401
-                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
+  async getMuebles():Promise<void> {
+    this.loading = true;
+    try {
+      console.log("inicio")
+      this.loading = true;
+      let result = await this.muebleService.getMuebles()
+      console.log("resultado: ", result)
+    }
+    catch(err) {
+      console.log("Error en getMuebles:\n", err)
+      this.errorMessage = err.message;
 
-              this.loading = false;
-          }        
-        })
+    } 
+    finally{ this.loading = false; }  
   }
 
   getColores():void {
@@ -222,23 +216,48 @@ export class MueblesPrivadoComponent {
 
 
 
-ngOnInit() {
-  this.subscriptionMuebles$ = this.muebleService.muebles$
-    .subscribe(data => {
-      // Cada vez que el observable emita un valor, se ejecutará este código
-      this.muebles = [...data]
-      console.log("Muebles del observable ese en MueblePrivado: ",data);
-    });
+  ngOnInit() {
+    this.subscriptionMuebles$ = this.muebleService.muebles$
+      .subscribe(data => {
+        // Cada vez que el observable emita un valor, se ejecutará este código
+        this.muebles = [...data]
+        console.log("Muebles del observable ese en MueblePrivado: ",data);
+      });
 
-  this.getMuebles();
-  this.getModelos();
-  this.getEstados();
-  this.getColores();
+    this.getMuebles();
+    this.getModelos();
+    this.getEstados();
+    this.getColores();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionMuebles$.unsubscribe();
+  }
+
+
 }
 
-ngOnDestroy(): void {
-  this.subscriptionMuebles$.unsubscribe();
-}
 
+/*
+  getMuebles():void {
+      this.loading = true;  
+      this.mueblesAPI.getAll()
+        .subscribe({
+          next: (data:Mueble[]) => {
+            console.log("data getMuebles: \n", data);
+            this.muebleService.setMuebles(data)
+            this.loading = false;
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            err.status === 0
+              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
+              : err.status === 401
+                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
 
-}
+              this.loading = false;
+          }        
+        })
+  }
+*/

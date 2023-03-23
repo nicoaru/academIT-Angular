@@ -45,10 +45,6 @@ export class LayoutComponent {
       href:"privado/muebles"
     },
     {
-      title:"Cargar",
-      href:"privado/cargar"
-    },
-    {
       title:"Logout",
       href:"#"
     }
