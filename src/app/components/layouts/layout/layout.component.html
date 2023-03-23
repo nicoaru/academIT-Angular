@@ -1,4 +1,5 @@
-<app-header [navItems]="isPrivate ? navItemsPrivate : navItemsPublic" ></app-header>
+<app-header-public *ngIf="!isPrivate" ></app-header-public>
+<app-header-private *ngIf="isPrivate" ></app-header-private>
 
 <ng-content></ng-content>
 

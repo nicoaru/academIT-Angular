@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NavItemData } from 'src/app/models/interfaces/navItem.interface';
 
 @Component({
@@ -6,16 +7,14 @@ import { NavItemData } from 'src/app/models/interfaces/navItem.interface';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
   
-  pathActual:string = document.location.pathname;
-
-  isPrivate:boolean = this.pathActual.split('/')[1] === "privado" ? true : false;
+  isPrivate:boolean;
 
   navItemsPublic:NavItemData[] = [    
     {
       title:"Inicio",
-      href:"home"
+      href:"/"
     },
     {
       title:"Contacto",
@@ -46,7 +45,7 @@ export class LayoutComponent {
     },
     {
       title:"Logout",
-      href:"#"
+      href:"/"
     }
   ]
 
@@ -65,8 +64,24 @@ export class LayoutComponent {
 
 
 
-  constructor() {
-    console.log(this.pathActual)
+  constructor(
+    private router: Router
+  ) {
+
   }
+
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let pathActual = event.url;
+        console.log('Actual path:', pathActual);
+        this.isPrivate = pathActual.split('/')[1] === "privado" ? true : false;       
+      }
+    });
+    
+    
+
+  }
+
 
 }

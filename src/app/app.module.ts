@@ -21,7 +21,7 @@ import { AppComponent } from './app.component';
 import { InfoTextIconComponent } from './components/info-text-icon/info-text-icon.component';
 import { FormContactoComponent } from './components/form-contacto/form-contacto.component';
 import { LayoutComponent } from './components/layouts/layout/layout.component';
-import { HeaderComponent } from './components/layouts/header/header.component';
+import { HeaderPublicComponent } from './components/layouts/header-public/header-public.component';
 import { FooterComponent } from './components/layouts/footer/footer.component';
 import { AlertModalComponent } from './components/alert-modal/alert-modal.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -62,6 +62,7 @@ import { CargaClienteComponent } from './components/cargar/carga-cliente/carga-c
 import { CargaPedidoComponent } from './components/cargar/carga-pedido/carga-pedido.component';
 import { CargaMuebleComponent } from './components/cargar/carga-mueble/carga-mueble.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { HeaderPrivateComponent } from './components/layouts/header-private/header-private.component';
 
 
 
@@ -72,7 +73,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     FormContactoComponent,
     LayoutComponent,
     FooterComponent,
-    HeaderComponent,
+    HeaderPublicComponent,
     ContactoComponent,
     HomePrivadoComponent,
     ClientesPrivadoComponent,
@@ -107,7 +108,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     CargaClienteComponent,
     CargaPedidoComponent,
     CargaMuebleComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HeaderPrivateComponent
   ],
   imports: [
     FormsModule,

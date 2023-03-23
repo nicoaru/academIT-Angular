@@ -64,6 +64,7 @@ interface EstadoHistorico {
 interface Usuario {
     id?:number;
     username?:string;
+    password?:string
 }
 
 export {

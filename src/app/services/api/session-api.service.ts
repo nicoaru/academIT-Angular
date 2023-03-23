@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { appConfigInjector, AppConfig } from 'src/app/config/app.config';
-import { User } from 'src/app/models/classes/classes';
-import { UserFromRequest } from 'src/app/models/interfaces/userFromRequest.interface';
+import { Usuario } from 'src/app/models/interfaces/entidades.interfaces';
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,8 @@ export class SessionApiService {
   //** Métodos **//
   //** Métodos **//
 
-  login(userFromRequest:UserFromRequest):Observable<User> {
+  login(userFromRequest:Usuario):Observable<Usuario> {
     return this.httpClient
-      .post<User>(this.urlBase+'/sessions', userFromRequest,this.httpOptions)
+      .post<Usuario>(this.urlBase+'/sessions', userFromRequest,this.httpOptions)
   }
 }

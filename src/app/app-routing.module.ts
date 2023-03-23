@@ -8,21 +8,24 @@ import { ClientesPrivadoComponent } from './pages/privado/clientes-privado/clien
 import { PedidosPrivadoComponent } from './pages/privado/pedidos-privado/pedidos-privado.component';
 import { MueblesPrivadoComponent } from './pages/privado/muebles-privado/muebles-privado.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { PrivadoGuardGuard } from './guards/privado-guard.guard';
+import { LoginGuard } from './guards/login.guard';
 
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'contacto', component: ContactoComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'privado', component: HomePrivadoComponent},
-  {path: 'privado/home', component: HomePrivadoComponent},
-  {path: 'privado/clientes', component: ClientesPrivadoComponent},
-  {path: 'privado/clientes/:id', component: ClientesPrivadoComponent},
-  {path: 'privado/pedidos', component: PedidosPrivadoComponent},
-  {path: 'privado/pedidos/:id', component: PedidosPrivadoComponent},
-  {path: 'privado/muebles', component: MueblesPrivadoComponent},
-  {path: 'privado/muebles/:id', component: MueblesPrivadoComponent},
+  {path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
+  {path: 'privado', component: HomePrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/home', component: HomePrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/clientes', component: ClientesPrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/clientes/:id', component: ClientesPrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/pedidos', component: PedidosPrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/pedidos/:id', component: PedidosPrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/muebles', component: MueblesPrivadoComponent, canActivate: [PrivadoGuardGuard]},
+  {path: 'privado/muebles/:id', component: MueblesPrivadoComponent, canActivate: [PrivadoGuardGuard]},
   { path: '**', component: PageNotFoundComponent }
+  // { path: '**',   redirectTo: '/', pathMatch: 'full' }
 ];
 
 

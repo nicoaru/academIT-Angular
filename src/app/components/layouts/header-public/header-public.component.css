@@ -1,0 +1,30 @@
+/* ..... HEADER ..... */
+header {
+    padding: 35px 50px;
+    text-align: center;
+}
+    
+    img {
+        height: 40px;
+        margin-bottom: 25px;
+    }
+
+    nav {
+        position: relative;
+    }
+
+        nav .navCenter {
+            display: inline-flex;
+            justify-content: center;
+            column-gap: 30px;
+            vertical-align: middle;
+        }
+
+        nav .navCenter a {
+            font-size: 1rem;
+        }
+
+        nav .navCenter .navSeparator {
+            font-size: 3px;
+            margin: auto 0;
+        }

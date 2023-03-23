@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { AlertModalComponent } from 'src/app/components/alert-modal/alert-modal.component';
-import { User } from 'src/app/models/classes/classes';
-import { UserFromRequest } from 'src/app/models/interfaces/userFromRequest.interface';
-import { SessionApiService } from 'src/app/services/api/session-api.service';
+import { Usuario } from 'src/app/models/interfaces/entidades.interfaces';
+import { SessionService } from 'src/app/services/session.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { SessionApiService } from 'src/app/services/api/session-api.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginFormGroup:FormGroup;
 
@@ -28,7 +28,8 @@ export class LoginComponent {
   //** Constructor **//
   //** Constructor **//
   constructor(
-    private sessionAPI:SessionApiService, 
+    private sessionService:SessionService, 
+    private router: Router,
     private formBuilder:FormBuilder,
     private matDialog:MatDialog
   ) {
@@ -53,37 +54,34 @@ export class LoginComponent {
 
   //** Métodos **//
   //** Métodos **//
-  login():any {
-    this.showSpinner = true;
+  async login():Promise<void> {
+    try {
+      this.showSpinner = true;
+      let username = this.loginFormGroup.value.username;
+      let password = this.loginFormGroup.value.password;
+      let userToValidate:Usuario = {username, password};
 
-    let username = this.loginFormGroup.value.username;
-    let password = this.loginFormGroup.value.password;
-    let userFromRequest:UserFromRequest = {username, password};
+      const result:any = await this.sessionService.login(userToValidate);
+      console.log("Se logge: ", result)
+      this.router.navigate(['/privado'])
+      }
+      catch(err) {
+        console.log("No se loggeo: ", err)
+        this.matDialog.open(AlertModalComponent, { data: {message: err.message}})
+      }
+      finally {
+        this.showSpinner = false;
+      }
+  }
 
-    this.sessionAPI.login(userFromRequest)
-      .subscribe({ 
-        next: (data) => {
-          const user:User = {id: data.id, username: data.username};
-          console.log(user)
-        }, 
-        error: (err) => {
-          console.log(err);
-          let errorMessage:string;
-          err.status === 0
-            ? errorMessage = "Lo siento tuvimos un problema intentando hacer el login"
-            : err.status === 401
-              ? errorMessage = "Credenciales incorrectas"
-              : errorMessage = "Lo siento hubo un problema en el servidor procesando la petición"
 
-            this.matDialog.open(AlertModalComponent, { data: {message: errorMessage}})
-            this.showSpinner = false;
-          },
-        complete: () => {
-          this.showSpinner = false;
-          console.log("Entro en complete: se ejecuta solo si fue success")
-        }
-        }
-      )     
+
+
+  //** LifeCycles **//
+  //** LifeCycles **//
+  ngOnInit(): void {
+    console.log("Loggeado: ", this.sessionService.isLogged)
+    console.log("Usuario: ", this.sessionService.usuario)
   }
 
 }
