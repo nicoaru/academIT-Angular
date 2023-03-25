@@ -7,7 +7,7 @@
     id="accordion-header-1"
     [attr.aria-expanded]="accordionDatosPedido.expanded"
     aria-controls="accordion-body-1"
-    expanded="false"
+    expanded="true"
 >
 
     <!--* Accordion header -->
@@ -47,6 +47,7 @@
                             {{option.nombre+' '+option.apellido}}
                         </option>
                         </select>
+                        <span *ngIf="formDatosPedido.controls['cliente'].errors && formDatosPedido.controls['cliente'].errors['required']" class="controlAlertHint">* Debe seleccionar una opción</span>
                     </div>  
                     <!--* fechas -->
                     <div class="my-3 d-flex flex-row justify-content-between">

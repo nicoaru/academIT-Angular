@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-detalle-mueble-item-pedido',
   templateUrl: './detalle-mueble-item-pedido.component.html',
-  styleUrls: ['./detalle-mueble-item-pedido.component.css']
+  styleUrls: ['./detalle-mueble-item-pedido.component.css', '../../../styles/form-control.css']
 })
 export class DetalleMuebleItemPedidoComponent implements OnInit {
   private subscribtionMueble$: Subscription;

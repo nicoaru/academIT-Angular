@@ -12,7 +12,7 @@ import { EditNombreComponent } from '../../detalle-cliente/detalle-cliente-item-
 @Component({
   selector: 'app-carga-cliente',
   templateUrl: './carga-cliente.component.html',
-  styleUrls: ['./carga-cliente.component.css']
+  styleUrls: ['./carga-cliente.component.css', '../../../styles/form-control.css']
 })
 export class CargaClienteComponent {
   cliente:Cliente
@@ -37,7 +37,7 @@ export class CargaClienteComponent {
     this.formDatosCliente = this.formBuilder.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      telefono: [''],
+      telefono: ['', Validators.required],
       email: ['', Validators.email],
       tipoCliente: [''],
       notas: ['']

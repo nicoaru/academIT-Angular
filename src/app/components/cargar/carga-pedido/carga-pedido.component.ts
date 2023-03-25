@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cliente, Color, Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
@@ -9,7 +9,7 @@ import { AlertModalComponent } from '../../alert-modal/alert-modal.component';
 @Component({
   selector: 'app-carga-pedido',
   templateUrl: './carga-pedido.component.html',
-  styleUrls: ['./carga-pedido.component.css']
+  styleUrls: ['./carga-pedido.component.css', '../../../styles/form-control.css']
 })
 export class CargaPedidoComponent {
   // pedido:Pedido;
@@ -37,7 +37,7 @@ export class CargaPedidoComponent {
     this.cliente = cliente;
 
     this.formDatosPedido = this.formBuilder.group({
-      cliente:[cliente?.id],
+      cliente:[cliente?.id, Validators.required],
       direccionEntrega: [''],
       fechaEntrada: [''],
       fechaEntrega: [''],

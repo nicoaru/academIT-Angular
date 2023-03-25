@@ -7,7 +7,7 @@
     id="accordion-header-1"
     [attr.aria-expanded]="accordionDatosPedido.expanded"
     aria-controls="accordion-body-1"
-    expanded="false"
+    expanded="true"
 >
 
     <!--* Accordion header -->
@@ -34,10 +34,11 @@
                 <div class=""> 
                     <div class="mb-3 d-flex flex-row flex-wrap justify-content-between">
                         <!--* Modelo -->
-                        <div class="formControlContainer me-3">
+                        <div class="formControlContainer me-3 flex-grow-1">
                             <label class="formControlLabel" for="modelo">Modelo</label>
                             <select 
                             class="formControl"
+                            style="width:100%"
                             id="modelo"
                             name="modelo"
                             formControlName="modelo"
@@ -47,10 +48,11 @@
                         </div>
 
                         <!--* Color -->
-                        <div class="formControlContainer me-3">
+                        <div class="formControlContainer me-3 flex-grow-1">
                             <label class="formControlLabel" for="color">Color</label>
                             <select 
                             class="formControl"
+                            style="width:100%"
                             id="color"
                             name="color"
                             formControlName="color"
@@ -64,87 +66,87 @@
                             <label class="formControlLabel" for="cantidad">Cantidad</label>
                             <input 
                             class="formControl"
-                            [size]="formDatosMueble.value.cantidad.toString().length"
-                            type="text" 
+                            type="number"
                             id="cantidad"
                             name="cantidad"
                             formControlName="cantidad"
                             >
+                            <span *ngIf="formDatosMueble.controls['cantidad'].errors && formDatosMueble.controls['cantidad'].errors['min']" class="controlAlertHint">*Debe ser mayor a cero</span>
                         </div>
                     </div>
 
-                    <div class="mb-3 d-flex flex-row flex-wrap justify-content-between" style="column-gap: 15px;">
+                    <div class="d-flex flex-row flex-wrap justify-content-between" style="column-gap: 15px;">
                         <!--* Largo -->
-                        <div class="formControlContainer flex-grow-1">
+                        <div class="formControlContainer">
                             <label class="formControlLabel" for="largo">Largo</label>
                             <input 
-                            style="width:100%"
                             class="formControl"
-                            [size]="formDatosMueble.value.largo.toString().length"
-                            type="text" 
+                            type="number" 
                             id="largo"
                             name="largo"
                             formControlName="largo"
                             >
+                            <span *ngIf="formDatosMueble.controls['largo'].errors && formDatosMueble.controls['largo'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span>
+                            
                         </div>
-
+                        
                         <!--* Alto -->
-                        <div class="formControlContainer flex-grow-1">
+                        <div class="formControlContainer">
                             <label class="formControlLabel" for="alto">Alto</label>
                             <input 
-                            style="width:100%"
                             class="formControl"
-                            [size]="formDatosMueble.value.alto.toString().length"
-                            type="text" 
+                            type="number" 
                             id="alto"
                             name="alto"
                             formControlName="alto"
                             >
+                            <span *ngIf="formDatosMueble.controls['alto'].errors && formDatosMueble.controls['alto'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span>
                         </div>
-
+                        
                         <!--* Profundidad -->
-                        <div class="formControlContainer flex-grow-1">
+                        <div class="formControlContainer">
                             <label class="formControlLabel" for="profundidad">Prof.</label>
                             <input
-                            style="width:100%"
                             class="formControl"
-                            [size]="formDatosMueble.value.profundidad.toString().length"
-                            type="text" 
+                            type="number" 
                             id="profundidad"
                             name="profundidad"
                             formControlName="profundidad"
                             >
-                        </div>                        
+                            <span *ngIf="formDatosMueble.controls['profundidad'].errors && formDatosMueble.controls['profundidad'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span>
+                        </div> 
+                        <!--* Estado -->
+                        <div class="formControlContainer flex-grow-1">
+                            <label class="formControlLabel" for="estado">Estado</label>
+                            <select 
+                            class="formControl"
+                            style="width:100%"
+                            type="text" 
+                            id="estado"
+                            name="estado"
+                            formControlName="estado"
+                            >
+                                <option *ngFor="let option of estados" value={{option.id}}>
+                                    {{option.nombre}}
+                                </option>
+                            </select>
+                            <span *ngIf="formDatosMueble.controls['estado'].errors && formDatosMueble.controls['estado'].errors['required']" class="controlAlertHint">* Debe seleccionar una opción</span>
+                        </div>                                              
                     </div>
-                                       
-                    <!--* Estado -->
-                    <div class="formControlContainer">
-                        <label class="formControlLabel" for="estado">Estado</label>
-                        <select 
-                        class="formControl"
-                        type="text" 
-                        id="estado"
-                        name="estado"
-                        formControlName="estado"
-                        >
-                            <option *ngFor="let option of estados" value={{option.id}}>
-                                {{option.nombre}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
                 
-                <div class="flex-grow-1 ms-4 me-3" >
-                    <!--* notas -->
-                    <div class="formControlContainer notas" style="height: 100%; width: 100%">
-                        <label class="formControlLabel" for="notas">Notas</label>
-                        <textarea 
-                        class="formControl"
-                        type="text" 
-                        id="notas"
-                        name="notas"
-                        formControlName="notas"
-                        >
+                </div>
+            
+            <div class="flex-grow-1 ms-4 me-3" >
+                <!--* notas -->
+                <div class="formControlContainer notas" style="height: 100%; width: 100%">
+                    <label class="formControlLabel" for="notas">Notas</label>
+                    <textarea 
+                    class="formControl"
+                    type="text" 
+                    id="notas"
+                    name="notas"
+                    formControlName="notas"
+                    >
                         </textarea>
                     </div>    
                                 

@@ -24,10 +24,11 @@
                         name="cliente"
                         formControlName="cliente"
                         >
-                        <option *ngFor="let option of listaClientes" value={{option.id}}>
-                            {{option.nombre+' '+option.apellido}}
-                        </option>
+                            <option *ngFor="let option of listaClientes" value={{option.id}}>
+                                {{option.nombre+' '+option.apellido}}
+                            </option>
                         </select>
+                        <span *ngIf="formDatosPedido.controls['cliente'].dirty && formDatosPedido.controls['cliente'].errors && formDatosPedido.controls['cliente'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>  
                     </div>  
                     <!--* fechas -->
                     <div class="my-3 d-flex flex-row justify-content-between">
@@ -95,8 +96,7 @@
 
     <div class="mueblesContainer">
         <div *ngFor="let mueble of nuevosMuebles; index as ix" attr.data-ix={{ix}} class="muebleContainer">
-            <app-carga-mueble [mueblePedidoNuevo]="mueble" (onPrecargarAlPedido)="precargarMueble($event, ix)" ></app-carga-mueble>
-            <button mat-stroked-button (click)="eliminarNuevoMueble(ix)">Eliminar</button>
+            <app-carga-mueble [mueblePedidoNuevo]="mueble" (onPrecargarAlPedido)="precargarMueble($event, ix)" (onEliminarMueblePedidoNuevo)="eliminarNuevoMueble(ix)"></app-carga-mueble>
             
         </div>
     </div>
@@ -104,6 +104,6 @@
 </div>
 
 <div mat-dialog-actions align="end" class="buttonsContainer">
-    <button mat-raised-button (click)="cargarPedido()">Cargar</button>
+    <button mat-raised-button [disabled]="formDatosPedido.invalid" (click)="cargarPedido()">Cargar</button>
     <button mat-raised-button mat-dialog-close>Cancelar</button>
 </div>

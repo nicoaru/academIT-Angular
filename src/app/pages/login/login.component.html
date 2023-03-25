@@ -8,9 +8,9 @@
             formControlName="username"
             placeholder="usuario"
 
-            [placeholder]="(loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].errors['required'] && loginFormGroup.controls['username'].dirty) ? '* usuario' : 'usuario'"
+            [placeholder]="(loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].dirty) ? '* usuario' : 'usuario'"
             [class]="{
-                'controlRequiredAlert': (loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].errors['required'] && loginFormGroup.controls['username'].dirty)                
+                'controlAlertPlaceholder': (loginFormGroup.controls['username'].errors && loginFormGroup.controls['username'].dirty)                
             }"
         >
 
@@ -20,11 +20,12 @@
             id="passwordInput" 
             formControlName="password"
 
-            [placeholder]="(loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].errors['required'] && loginFormGroup.controls['password'].dirty) ? '* contraseña' : 'contraseña'"
+            [placeholder]="(loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].dirty) ? '* contraseña' : 'contraseña'"
             [class]="{
-                'controlRequiredAlert': (loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].errors['required'] && loginFormGroup.controls['password'].dirty)                
+                'controlAlertPlaceholder': (loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].dirty)                
             }"
-        >
+            >
+            <!-- 'controlAlertPlaceholder': (loginFormGroup.controls['password'].errors && loginFormGroup.controls['password'].errors['required'] && loginFormGroup.controls['password'].dirty)                 -->
 
 
 

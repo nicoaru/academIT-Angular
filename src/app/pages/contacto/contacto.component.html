@@ -1,20 +1,41 @@
 <main>
-    <form id="formContacto">
-        <input type="text" name="nombre" id="nombreInput" placeholder="Nombre" required>
-
-        <input type="text" name="telefono" id="telefonoInput" placeholder="Teléfono" required>
-
-        <textarea type="textarea" name="textoConsulta" id="textoConsultaInput" placeholder="Escribe tu consulta..." required></textarea>
+    <form 
+    id="formContacto"
+    #formConsulta="ngForm"
+    (ngSubmit)="enviarConsulta(formConsulta)">
+        <input 
+        #nombreControl="ngModel"
+        type="text" 
+        id="nombreInput" 
+        [placeholder]="nombreControl.invalid && nombreControl.dirty ? '* Nombre' : 'Nombre'" 
+        required
+        name="nombre" 
+        [ngClass]="{'controlAlert':nombreControl.invalid && nombreControl.dirty}"
+        [(ngModel)]="consulta.nombre">
         
-        <button id="enviarButton">Enviar</button>
+        <input 
+        #telefonoControl="ngModel"
+        type="text" 
+        name="telefono" 
+        id="telefonoInput" 
+        [placeholder]="telefonoControl.invalid && telefonoControl.dirty ? '* Teléfono' : 'Teléfono'" 
+        required
+        [ngClass]="{'controlAlert':telefonoControl.invalid && telefonoControl.dirty}"
+        [(ngModel)]="consulta.telefono">
+        
+        <textarea 
+        #textoConsultaControl="ngModel"
+        type="textarea" 
+        name="textoConsulta" 
+        id="textoInput" 
+        [placeholder]="textoConsultaControl.invalid && textoConsultaControl.dirty ? '* Escribe tu consulta...' : 'Escribe tu consulta...'" 
+        required
+        [ngClass]="{'controlAlert':textoConsultaControl.invalid && textoConsultaControl.dirty}"
+        [(ngModel)]="consulta.textoConsulta">
+        </textarea>
+        
+        <button id="enviarButton" [disabled]="formConsulta.invalid">Enviar</button>
     </form>
     
-
-    <div id="modal">
-        <i id="closeModalBtn" class="fa-solid fa-circle-xmark fa-1x closeModalBtn"></i>
-        <div id="modalBody">
-            
-        </div>
-    </div>    
 </main>
 

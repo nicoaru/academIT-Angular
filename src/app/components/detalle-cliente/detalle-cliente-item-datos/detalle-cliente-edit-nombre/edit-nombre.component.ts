@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-edit-nombre',
   templateUrl: './edit-nombre.component.html',
-  styleUrls: ['./edit-nombre.component.css']
+  styleUrls: ['./edit-nombre.component.css', '../../../../styles/form-control.css']
 })
 export class EditNombreComponent {
   nombreApellido:any;

@@ -14,7 +14,7 @@ import { CargaMuebleComponent } from '../../cargar/carga-mueble/carga-mueble.com
 @Component({
   selector: 'app-detalle-pedido-item-datos',
   templateUrl: './detalle-pedido-item-datos.component.html',
-  styleUrls: ['./detalle-pedido-item-datos.component.css']
+  styleUrls: ['./detalle-pedido-item-datos.component.css', '../../../styles/form-control.css']
 })
 export class DetallePedidoItemDatosComponent {
   pedido:Pedido;
@@ -40,7 +40,7 @@ export class DetallePedidoItemDatosComponent {
   ) {
     //* creo el form
     this.formDatosPedido = this.formBuilder.group({
-      cliente:[''],
+      cliente:['', Validators.required],
       direccionEntrega: [''],
       fechaEntrada: [''],
       fechaEntrega: [''],

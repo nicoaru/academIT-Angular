@@ -14,7 +14,7 @@ import { MuebleService } from 'src/app/services/mueble.service';
 @Component({
   selector: 'app-detalle-mueble-item-datos',
   templateUrl: './detalle-mueble-item-datos.component.html',
-  styleUrls: ['./detalle-mueble-item-datos.component.css']
+  styleUrls: ['./detalle-mueble-item-datos.component.css', '../../../styles/form-control.css']
 })
 export class DetalleMuebleItemDatosComponent {
   formDatosMueble:FormGroup;  
@@ -40,12 +40,12 @@ export class DetalleMuebleItemDatosComponent {
   ) {
     //* creo el form
     this.formDatosMueble = this.formBuilder.group({
-      largo: [''],
-      alto: [''],
-      profundidad: [''],
-      cantidad: [''],
+      largo: ['', Validators.min(0)],
+      alto: ['', Validators.min(0)],
+      profundidad: ['', Validators.min(0)],
+      cantidad: ['', Validators.min(0)],
       color: [''],
-      modelo: [''],
+      modelo: ['', Validators.required],
       notas: [''],
       estado: ['']
     })

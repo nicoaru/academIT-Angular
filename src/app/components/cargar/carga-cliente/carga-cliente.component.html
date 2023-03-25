@@ -25,6 +25,7 @@
                             name="nombre"
                             formControlName="nombre"
                             >
+                            <span *ngIf="formDatosCliente.controls['nombre'].dirty && formDatosCliente.controls['nombre'].errors && formDatosCliente.controls['nombre'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>
                         </div>
 
                         <!--* Apellido -->
@@ -38,6 +39,7 @@
                             name="apellido"
                             formControlName="apellido"
                             >
+                            <span *ngIf="formDatosCliente.controls['apellido'].dirty && formDatosCliente.controls['apellido'].errors && formDatosCliente.controls['apellido'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>
                         </div>
                     
                         <!--* Tipo cliente -->
@@ -67,7 +69,8 @@
                             id="telefono"
                             name="telefono"
                             formControlName="telefono"
-                            >
+                            >                            
+                            <span *ngIf="formDatosCliente.controls['telefono'].dirty && formDatosCliente.controls['telefono'].errors && formDatosCliente.controls['telefono'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>                        
                         </div>
 
                         <!--* Email -->
@@ -75,12 +78,12 @@
                             <label class="formControlLabel" for="email">Email</label>
                             <input 
                             class="formControl"
-
                             type="text" 
                             id="email"
                             name="email"
                             formControlName="email"
                             >
+                            <span *ngIf="formDatosCliente.controls['email'].dirty && formDatosCliente.controls['email'].errors && formDatosCliente.controls['email'].errors['email']" class="controlAlertHint">* Formato inválido</span>
                         </div>                    
                     </div>
                 </div>
@@ -109,7 +112,7 @@
 </div>
 
 <div mat-dialog-actions align="end" class="buttonsContainer">
-    <button mat-raised-button (click)="cargarCliente()">Cargar</button>
+    <button mat-raised-button [disabled]="formDatosCliente.invalid" (click)="cargarCliente()">Cargar</button>
     <button mat-raised-button mat-dialog-close>Cancelar</button>
 </div>
 

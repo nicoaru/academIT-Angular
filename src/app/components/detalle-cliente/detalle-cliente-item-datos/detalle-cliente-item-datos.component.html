@@ -7,7 +7,7 @@
     id="accordion-header-1"
     [attr.aria-expanded]="accordionDatosCliente.expanded"
     aria-controls="accordion-body-1"
-    expanded="false"
+    expanded="true"
 >
 
     <!--* Accordion header -->
@@ -38,12 +38,15 @@
                             <label class="formControlLabel" for="nombreCompleto">Nombre</label>
                             <input
                             class="formControl nombreCompleto"
+                            style="width:100%"
                             (click)="showModalEditNombre()"
                             [disabled]="formDatosCliente.disabled"
-                            [value]="formDatosCliente.controls['nombre'].value+' '+formDatosCliente.controls['apellido'].value"
+                            readonly
+                            [value]="formDatosCliente.value.nombre+' '+formDatosCliente.value.apellido"
                             id="nombreCompleto"
                             name="nombreCompleto"
                             >
+                            <span *ngIf="(formDatosCliente.controls['nombre'].errors && formDatosCliente.controls['nombre'].errors['required']) || (formDatosCliente.controls['apellido'].errors && formDatosCliente.controls['apellido'].errors['required'])" class="controlAlertHint">* Nombre y apellido son obligatorios</span>
                         </div>
                      
                         <!--* Tipo cliente -->
@@ -74,6 +77,7 @@
                             name="telefono"
                             formControlName="telefono"
                             >
+                            <span *ngIf="formDatosCliente.controls['telefono'].errors && formDatosCliente.controls['telefono'].errors['required']" class="controlAlertHint">* Debe completar este campo</span>
                         </div>
 
                         <!--* Email -->
@@ -87,6 +91,7 @@
                             name="email"
                             formControlName="email"
                             >
+                            <span *ngIf="formDatosCliente.controls['email'].errors && formDatosCliente.controls['email'].errors['email']" class="controlAlertHint">* Debe ser un email válido</span>
                         </div>                    
                     </div>
                 </div>

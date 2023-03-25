@@ -15,11 +15,11 @@ import { EditNombreComponent } from '../../detalle-cliente/detalle-cliente-item-
 @Component({
   selector: 'app-carga-mueble',
   templateUrl: './carga-mueble.component.html',
-  styleUrls: ['./carga-mueble.component.css']
+  styleUrls: ['./carga-mueble.component.css', '../../../styles/form-control.css']
 })
 export class CargaMuebleComponent {
   @Output() onPrecargarAlPedido = new EventEmitter<Mueble>();
-  // @Output() onEliminarMueble = new EventEmitter<Mueble>();
+  @Output() onEliminarMueblePedidoNuevo = new EventEmitter<null>();
   @Input() mueblePedidoNuevo:Mueble;
   disabled:boolean = false;
   pedido:Pedido;
@@ -47,12 +47,12 @@ export class CargaMuebleComponent {
   ) {
     //* creo el form
     this.formDatosMueble = this.formBuilder.group({
-      largo: [''],
-      alto: [''],
-      profundidad: [''],
-      cantidad: [''],
+      largo: ['', Validators.min(0)],
+      alto: ['', Validators.min(0)],
+      profundidad: ['', Validators.min(0)],
+      cantidad: ['', Validators.min(0)],
       color: [''],
-      modelo: [''],
+      modelo: ['', Validators.required],
       notas: [''],
       estado: ['']
     });
@@ -92,8 +92,8 @@ export class CargaMuebleComponent {
       .subscribe({
           next: (data:Mueble) => {
             console.log("Actualizado OK: ", data);
-            let message = `Mueble del pedido N° ${this.pedido?.id} correspondiente al cliente ${this.pedido?.cliente?.nombre} ${this.pedido?.cliente?.apellido} creado con éxito`;
-            // this.matDialog.open(AlertModalComponent, { data: {message}});
+            let message = `Mueble cargado con éxito`;
+            this.matDialog.open(AlertModalComponent, { data: {message}});
             this.dialogRef.close(true);
 
           },
@@ -138,9 +138,9 @@ export class CargaMuebleComponent {
     this.onPrecargarAlPedido.emit(nuevoMueble);
   }
 
-  // eliminarMuebleDelNuevoPedido():void {
-  //   this.onEliminarMueble.emit(null)
-  // }
+  eliminarMueblePedidoNuevo():void {
+    this.onEliminarMueblePedidoNuevo.emit()
+  }
 
   getColores():void {
     this.coloresAPI.getAll()
@@ -201,7 +201,7 @@ export class CargaMuebleComponent {
 
   ngOnInit(): void {
     console.log("mueblePedidoNuevo: \n", this.mueblePedidoNuevo)
-    if(this.mueblePedidoNuevo) this.initializeForm();
+    if(this.mueblePedidoNuevo) this.initializeForm(); //esto lo hago porque cda vez que se actualiza el array de muebles en cargaPedido se renderiza de nuevo este componenete
     this.mueblePedidoNuevo && !this.esMuebleNuevo(this.mueblePedidoNuevo)
       ? (this.formDatosMueble.disable(), this.disabled = true)
       : null

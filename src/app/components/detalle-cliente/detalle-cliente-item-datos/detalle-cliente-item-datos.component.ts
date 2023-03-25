@@ -12,7 +12,7 @@ import { CargaPedidoComponent } from '../../cargar/carga-pedido/carga-pedido.com
 @Component({
   selector: 'app-detalle-cliente-item-datos',
   templateUrl: './detalle-cliente-item-datos.component.html',
-  styleUrls: ['./detalle-cliente-item-datos.component.css']
+  styleUrls: ['./detalle-cliente-item-datos.component.css', '../../../styles/form-control.css']
 })
 export class DetalleClienteItemDatosComponent implements OnInit {
   cliente:Cliente
@@ -38,7 +38,7 @@ export class DetalleClienteItemDatosComponent implements OnInit {
     this.formDatosCliente = this.formBuilder.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      telefono: [''],
+      telefono: ['', Validators.required],
       email: ['', Validators.email],
       tipoCliente: [''],
       notas: ['']
@@ -46,7 +46,7 @@ export class DetalleClienteItemDatosComponent implements OnInit {
     //* set disable
     this.formDatosCliente.disable();
 
-    //this.formDatosCliente.controls['email'].errors && this.formDatosCliente.controls['email'].errors['email'] // creo que esto lo puedo sacar
+
   }
 
 

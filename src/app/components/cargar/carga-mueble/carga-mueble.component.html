@@ -18,7 +18,6 @@
                         <div class="formControlContainer me-3">
                             <label class="formControlLabel" for="modelo">Modelo</label>
                             <select 
-                            
                             class="formControl"
                             id="modelo"
                             name="modelo"
@@ -26,13 +25,13 @@
                             >
                                 <option *ngFor="let modelo of modelos" value={{modelo.id}}>{{modelo.nombre}}</option>
                             </select>
+                            <span *ngIf="formDatosMueble.controls['modelo'].dirty && formDatosMueble.controls['modelo'].errors && formDatosMueble.controls['modelo'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>  
                         </div>
 
                         <!--* Color -->
                         <div class="formControlContainer me-3">
                             <label class="formControlLabel" for="color">Color</label>
                             <select 
-                            
                             class="formControl"
                             id="color"
                             name="color"
@@ -46,13 +45,13 @@
                         <div class="formControlContainer">
                             <label class="formControlLabel" for="cantidad">Cantidad</label>
                             <input 
-                            
                             class="formControl"
-                            type="text" 
+                            type="number" 
                             id="cantidad"
                             name="cantidad"
                             formControlName="cantidad"
                             >
+                            <span *ngIf="formDatosMueble.controls['cantidad'].dirty && formDatosMueble.controls['cantidad'].errors && formDatosMueble.controls['cantidad'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span> 
                         </div>
                     </div>
 
@@ -64,41 +63,40 @@
                             
                             style="width:100%"
                             class="formControl"
-                            type="text" 
+                            type="number" 
                             id="largo"
                             name="largo"
                             formControlName="largo"
                             >
+                            <span *ngIf="formDatosMueble.controls['largo'].dirty && formDatosMueble.controls['largo'].errors && formDatosMueble.controls['largo'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span> 
                         </div>
 
                         <!--* Alto -->
                         <div class="formControlContainer flex-grow-1">
                             <label class="formControlLabel" for="alto">Alto</label>
                             <input 
-                            
                             style="width:100%"
                             class="formControl"
-
-                            type="text" 
+                            type="number" 
                             id="alto"
                             name="alto"
                             formControlName="alto"
                             >
+                            <span *ngIf="formDatosMueble.controls['alto'].dirty && formDatosMueble.controls['alto'].errors && formDatosMueble.controls['alto'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span> 
                         </div>
 
                         <!--* Profundidad -->
                         <div class="formControlContainer flex-grow-1">
                             <label class="formControlLabel" for="profundidad">Prof.</label>
                             <input
-                            
                             style="width:100%"
                             class="formControl"
-
-                            type="text" 
+                            type="number" 
                             id="profundidad"
                             name="profundidad"
                             formControlName="profundidad"
                             >
+                            <span *ngIf="formDatosMueble.controls['profundidad'].dirty && formDatosMueble.controls['profundidad'].errors && formDatosMueble.controls['profundidad'].errors['min']" class="controlAlertHint">* Debe ser mayor a cero</span> 
                         </div>                        
                     </div>
                                        
@@ -147,10 +145,16 @@
 </div>
 
 <div mat-dialog-actions align="end" class="buttonsContainer">
-    <button *ngIf="pedido" mat-raised-button (click)="cargarMueble()">Cargar</button>
-    <button *ngIf="pedido" mat-raised-button mat-dialog-close>Cancelar</button>
-
-    <button *ngIf="!pedido && !disabled" mat-raised-button (click)="precargarAlPedido()">Guardar cambios</button>
-    <button *ngIf="!pedido && disabled" mat-raised-button (click)="toggleEdit()">Modificar mueble</button>
+    
+    <div *ngIf="pedido">
+        <button mat-raised-button [disabled]="formDatosMueble.invalid" (click)="cargarMueble()">Cargar</button>
+        <button mat-raised-button mat-dialog-close>Cancelar</button>
+    </div>
+    
+    <div *ngIf="!pedido">
+        <button mat-raised-button (click)="eliminarMueblePedidoNuevo()" class="me-3">Eliminar mueble</button>
+        <button *ngIf="!disabled" mat-raised-button [disabled]="formDatosMueble.invalid" (click)="precargarAlPedido()">Cargar mueble</button>
+        <button *ngIf="disabled" mat-raised-button (click)="toggleEdit()">Modificar mueble</button>
+    </div>
 
 </div>

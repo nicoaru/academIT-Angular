@@ -9,10 +9,9 @@
 }
 
 
-/* .acordionDetalleCliente-subItemPedidos-header, */
-/* .acordionDetalleCliente-subItemPedidos-body {
+.acordionDetalleCliente-subItemPedidos-body {
     padding: 16px;
-} */
+}
 
 .acordionDetalleCliente-subItemPedidos-header {
     cursor: pointer;

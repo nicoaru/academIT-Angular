@@ -1,29 +1,35 @@
-<div mat-dialog-content class="detalleClienteContainer">
+<form #formEditNombre="ngForm" mat-dialog-content class="detalleClienteContainer">
     <!--* Nombre -->
     <div class="formControlContainer">
         <label class="formControlLabel" for="nombre">Nombre</label>
-        <input 
+        <input
+        #nombreControl="ngModel"
         class="formControl"
         type="text" 
         id="nombre"
         name="nombre"
+        required
         [(ngModel)]="nombreApellido.nombre"
         >
+        <span *ngIf="nombreControl.invalid && nombreControl.dirty" class="controlAlertHint">* Debe completar este campo</span>
     </div>
     <!--* Apellido -->
     <div class="formControlContainer mt-3">
         <label class="formControlLabel" for="apellido">Apellido</label>
         <input 
+        #apellidoControl="ngModel"
         class="formControl"
         type="text" 
         id="apellido"
         name="apellido"
+        required
         [(ngModel)]="nombreApellido.apellido"
         >
+        <span *ngIf="apellidoControl.invalid && apellidoControl.dirty" class="controlAlertHint">* Debe completar este campo</span>
     </div>    
-</div>
+</form>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="confirmChanges()">Ok</button>
+    <button mat-raised-button (click)="confirmChanges()" disabled={{formEditNombre.invalid}}>Ok</button>
     <button mat-raised-button (click)="discardChanges()">Canclear</button>
 </div>
 
