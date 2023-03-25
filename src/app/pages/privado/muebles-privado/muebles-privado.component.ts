@@ -115,7 +115,7 @@ export class MueblesPrivadoComponent {
     
     this.dialogDetalleRef = this.dialog.open(DetalleMuebleModalComponent, {
       width: '80%',
-      maxHeight: '80%',
+      height: '90%',
       enterAnimationDuration:'500ms',
       exitAnimationDuration:'500ms',
       autoFocus: false
@@ -231,28 +231,3 @@ export class MueblesPrivadoComponent {
   
 
 }
-
-
-/*
-getMuebles():void {
-  this.loading = true;  
-  this.mueblesAPI.getAll()
-  .subscribe({
-          next: (data:Mueble[]) => {
-            console.log("data getMuebles: \n", data);
-            this.muebleService.setMuebles(data)
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log("err \n", err)
-            err.status === 0
-              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-              : err.status === 401
-                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
-
-              this.loading = false;
-          }        
-        })
-  }
-*/

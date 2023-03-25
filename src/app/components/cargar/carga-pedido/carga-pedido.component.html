@@ -14,7 +14,7 @@
             <div class="d-flex flex-row justify-content-between">
                 <div class="d-flex flex-column"> 
                     <!--* cliente -->
-                    <div *ngIf="!cliente"  class="formControlContainer" style="width: 100%">
+                    <div *ngIf="!cliente"  class="formControlContainer mb-3" style="width: 100%">
                         <label class="formControlLabel" for="cliente">Cliente</label>
                         <select 
                         style="width: 100%"
@@ -31,7 +31,7 @@
                         <span *ngIf="formDatosPedido.controls['cliente'].dirty && formDatosPedido.controls['cliente'].errors && formDatosPedido.controls['cliente'].errors['required']" class="controlAlertHint">* Campo obligatorio</span>  
                     </div>  
                     <!--* fechas -->
-                    <div class="my-3 d-flex flex-row justify-content-between">
+                    <div class="mb-3 d-flex flex-row justify-content-between">
                         <!--* fechaEntrada -->
                         <div class="formControlContainer">
                             <label class="formControlLabel" for="fechaEntrada">Fecha Entrada</label>

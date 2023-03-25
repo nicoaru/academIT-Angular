@@ -131,6 +131,11 @@ export class DetalleClienteItemDatosComponent implements OnInit {
 
   cargarPedido():void {
     let cargaPedidoModalRef = this.matDialog.open(CargaPedidoComponent, {
+      width: '80%',
+      height: '90%',
+      enterAnimationDuration:'500ms',
+      exitAnimationDuration:'500ms',
+      autoFocus: false,
       data: this.cliente
     })
     cargaPedidoModalRef.beforeClosed().subscribe(seCreoMueble => {

@@ -7,7 +7,7 @@
     </div>
 
     <!-- Spinner -->
-    <app-spinner *ngIf="loading && muebles?.length===0" size="50px"></app-spinner>
+    <app-spinner *ngIf="loading && muebles?.length===0"></app-spinner>
     <!-- Mensage de error -->
     <div *ngIf="!loading && muebles?.length===0" class="errorMessage">
         <h1>{{errorMessage}}</h1>

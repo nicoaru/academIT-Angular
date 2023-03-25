@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-spinner',
@@ -6,18 +6,16 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
   styleUrls: ['./spinner.component.css']
 })
 export class SpinnerComponent implements OnInit{
-@Input() size:string = '30px';
-@Input() colorClassBS:string = null;
+  @Input() size:string = '80px';
+  @Input() color:string = '#3498db'
+  @Input() classes:string = null;
 
-sizeStyle:string;
+  style:string;
 
-constructor() {}
+  constructor() {}
 
-ngOnInit(): void {
-  this.sizeStyle = `width: ${this.size}; height: ${this.size}`;  
-}
-
-onChanges
-
+  ngOnInit(): void {
+    this.style = `width: ${this.size}; height: ${this.size}; border-top-color: ${this.color}, border-rigth-color: ${this.color}, border-bottom-color: ${this.color}`;  
+  }
 
 }

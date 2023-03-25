@@ -123,6 +123,11 @@ export class DetallePedidoItemDatosComponent {
 
   cargarMueble():void {
     let cargaMuebleModalRef = this.matDialog.open(CargaMuebleComponent, {
+      width: '80%',
+      height: '60%',
+      enterAnimationDuration:'500ms',
+      exitAnimationDuration:'500ms',
+      autoFocus: false,
       data: {pedido: this.pedido}
     })
     cargaMuebleModalRef.beforeClosed().subscribe(seCreoMueble => {

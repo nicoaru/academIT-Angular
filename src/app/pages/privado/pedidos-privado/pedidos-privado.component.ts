@@ -83,7 +83,7 @@ export class PedidosPrivadoComponent {
 
     this.dialogDetalleRef = this.dialog.open(DetallePedidoModalComponent, {
       width: '80%',
-      maxHeight: '80%',
+      height: '90%',
       enterAnimationDuration: '500ms',
       exitAnimationDuration: '500ms',
       autoFocus: false,
@@ -117,7 +117,7 @@ export class PedidosPrivadoComponent {
   cargarNuevo():void {
     let dialogCargarClienteRef = this.dialog.open(CargaPedidoComponent, {
       width: '80%',
-      maxHeight: '80vh',
+      height: '90%',
       enterAnimationDuration:'500ms',
       exitAnimationDuration:'500ms',
       autoFocus: false
@@ -191,30 +191,4 @@ export class PedidosPrivadoComponent {
     this.subscriptionPedidos$.unsubscribe();
   }
 
-
 }
-
-
-/*
-  // getPedidos():void {
-  //     this.loading = true;  
-  //     this.pedidosAPI.getAll()
-  //       .subscribe({
-  //         next: (data:Pedido[]) => {
-  //           console.log("data getPedidos: \n", data);
-  //           this.pedidoService.setPedidos(data)
-  //           this.loading = false;
-  //         },
-  //         error: (err) => {
-  //           console.log("err \n", err)
-  //           err.status === 0
-  //             ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-  //             : err.status === 401
-  //               ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-  //               : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
-
-  //             this.loading = false;
-  //         }        
-  //       })
-  // }
-  */

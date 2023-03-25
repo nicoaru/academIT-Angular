@@ -74,7 +74,7 @@ export class ClientesPrivadoComponent implements OnInit {
 
     this.dialogDetalleRef = this.dialog.open(DetalleClienteModalComponent, {
       width: '80%',
-      maxHeight: '80%',
+      height: '90%',
       enterAnimationDuration:'500ms',
       exitAnimationDuration:'500ms',
       autoFocus: false
