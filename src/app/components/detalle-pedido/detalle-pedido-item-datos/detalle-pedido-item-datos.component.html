@@ -109,10 +109,10 @@
 
             </div>
             <div class="buttonsContainer">
-                <button (click)="toggleEdit()" *ngIf="formDatosPedido.disabled" mat-raised-button>Editar</button>
-                <button *ngIf="formDatosPedido.enabled" [disabled]="formDatosPedido.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
-                <button *ngIf="formDatosPedido.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
-                <button *ngIf="formDatosPedido.disabled" (click)="cargarMueble()" mat-raised-button class="ms-3">Cargar mueble</button>
+                <button (click)="toggleEdit()" *ngIf="formDatosPedido.disabled" type="button" class="btn btn-outline-secondary">Editar</button>
+                <button *ngIf="formDatosPedido.enabled" [disabled]="formDatosPedido.invalid" (click)="saveChanges()" type="button" class="btn btn-outline-secondary">Guardar</button>
+                <button *ngIf="formDatosPedido.enabled" (click)="cancelChanges()" type="button" class="btn btn-outline-secondary ms-3">Cancelar</button>
+                <button *ngIf="formDatosPedido.disabled" (click)="cargarMueble()" type="button" class="btn btn-outline-secondary ms-3">Cargar mueble</button>
             </div>
         </form> 
     </div>

@@ -140,9 +140,11 @@ export class DetalleClienteItemDatosComponent implements OnInit {
       data: this.cliente
     })
     cargaPedidoModalRef.beforeClosed().subscribe(seCreoMueble => {
-      if(seCreoMueble) this.refreshClientes()
-      let message = `Pedido cargado con éxito`;
-      this.matDialog.open(AlertModalComponent, { data: {message}});
+      if(seCreoMueble) {
+        this.refreshClientes()
+        let message = `Pedido cargado con éxito`;
+        this.matDialog.open(AlertModalComponent, { data: {message}});
+      }
     })
 
   }

@@ -91,7 +91,7 @@
             </div>
 
         </form> 
-        <button mat-raised-button (click)="crearNuevoMueble()" class="btnAgregarMueble">Agregar mueble</button>
+        <button type="button" class="btn btn-outline-secondary btnAgregarMueble" (click)="crearNuevoMueble()">Agregar mueble</button>
     </div>
 
     <div class="mueblesContainer">
@@ -104,6 +104,6 @@
 </div>
 
 <div mat-dialog-actions align="end" class="buttonsContainer">
-    <button mat-raised-button [disabled]="formDatosPedido.invalid" (click)="cargarPedido()">Cargar</button>
-    <button mat-raised-button mat-dialog-close>Cancelar</button>
+    <button type="button" class="btn btn-outline-secondary me-3" [disabled]="formDatosPedido.invalid" (click)="cargarPedido()">Cargar</button>
+    <button type="button" class="btn btn-outline-secondary" mat-dialog-close>Cancelar</button>
 </div>

@@ -111,8 +111,8 @@
 </div>
 
 <div mat-dialog-actions align="end" class="buttonsContainer">
-    <button mat-raised-button [disabled]="formDatosCliente.invalid" (click)="cargarCliente()">Cargar</button>
-    <button mat-raised-button mat-dialog-close>Cancelar</button>
+    <button type="button" class="btn btn-outline-secondary me-3" [disabled]="formDatosCliente.invalid" (click)="cargarCliente()">Cargar</button>
+    <button type="button" class="btn btn-outline-secondary" mat-dialog-close>Cancelar</button>
 </div>
 
 

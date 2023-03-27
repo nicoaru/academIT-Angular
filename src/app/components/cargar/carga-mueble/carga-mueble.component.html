@@ -144,14 +144,17 @@
 <div mat-dialog-actions align="end" class="buttonsContainer">
     
     <div *ngIf="pedido">
-        <button mat-raised-button [disabled]="formDatosMueble.invalid" (click)="cargarMueble()">Cargar</button>
-        <button mat-raised-button mat-dialog-close>Cancelar</button>
+        <button type="button" class="btn btn-outline-secondary me-3" [disabled]="formDatosMueble.invalid" (click)="cargarMueble()">Cargar</button>
+
+        <button type="button" class="btn btn-outline-secondary" mat-dialog-close>Cancelar</button>
     </div>
     
     <div *ngIf="!pedido">
-        <button mat-raised-button (click)="eliminarMueblePedidoNuevo()" class="me-3">Eliminar mueble</button>
-        <button *ngIf="!disabled" mat-raised-button [disabled]="formDatosMueble.invalid" (click)="precargarAlPedido()">Cargar mueble</button>
-        <button *ngIf="disabled" mat-raised-button (click)="toggleEdit()">Modificar mueble</button>
+        <button type="button" class="btn btn-outline-secondary me-3" (click)="eliminarMueblePedidoNuevo()">Eliminar mueble</button>
+
+        <button *ngIf="!disabled" type="button" class="btn btn-outline-secondary" [disabled]="formDatosMueble.invalid" (click)="precargarAlPedido()">Cargar mueble</button>
+
+        <button *ngIf="disabled" type="button" class="btn btn-outline-secondary" (click)="toggleEdit()">Modificar mueble</button>
     </div>
 
 </div>

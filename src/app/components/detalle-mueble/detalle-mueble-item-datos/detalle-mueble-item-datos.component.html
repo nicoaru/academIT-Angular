@@ -158,9 +158,9 @@
 
             </div>
             <div class="buttonsContainer">
-                <button (click)="toggleEdit()" *ngIf="formDatosMueble.disabled" mat-raised-button>Editar</button>
-                <button *ngIf="formDatosMueble.enabled" [disabled]="formDatosMueble.invalid" (click)="saveChanges()" mat-raised-button>Guardar</button>
-                <button *ngIf="formDatosMueble.enabled" (click)="cancelChanges()" mat-raised-button class="ms-3">Cancelar</button>
+                <button (click)="toggleEdit()" *ngIf="formDatosMueble.disabled" type="button" class="btn btn-outline-secondary">Editar</button>
+                <button *ngIf="formDatosMueble.enabled" [disabled]="formDatosMueble.invalid" (click)="saveChanges()" type="button" class="btn btn-outline-secondary">Guardar</button>
+                <button *ngIf="formDatosMueble.enabled" (click)="cancelChanges()" type="button" class="btn btn-outline-secondary ms-3">Cancelar</button>
             </div>
         </form> 
     </div>

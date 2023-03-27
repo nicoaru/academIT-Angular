@@ -11,7 +11,6 @@ export class AlertModalComponent  {
   message:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) data:any) {
-    console.log("Data: ", data)
     this.message = data.message;
   }
 

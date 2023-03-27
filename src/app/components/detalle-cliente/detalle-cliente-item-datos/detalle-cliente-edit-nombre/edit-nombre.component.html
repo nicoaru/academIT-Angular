@@ -29,7 +29,7 @@
     </div>    
 </form>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="confirmChanges()" disabled={{formEditNombre.invalid}}>Ok</button>
-    <button mat-raised-button (click)="discardChanges()">Canclear</button>
+    <button type="button" class="btn btn-outline-secondary me-3" (click)="confirmChanges()" [disabled]="formEditNombre.invalid">Ok</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="discardChanges()">Canclear</button>
 </div>
 

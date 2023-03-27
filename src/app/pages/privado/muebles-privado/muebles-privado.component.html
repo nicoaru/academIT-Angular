@@ -11,7 +11,7 @@
     <!-- Mensage de error -->
     <div *ngIf="!loading && muebles?.length===0" class="errorMessage">
         <h1>{{errorMessage}}</h1>
-        <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+        <button type="button" class="btn btn-outline-secondary"(click)="ngOnInit()">Reintentar</button>
     </div>
 
 </div>

@@ -114,7 +114,7 @@
 
         <app-detalle-mueble-pedido-subitem *ngIf="otrosMueblesDelPedido" [muebles]="otrosMueblesDelPedido"></app-detalle-mueble-pedido-subitem>
 
-        <button *ngIf="pedidoMostrar" [routerLink]="'privado/pedidos/'+pedidoMostrar.id" mat-raised-button class="mt-2 mb-2" (click)="closeModal()">Ver pedido completo</button>   
+        <button *ngIf="pedidoMostrar" [routerLink]="'privado/pedidos/'+pedidoMostrar.id" type="button" class="btn btn-outline-secondary mt-2 mb-2" (click)="closeModal()">Ver pedido completo</button>   
 
     </div>
 

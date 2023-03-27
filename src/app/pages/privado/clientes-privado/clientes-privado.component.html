@@ -2,7 +2,7 @@
 
     <div class="title">
         <h4>Clientes</h4>
-        <button mat-stroked-button (click)="cargarNuevo()">Cargar nuevo</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="cargarNuevo()">Cargar nuevo</button>
     </div>
 
     <div class="tableContainer" *ngIf="!loading && clientes?.length>0">
@@ -14,7 +14,7 @@
     <!-- Mensage de error -->
     <div *ngIf="!loading && clientes?.length===0" class="errorMessage">
         <h1>{{errorMessage}}</h1>
-        <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="ngOnInit()">Reintentar</button>
     </div>
 
 </div>

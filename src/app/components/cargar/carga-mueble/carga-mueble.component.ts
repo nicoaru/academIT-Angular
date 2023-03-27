@@ -92,7 +92,6 @@ export class CargaMuebleComponent {
       .subscribe({
           next: (data:Mueble) => {
             console.log("Actualizado OK: ", data);
-            let message = `Mueble cargado con éxito`;
             // this.matDialog.open(AlertModalComponent, { data: {message}});
             this.dialogRef.close(true);
 

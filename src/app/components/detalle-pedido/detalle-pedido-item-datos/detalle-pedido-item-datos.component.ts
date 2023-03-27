@@ -129,9 +129,12 @@ export class DetallePedidoItemDatosComponent implements OnInit, OnDestroy {
       data: {pedido: this.pedido}
     })
     cargaMuebleModalRef.beforeClosed().subscribe(seCreoMueble => {
-      if(seCreoMueble) this.refreshPedidos()
-      let message = `Mueble cargado con éxito`;
-      this.matDialog.open(AlertModalComponent, { data: {message}});
+      console.log("se creo mueble: ", seCreoMueble)
+      if(seCreoMueble) {
+        this.refreshPedidos();
+        let message = `Mueble cargado con éxito`;
+        this.matDialog.open(AlertModalComponent, { data: {message}});
+      }
     })
 
   }

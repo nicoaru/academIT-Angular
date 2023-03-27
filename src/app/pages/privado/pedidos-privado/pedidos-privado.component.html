@@ -2,7 +2,7 @@
 
     <div class="title">
         <h4>Pedidos</h4>
-        <button mat-stroked-button (click)="cargarNuevo()">Cargar nuevo</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="cargarNuevo()">Cargar nuevo</button>
     </div>
     <div class="tableContainer" *ngIf="!loading && pedidos?.length>0">
         <app-tabla-info [columns]="columns" [data]="pedidos" class="mat-elevation-z2" (onViewDetails)="showDetails($event)" (onDeleteElement)="deletePedido($event)"></app-tabla-info>    
@@ -14,7 +14,7 @@
     <!-- Mensage de error -->
     <div *ngIf="!loading && pedidos?.length===0">
         <h1>{{errorMessage}}</h1>
-        <button mat-raised-button (click)="ngOnInit()">Reintentar</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="ngOnInit()">Reintentar</button>
     </div>
 
 
