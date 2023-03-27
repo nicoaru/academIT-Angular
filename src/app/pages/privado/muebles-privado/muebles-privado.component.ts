@@ -167,7 +167,6 @@ export class MueblesPrivadoComponent {
     }
     catch(err) {
       console.log("Error en getColores:\n", err)
-      this.errorMessage = err.message;
     }
     console.log("terminó get");
   }
@@ -179,7 +178,6 @@ export class MueblesPrivadoComponent {
     }
     catch(err) {
       console.log("Error en getModelos:\n", err)
-      this.errorMessage = err.message;
     }       
     console.log("terminó get");
   }
@@ -191,7 +189,6 @@ export class MueblesPrivadoComponent {
     }
     catch(err) {
       console.log("Error en getEstados:\n", err)
-      this.errorMessage = err.message;
     }       
     console.log("terminó get");
   }
@@ -206,7 +203,9 @@ export class MueblesPrivadoComponent {
     this.subscriptionMuebles$ = this.muebleService.muebles$
     .subscribe(data => {
       // Cada vez que el observable emita un valor, se ejecutará este código
-      this.muebles = [...data]
+      Array.isArray(data)
+        ? this.muebles = [...data]
+        : this.muebles = data;
       // console.log("Muebles del observable ese en MueblePrivado: ",data);
     });
   
@@ -233,44 +232,3 @@ export class MueblesPrivadoComponent {
   
 
 }
-
-
-/*
-  getColores():void {
-    this.coloresAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("data colores: \n", data);
-        this.muebleService.setColores(data);
-      },
-    error: (err) => {
-      console.log("err trayendo los colores \n", err)
-    }})        
-  }
-  
-  getModelos():void {
-    this.modelosAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("data modelos: \n", data);
-        this.muebleService.setModelos(data);
-      },
-      error: (err) => {
-        console.log("err trayendo los modelos \n", err)
-
-      }})        
-  }
-    
-  getEstados():void {
-    this.estadosAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("data estados: \n", data);
-        this.muebleService.setEstados(data);
-      },
-      error: (err) => {
-        console.log("err trayendo los estados \n", err)
-
-      }})        
-  }
-*/

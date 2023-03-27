@@ -13,7 +13,7 @@ export class PedidoService {
   private _modalRef:MatDialogRef<DetallePedidoModalComponent>
 
   private _pedidos:Pedido[];
-  private pedidos = new BehaviorSubject<Pedido[]>([]);
+  private pedidos = new BehaviorSubject<Pedido[]>(null);
   public pedidos$ = this.pedidos.asObservable();
 
   private _pedidoParaDetalle:Pedido;
@@ -75,7 +75,7 @@ export class PedidoService {
               ? errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
               : err.status === 401
                 ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Pedidos"
+                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos"
             reject({ok: false, error: err, message: errorMessage})
           }        
         })

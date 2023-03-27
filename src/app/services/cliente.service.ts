@@ -13,7 +13,7 @@ export class ClienteService {
   private _modalRef:MatDialogRef<DetalleClienteModalComponent>
 
   private _clientes:Cliente[];
-  private clientes = new BehaviorSubject<Cliente[]>([]);
+  private clientes = new BehaviorSubject<Cliente[]>(null);
   public clientes$ = this.clientes.asObservable();
 
   private _clienteParaDetalle:Cliente;

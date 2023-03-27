@@ -142,7 +142,6 @@ export class PedidosPrivadoComponent {
     catch(err) {
       console.log("Error en getPedidoss:\n", err)
       this.errorMessage = err.message;
-
     } 
     finally{ this.loading = false; }  
   }
@@ -153,9 +152,7 @@ export class PedidosPrivadoComponent {
       console.log("resultado getListaClientes: ", result)
     }
     catch(err) {
-      console.log("Error en getListaClientes:\n", err)
-      this.errorMessage = err.message;
-      
+      console.log("Error en getListaClientes:\n", err)     
     }      
   }
 
@@ -168,7 +165,9 @@ export class PedidosPrivadoComponent {
     this.subscriptionPedidos$ = this.pedidoService.pedidos$
       .subscribe(data => {
         // Cada vez que el observable emita un valor, se ejecutará este código
-        this.pedidos = [...data]
+        Array.isArray(data)
+        ? this.pedidos = [...data]
+        : this.pedidos = data;
         console.log("Clientes del observable ese en PedidoPrivado: ",data);
       });
 

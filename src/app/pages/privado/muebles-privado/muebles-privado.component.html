@@ -2,14 +2,14 @@
 
     <h4>Muebles</h4>
    
-    <div class="tableContainer" *ngIf="!loading && muebles?.length>0">
+    <div class="tableContainer" *ngIf="!loading && muebles">
         <app-tabla-info [columns]="columns" [data]="muebles" class="mat-elevation-z2" (onViewDetails)="showDetails($event)" (onDeleteElement)="deleteMueble($event)"></app-tabla-info>    
     </div>
 
     <!-- Spinner -->
-    <app-spinner *ngIf="loading && muebles?.length===0"></app-spinner>
+    <app-spinner *ngIf="loading && !muebles"></app-spinner>
     <!-- Mensage de error -->
-    <div *ngIf="!loading && muebles?.length===0" class="errorMessage">
+    <div *ngIf="!loading && !muebles" class="errorMessage">
         <h1>{{errorMessage}}</h1>
         <button type="button" class="btn btn-outline-secondary"(click)="ngOnInit()">Reintentar</button>
     </div>

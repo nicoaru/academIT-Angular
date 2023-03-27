@@ -15,7 +15,7 @@ export class MuebleService {
   private _modalRef:MatDialogRef<DetalleMuebleModalComponent>
 
   private _muebles:Mueble[];
-  private muebles = new BehaviorSubject<Mueble[]>([]);
+  private muebles = new BehaviorSubject<Mueble[]>(null);
   public muebles$ = this.muebles.asObservable();
 
   private _muebleParaDetalle:Mueble;

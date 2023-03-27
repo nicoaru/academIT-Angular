@@ -158,7 +158,9 @@ export class ClientesPrivadoComponent implements OnInit {
     this.subscriptionClientes$ = this.clienteService.clientes$
       .subscribe(data => {
         // Cada vez que el observable emita un valor, se ejecutará este código
-        this.clientes = [...data]
+        Array.isArray(data)
+        ? this.clientes = [...data]
+        : this.clientes = data;
         console.log("Clientes del observable ese en ClientePrivado: ",data);
       });
 
