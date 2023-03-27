@@ -38,7 +38,7 @@
                             <label class="formControlLabel" for="nombreCompleto">Nombre</label>
                             <input
                             class="formControl nombreCompleto"
-                            style="width:100%"
+
                             (click)="showModalEditNombre()"
                             [disabled]="formDatosCliente.disabled"
                             readonly
@@ -71,7 +71,7 @@
                             <label class="formControlLabel" for="telefono">Teléfono</label>
                             <input 
                             class="formControl"
-                            [size]="formDatosCliente.value.telefono.length"
+
                             type="text" 
                             id="telefono"
                             name="telefono"
@@ -85,7 +85,6 @@
                             <label class="formControlLabel" for="email">Email</label>
                             <input 
                             class="formControl"
-                            [size]="formDatosCliente.value.email.length"
                             type="text" 
                             id="email"
                             name="email"

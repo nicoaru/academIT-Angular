@@ -13,9 +13,8 @@ import { DetalleMuebleModalComponent } from '../../detalle-mueble-modal/detalle-
 })
 export class DetalleMueblePedidoSubitemComponent {
   modalRef:MatDialogRef<DetalleMuebleModalComponent>
-  
   @Input() muebles:Mueble[];
-
+  
 
 
 
@@ -35,6 +34,10 @@ export class DetalleMueblePedidoSubitemComponent {
 
   closeModal():void {
     this.modalRef.close();
+  }
+
+  changeMuebleParaMostrar(idMueble:number):void {
+    this.muebleService.setMuebleParaDetalle(idMueble);
   }
 
 }

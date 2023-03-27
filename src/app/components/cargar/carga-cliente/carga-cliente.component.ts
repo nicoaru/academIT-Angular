@@ -75,7 +75,7 @@ export class CargaClienteComponent {
           next: (data:Cliente) => {
             console.log("Actualizado OK: ", data);
             let message = `Cliente ${data.nombre} ${data.apellido} creado con éxito`;
-            //this.matDialog.open(AlertModalComponent, { data: {message}});
+            // this.matDialog.open(AlertModalComponent, { data: {message}});
             this.dialogRef.close(true);
 
           },

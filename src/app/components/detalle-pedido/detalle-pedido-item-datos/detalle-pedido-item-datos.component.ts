@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Cliente, Pedido, TipoCliente } from 'src/app/models/interfaces/entidades.interfaces';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,15 +16,13 @@ import { CargaMuebleComponent } from '../../cargar/carga-mueble/carga-mueble.com
   templateUrl: './detalle-pedido-item-datos.component.html',
   styleUrls: ['./detalle-pedido-item-datos.component.css', '../../../styles/form-control.css']
 })
-export class DetallePedidoItemDatosComponent {
+export class DetallePedidoItemDatosComponent implements OnInit, OnDestroy {
   pedido:Pedido;
   listaClientes:Cliente[];
   editable:boolean = false;
   formDatosPedido:FormGroup;
   private subscribtionPedido$: Subscription;
-
-
-
+  private subscribtionListaClientes$: Subscription;
 
 
 
@@ -132,6 +130,8 @@ export class DetallePedidoItemDatosComponent {
     })
     cargaMuebleModalRef.beforeClosed().subscribe(seCreoMueble => {
       if(seCreoMueble) this.refreshPedidos()
+      let message = `Mueble cargado con éxito`;
+      this.matDialog.open(AlertModalComponent, { data: {message}});
     })
 
   }
@@ -194,17 +194,28 @@ export class DetallePedidoItemDatosComponent {
     .subscribe(data => {
       // Cada vez que el observable emita un valor, se ejecutará este código
       this.pedido = data
-      console.log("Pedido para detalle: ",data);
+      this.restoreFormValues(); 
+    });
+    
+    this.subscribtionListaClientes$ = this.pedidoService.clientesList$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.listaClientes = data
+      console.log("Lista de Clientes: ",data);
     });
 
-    this.listaClientes = this.pedidoService.clientesList;
-    console.log("Lista clientes - en item datos \n", this.listaClientes)
+    this.restoreFormValues();
 
-    this.restoreFormValues();  
+    console.warn(this.formDatosPedido)
   }
+
+  // ngAfterViewInit(): void {
+  //   this.restoreFormValues(); 
+  // }
 
   ngOnDestroy(): void {
     this.subscribtionPedido$.unsubscribe();
+    this.subscribtionListaClientes$.unsubscribe();
   }
 
 

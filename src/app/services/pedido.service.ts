@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DetallePedidoModalComponent } from 'src/app/components/detalle-pedido/detalle-pedido-modal/detalle-pedido-modal.component';
 import { Pedido, Cliente } from 'src/app/models/interfaces/entidades.interfaces';
 import { PedidosApiService } from 'src/app/services/api/pedidos-api.service';
+import { ClientesApiService } from './api/clientes-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +21,21 @@ export class PedidoService {
   public pedidoParaDetalle$ = this.pedidoParaDetalle.asObservable();
 
   private _clientesList:Cliente[];
-  
+  private clientesList = new BehaviorSubject<Cliente[]>([]);
+  public clientesList$ = this.clientesList.asObservable();
 
 
   //** Constructor **//
   //** Constructor **//
-  constructor(private pedidosAPI:PedidosApiService) { }
+  constructor(
+    private pedidosAPI:PedidosApiService,
+    private clientesAPI:ClientesApiService) { }
 
 
   //** Métodos **//
   //** Métodos **//
+
+  // Pedidos
   setPedidos(pedidos:Pedido[]):void {
     this._pedidos = [...pedidos]
 
@@ -76,8 +82,13 @@ export class PedidoService {
     })
   }
 
+
+
+  // Pedido para detalle
   setPedidoParaDetalle(idPedido:number):void {
-    this._pedidoParaDetalle = this._pedidos.find(ped => ped.id === idPedido);
+    idPedido
+      ? this._pedidoParaDetalle = this._pedidos.find(ped => ped.id === idPedido)
+      : null
 
     this.pedidoParaDetalle.next(this._pedidoParaDetalle)
   }
@@ -85,12 +96,50 @@ export class PedidoService {
     return this._pedidoParaDetalle
   }
 
-  public get clientesList():Cliente[] {
-    return this._clientesList
+
+
+  // clientes
+  setClientesList(tiposCliente:Cliente[]):void {
+    this._clientesList = [...tiposCliente]
+
+    this.clientesList.next(this._clientesList)
   }
-  public set clientesList(clientes:Cliente[]) {
-    this._clientesList = clientes;
+
+  getClientesList():any {
+    
+    return new Promise((resolve, reject)=>{
+
+      this.clientesAPI.getAll()
+        .subscribe({
+          next: (data) => {
+            console.log("data getClientesList: \n", data);
+            this.setClientesList(data)
+            resolve({ok: true})
+          },
+          error: (err) => {
+            console.log("err \n", err)
+            let errorMessage:string;
+            err.status === 0
+              ? errorMessage = "Lo siento tuvimos un problema intentando traer la lista de clientes"
+              : err.status === 401
+                ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                : errorMessage = "Lo siento hubo un problema en el servidor intentando traer la lista de clientes"
+            reject({ok: false, error: err, message: errorMessage})
+          }        
+        })
+    })
   }
+
+
+
+
+
+  // public get clientesList():Cliente[] {
+  //   return this._clientesList
+  // }
+  // public set clientesList(clientes:Cliente[]) {
+  //   this._clientesList = clientes;
+  // }
 
   public get modalRef():MatDialogRef<DetallePedidoModalComponent> {
     return this._modalRef

@@ -82,6 +82,7 @@ export class MueblesPrivadoComponent {
   dialogDetalleRef:MatDialogRef<DetalleMuebleModalComponent>;
   
   private subscriptionMuebles$:Subscription;  
+  private subscriptionId$:Subscription;  
   muebles:Mueble[];
 
   loading:boolean = false;
@@ -133,7 +134,7 @@ export class MueblesPrivadoComponent {
       },
       error: (err) => {
         console.log("err \n", err)
-        let errorMessage;
+        let errorMessage:string;
         err.status === 0
         ? errorMessage = "Lo siento tuvimos un problema intentando eliminar el mueble"
         : err.status === 401
@@ -148,10 +149,8 @@ export class MueblesPrivadoComponent {
   async getMuebles():Promise<void> {
     this.loading = true;
     try {
-      console.log("inicio")
       this.loading = true;
       let result = await this.muebleService.getMuebles()
-      console.log("resultado: ", result)
     }
     catch(err) {
       console.log("Error en getMuebles:\n", err)
@@ -161,12 +160,88 @@ export class MueblesPrivadoComponent {
     finally{ this.loading = false; }  
   }
   
+  async getColores():Promise<void> {
+    try {
+      let result = await this.muebleService.getColores()
+      // console.log("resultado getColores: ", result)
+    }
+    catch(err) {
+      console.log("Error en getColores:\n", err)
+      this.errorMessage = err.message;
+    }
+    console.log("terminó get");
+  }
+  
+  async getModelos():Promise<void> {
+    try {
+      let result = await this.muebleService.getModelos()
+      // console.log("resultado getModelos: ", result)
+    }
+    catch(err) {
+      console.log("Error en getModelos:\n", err)
+      this.errorMessage = err.message;
+    }       
+    console.log("terminó get");
+  }
+    
+  async getEstados():Promise<void> {
+    try {
+      let result = await this.muebleService.getEstados()
+      // console.log("resultado getEstados: ", result)
+    }
+    catch(err) {
+      console.log("Error en getEstados:\n", err)
+      this.errorMessage = err.message;
+    }       
+    console.log("terminó get");
+  }
+        
+        
+        
+        
+  //** LifeCycles **//
+  //** LifeCycles **//
+
+  async ngOnInit() {
+    this.subscriptionMuebles$ = this.muebleService.muebles$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.muebles = [...data]
+      // console.log("Muebles del observable ese en MueblePrivado: ",data);
+    });
+  
+    await this.getMuebles();
+    await this.getModelos();
+    await this.getEstados();
+    await this.getColores();
+  
+    this.subscriptionId$ = this.route.paramMap
+      .subscribe(data => {
+        let id = data.get('id');
+        console.log("Id mueble por parámetro: ", id)
+        if(Number(id)) {
+          this.showDetails(Number(id))
+        }
+      })
+
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptionMuebles$.unsubscribe();
+    this.subscriptionId$.unsubscribe();
+  }
+  
+
+}
+
+
+/*
   getColores():void {
     this.coloresAPI.getAll()
     .subscribe({
       next: (data) => {
         console.log("data colores: \n", data);
-        this.muebleService.colores = data;
+        this.muebleService.setColores(data);
       },
     error: (err) => {
       console.log("err trayendo los colores \n", err)
@@ -178,7 +253,7 @@ export class MueblesPrivadoComponent {
     .subscribe({
       next: (data) => {
         console.log("data modelos: \n", data);
-        this.muebleService.modelos = data;
+        this.muebleService.setModelos(data);
       },
       error: (err) => {
         console.log("err trayendo los modelos \n", err)
@@ -191,43 +266,11 @@ export class MueblesPrivadoComponent {
     .subscribe({
       next: (data) => {
         console.log("data estados: \n", data);
-        this.muebleService.estados = data;
+        this.muebleService.setEstados(data);
       },
       error: (err) => {
         console.log("err trayendo los estados \n", err)
 
       }})        
   }
-        
-        
-        
-        
-  //** LifeCycles **//
-  //** LifeCycles **//
-
-  ngOnInit() {
-    this.subscriptionMuebles$ = this.muebleService.muebles$
-    .subscribe(data => {
-      // Cada vez que el observable emita un valor, se ejecutará este código
-      this.muebles = [...data]
-      console.log("Muebles del observable ese en MueblePrivado: ",data);
-    });
-  
-    this.getMuebles();
-    this.getModelos();
-    this.getEstados();
-    this.getColores();
-
-    let id = this.route.snapshot.paramMap.get('id');
-    console.log("Id mueble por parámetro: ", id)
-    if(Number(id)) {
-      this.showDetails(Number(id))
-    }
-  }
-  
-  ngOnDestroy(): void {
-    this.subscriptionMuebles$.unsubscribe();
-  }
-  
-
-}
+*/

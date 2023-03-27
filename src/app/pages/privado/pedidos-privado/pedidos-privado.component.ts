@@ -51,6 +51,7 @@ export class PedidosPrivadoComponent {
   ];
   dialogDetalleRef:MatDialogRef<DetallePedidoModalComponent>;
   private subscriptionPedidos$:Subscription;
+  private subscriptionId$:Subscription;
 
   pedidos:Pedido[];
   
@@ -144,24 +145,18 @@ export class PedidosPrivadoComponent {
 
     } 
     finally{ this.loading = false; }  
-}
+  }
 
-  getListaClientes():void {
-    this.clienteAPI.getList()
-    .subscribe({
-      next: (data) => {
-        console.log("data lista clientes: \n", data);
-        this.pedidoService.clientesList = data;
-      },
-      error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-      }})    
+  async getListaClientes():Promise<void> {
+    try {
+      let result = await this.pedidoService.getClientesList()
+      console.log("resultado getListaClientes: ", result)
+    }
+    catch(err) {
+      console.log("Error en getListaClientes:\n", err)
+      this.errorMessage = err.message;
+      
+    }      
   }
 
 
@@ -169,7 +164,7 @@ export class PedidosPrivadoComponent {
 
   //** LifeCycles **//
   //** LifeCycles **//
-  ngOnInit() {
+  async ngOnInit() {
     this.subscriptionPedidos$ = this.pedidoService.pedidos$
       .subscribe(data => {
         // Cada vez que el observable emita un valor, se ejecutará este código
@@ -177,18 +172,24 @@ export class PedidosPrivadoComponent {
         console.log("Clientes del observable ese en PedidoPrivado: ",data);
       });
 
-    this.getPedidos();
-    this.getListaClientes();
+    await this.getPedidos();
+    await this.getListaClientes();
 
-    let id = this.route.snapshot.paramMap.get('id');
-    console.log("Id pedido por parámetro: ", id)
-    if(Number(id)) {
-      this.showDetails(Number(id))
-    }
+    this.subscriptionId$ = this.route.paramMap
+      .subscribe(data => {
+        let id = data.get('id');
+        console.log("Id pedido por parámetro: ", id)
+        if(Number(id)) {
+          this.showDetails(Number(id))
+        }
+    })
+
+
   }
 
   ngOnDestroy(): void {
     this.subscriptionPedidos$.unsubscribe();
+    this.subscriptionId$.unsubscribe();
   }
 
 }

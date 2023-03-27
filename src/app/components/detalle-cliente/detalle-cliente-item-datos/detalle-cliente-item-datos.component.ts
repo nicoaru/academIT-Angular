@@ -22,6 +22,7 @@ export class DetalleClienteItemDatosComponent implements OnInit {
   formDatosCliente:FormGroup;
   dialogEditNombreRef:MatDialogRef<EditNombreComponent>;
   private subscribtionCliente$: Subscription;
+  private subscribtionTiposCliente$: Subscription;
 
 
 
@@ -140,6 +141,8 @@ export class DetalleClienteItemDatosComponent implements OnInit {
     })
     cargaPedidoModalRef.beforeClosed().subscribe(seCreoMueble => {
       if(seCreoMueble) this.refreshClientes()
+      let message = `Pedido cargado con éxito`;
+      this.matDialog.open(AlertModalComponent, { data: {message}});
     })
 
   }
@@ -203,14 +206,20 @@ export class DetalleClienteItemDatosComponent implements OnInit {
       this.cliente = data
       console.log("Cliente para detalle: ",data);
     });
-
-    this.tiposCliente = this.clienteService.tiposCliente;
-
+    
+    this.subscribtionTiposCliente$ = this.clienteService.tiposCliente$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.tiposCliente = data
+      console.log("Lista tiposCliente: ",data);
+    });
+        
     this.restoreFormValues();  
   }
 
   ngOnDestroy(): void {
     this.subscribtionCliente$.unsubscribe();
+    this.subscribtionTiposCliente$.unsubscribe();
   }
 
 

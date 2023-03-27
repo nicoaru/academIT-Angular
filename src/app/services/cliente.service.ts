@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DetalleClienteModalComponent } from 'src/app/components/detalle-cliente/detalle-cliente-modal/detalle-cliente-modal.component';
 import { Cliente, TipoCliente } from 'src/app/models/interfaces/entidades.interfaces';
 import { ClientesApiService } from 'src/app/services/api/clientes-api.service';
+import { TiposClienteApiService } from './api/tipos-cliente-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +21,22 @@ export class ClienteService {
   public clienteParaDetalle$ = this.clienteParaDetalle.asObservable();
 
   private _tiposCliente:TipoCliente[];
+  private tiposCliente = new BehaviorSubject<TipoCliente[]>([]);
+  public tiposCliente$ = this.tiposCliente.asObservable();
   
 
 
   //** Constructor **//
   //** Constructor **//
-  constructor(private clientesAPI:ClientesApiService) { }
+  constructor(
+    private clientesAPI:ClientesApiService,
+    private tiposClienteAPI:TiposClienteApiService) { }
 
 
   //** Métodos **//
   //** Métodos **//
+
+  // Clientes
   setClientes(clientes:Cliente[]):void {
     this._clientes = [...clientes]
 
@@ -76,9 +83,13 @@ export class ClienteService {
     })
   }
 
-  setClienteParaDetalle(idCliente:number):void {
 
-    this._clienteParaDetalle = this._clientes.find(cli => cli.id === idCliente);
+
+  // Cliente para detalle
+  setClienteParaDetalle(idCliente:number):void {
+    idCliente
+      ? this._clienteParaDetalle = this._clientes.find(ped => ped.id === idCliente)
+      : null
 
     this.clienteParaDetalle.next(this._clienteParaDetalle)
   }
@@ -86,12 +97,49 @@ export class ClienteService {
     return this._clienteParaDetalle
   }
 
-  public get tiposCliente():TipoCliente[] {
-    return this._tiposCliente
-  }
-  public set tiposCliente(tiposCliente:TipoCliente[]) {
-    this._tiposCliente = tiposCliente;
-  }
+
+
+    // TposCliente
+    setTiposCliente(tiposCliente:TipoCliente[]):void {
+      this._tiposCliente = [...tiposCliente]
+  
+      this.tiposCliente.next(this._tiposCliente)
+    }
+  
+    getTiposCliente():any {
+      
+      return new Promise((resolve, reject)=>{
+  
+        this.tiposClienteAPI.getAll()
+          .subscribe({
+            next: (data) => {
+              console.log("data getTiposCliente: \n", data);
+              this.setTiposCliente(data)
+              resolve({ok: true})
+            },
+            error: (err) => {
+              console.log("err \n", err)
+              let errorMessage:string;
+              err.status === 0
+                ? errorMessage = "Lo siento tuvimos un problema intentando traer los datos de los TiposCliente"
+                : err.status === 401
+                  ? errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
+                  : errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los TiposCliente"
+              reject({ok: false, error: err, message: errorMessage})
+            }        
+          })
+      })
+    }
+
+
+
+
+  // public get tiposCliente():TipoCliente[] {
+  //   return this._tiposCliente
+  // }
+  // public set tiposCliente(tiposCliente:TipoCliente[]) {
+  //   this._tiposCliente = tiposCliente;
+  // }
 
   public get modalRef():MatDialogRef<DetalleClienteModalComponent> {
     return this._modalRef

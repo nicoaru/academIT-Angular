@@ -1,0 +1,46 @@
+/* ..... FOOTER ..... */
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 150px;
+    margin: 15px;
+    background-color: #e5e5e5;
+    vertical-align: middle;
+
+}
+
+    footer a {
+        font-size: 0.8rem;
+        line-height: 2em;
+    }
+    footer .footerMenuContainer {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+    }
+
+    .footerMenuList {
+
+    }
+    .footerMenuItem {
+        margin-left: 15px;
+    }
+
+
+    footer .footerRedesContainer {
+        display: flex;
+        align-items: center;
+        column-gap: 50px;
+    }
+        footer .footerRedesContainer a {
+            font-size: 30px;
+            transition: all 1s ease;
+        }
+    footer .footerContatoContainer i {
+        text-align: center;
+        width: 30px;
+    }
+    /* hovers */
+    footer .footerRedesContainer a:hover {
+        text-shadow: 0px 0px 15px rgba(28, 24, 24, 0.731);
+    }

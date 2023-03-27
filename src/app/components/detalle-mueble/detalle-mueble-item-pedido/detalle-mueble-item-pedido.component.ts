@@ -51,7 +51,7 @@ export class DetalleMuebleItemPedidoComponent implements OnInit {
             }
         : null
 
-      this.otrosMueblesDelPedido = data.pedido?.muebles;  
+      this.otrosMueblesDelPedido = data.pedido?.muebles.filter(mueble => mueble.id !== data.id);  
       
       console.log("PedidoMostrar en MuebleDetalle: ",this.pedidoMostrar);
       console.log("OtrosMueblesDelPedido en MuebleDetalle: ",this.otrosMueblesDelPedido);

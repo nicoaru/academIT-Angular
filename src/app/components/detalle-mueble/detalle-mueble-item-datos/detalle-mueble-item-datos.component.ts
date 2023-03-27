@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Color, Estado, Modelo, Mueble, Pedido } from 'src/app/models/interfaces/entidades.interfaces';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,9 +16,12 @@ import { MuebleService } from 'src/app/services/mueble.service';
   templateUrl: './detalle-mueble-item-datos.component.html',
   styleUrls: ['./detalle-mueble-item-datos.component.css', '../../../styles/form-control.css']
 })
-export class DetalleMuebleItemDatosComponent {
+export class DetalleMuebleItemDatosComponent implements OnInit, OnDestroy {
   formDatosMueble:FormGroup;  
   private subscribtionMueble$: Subscription;
+  private subscribtionModelo$: Subscription;
+  private subscribtionColor$: Subscription;
+  private subscribtionEstado$: Subscription;
   
   mueble:Mueble;
   modelos:Modelo[];
@@ -51,6 +54,8 @@ export class DetalleMuebleItemDatosComponent {
     })
     //* set disable
     this.formDatosMueble.disable();
+
+    console.log(this.formDatosMueble)
   }
 
 
@@ -84,8 +89,7 @@ export class DetalleMuebleItemDatosComponent {
       .subscribe({
           next: (data) => {
             console.log("mueble actualizado: ", data);
-            this.muebleService.updateMueble(data);
-            this.muebleService.setMuebleParaDetalle(data.id);
+            this.muebleService.getMuebles();
             let message = `Mueble modificado con éxito`
             this.matDialog.open(AlertModalComponent, { data: {message}})
           },
@@ -129,10 +133,10 @@ export class DetalleMuebleItemDatosComponent {
     this.formDatosMueble.controls['alto'].setValue(this.mueble.alto);
     this.formDatosMueble.controls['profundidad'].setValue(this.mueble.profundidad);
     this.formDatosMueble.controls['cantidad'].setValue(this.mueble.cantidad);
-    this.formDatosMueble.controls['color'].setValue(this.mueble.color?.id);
-    this.formDatosMueble.controls['modelo'].setValue(this.mueble.modelo?.id);
+    this.formDatosMueble.controls['color'].setValue(this.mueble.color?.id || '');
+    this.formDatosMueble.controls['modelo'].setValue(this.mueble.modelo?.id || '');
     this.formDatosMueble.controls['notas'].setValue(this.mueble.notas);
-    this.formDatosMueble.controls['estado'].setValue(this.mueble.estado?.id);
+    this.formDatosMueble.controls['estado'].setValue(this.mueble.estado?.id || '');
   }
 
 
@@ -145,18 +149,46 @@ export class DetalleMuebleItemDatosComponent {
     .subscribe(data => {
       // Cada vez que el observable emita un valor, se ejecutará este código
       this.mueble = data
-      console.log("Mueble para detalle: ",data);
+      this.restoreFormValues();
     });
-
-    this.modelos = this.muebleService.modelos;
-    this.estados = this.muebleService.estados;
-    this.colores = this.muebleService.colores;
     
+    this.subscribtionModelo$ = this.muebleService.modelos$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.modelos = data
+      // this.restoreFormValues();
+      console.log("Lista Modelos ",data);
+    });
+    
+    this.subscribtionColor$ = this.muebleService.colores$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.colores = data
+      // this.restoreFormValues();
+      console.log("Lista Colores: ",data);
+    });
+    
+    this.subscribtionEstado$ = this.muebleService.estados$
+    .subscribe(data => {
+      // Cada vez que el observable emita un valor, se ejecutará este código
+      this.estados = data
+      // this.restoreFormValues();
+      console.log("Lista Estados: ",data);
+    });
+  
     this.restoreFormValues();  
+
   }
+
+  // ngAfterViewInit(): void {
+  //   this.restoreFormValues(); 
+  // }
 
   ngOnDestroy(): void {
     this.subscribtionMueble$.unsubscribe();
+    this.subscribtionModelo$.unsubscribe();
+    this.subscribtionColor$.unsubscribe();
+    this.subscribtionEstado$.unsubscribe();
   }
 
 

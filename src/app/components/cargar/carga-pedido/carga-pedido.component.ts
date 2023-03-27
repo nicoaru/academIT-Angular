@@ -70,6 +70,7 @@ export class CargaPedidoComponent {
       .subscribe({
           next: (data:Pedido) => {
             console.log("Actualizado OK: ", data);
+            const message:string = "Pedido cargado con éxito";
             // this.matDialog.open(AlertModalComponent, { data: {message}});
             this.dialogRef.close(true);
 

@@ -1,6 +1,7 @@
-<app-header-public *ngIf="!isPrivate" ></app-header-public>
-<app-header-private *ngIf="isPrivate" ></app-header-private>
+<app-header-public *ngIf="!isPrivate"></app-header-public>
+<app-header-private *ngIf="isPrivate"></app-header-private>
 
 <ng-content></ng-content>
 
-<app-footer [navItems]="isPrivate ? navItemsPrivateFooter : navItemsPublic" ></app-footer>
+<app-footer-public *ngIf="!isPrivate"></app-footer-public>
+<app-footer-private *ngIf="isPrivate"></app-footer-private>

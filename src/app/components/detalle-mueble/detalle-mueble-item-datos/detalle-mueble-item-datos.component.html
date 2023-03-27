@@ -1,5 +1,5 @@
 <div
-    *ngIf="mueble && modelos && colores && estados"
+
     cdkAccordionItem
     #accordionDatosPedido="cdkAccordionItem"
     class="acordionDetallePedido-itemPedido"
@@ -22,12 +22,14 @@
     
     <!--* Accordion body -->
     <div
+        *ngIf="mueble && modelos && colores && estados"
         class="acordionDetallePedido-itemPedido-body"
         role="region"
         [style.display]="accordionDatosPedido.expanded ? '' : 'none'"
         id="accordion-body-1"
         aria-labelledby="accordion-header-1"
     >
+        <p *ngIf="!mueble || !modelos || !colores || !estados"> Algo salió mal</p>
 
         <form [formGroup]="formDatosMueble" action="" class="formDatosMueble"> 
             <div class="d-flex flex-row justify-content-between">
@@ -43,6 +45,7 @@
                             name="modelo"
                             formControlName="modelo"
                             >
+                                <option selected disabled value="">SELECCIONE UNA CATEGORÍA</option>
                                 <option *ngFor="let modelo of modelos" value={{modelo.id}}>{{modelo.nombre}}</option>
                             </select>
                         </div>
@@ -126,6 +129,7 @@
                             name="estado"
                             formControlName="estado"
                             >
+
                                 <option *ngFor="let option of estados" value={{option.id}}>
                                     {{option.nombre}}
                                 </option>

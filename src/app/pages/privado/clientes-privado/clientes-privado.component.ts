@@ -138,22 +138,16 @@ export class ClientesPrivadoComponent implements OnInit {
     finally{ this.loading = false; }  
   }
 
-  getTiposCliente():void {
-    this.tiposClienteAPI.getAll()
-    .subscribe({
-      next: (data) => {
-        console.log("data tiposCliente: \n", data);
-        this.clienteService.tiposCliente = data;
-      },
-      error: (err) => {
-        console.log("err \n", err)
-        let modalMessage:string;
-        err.status === 0
-          ? modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-          : err.status === 401
-            ? modalMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-            : modalMessage = "Algunos datos no llegaron bien del servidor, quizás tengas problemas para actualizar el dato Tipo de Cliente"
-      }})        
+  async getTiposCliente():Promise<void> {
+    try {
+      let result = await this.clienteService.getTiposCliente()
+      console.log("resultado getTiposCliente: ", result)
+    }
+    catch(err) {
+      console.log("Error en getTiposCliente:\n", err)
+      this.errorMessage = err.message;
+      
+    }      
   }
 
 
@@ -181,26 +175,3 @@ export class ClientesPrivadoComponent implements OnInit {
 
 }
 
-/*
-getClientes():void {
-      this.loading = true;  
-      this.clientesAPI.getAll()
-        .subscribe({
-          next: (data) => {
-            console.log("data getClientes: \n", data);
-            this.clienteService.setClientes(data)
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log("err \n", err)
-            err.status === 0
-              ? this.errorMessage = "Lo siento tuvimos un problema intentando traer los datos"
-              : err.status === 401
-                ? this.errorMessage = "Mmm.. pareciera que no estás autorizadoa a ver esto... 🤔"
-                : this.errorMessage = "Lo siento hubo un problema en el servidor intentando traer los datos de los Clientes"
-
-              this.loading = false;
-          }        
-        })
-  }
-*/

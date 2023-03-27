@@ -63,6 +63,8 @@ import { CargaPedidoComponent } from './components/cargar/carga-pedido/carga-ped
 import { CargaMuebleComponent } from './components/cargar/carga-mueble/carga-mueble.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { HeaderPrivateComponent } from './components/layouts/header-private/header-private.component';
+import { FooterPrivateComponent } from './components/layouts/footer-private/footer-private.component';
+import { FooterPublicComponent } from './components/layouts/footer-public/footer-public.component';
 
 
 
@@ -109,7 +111,9 @@ import { HeaderPrivateComponent } from './components/layouts/header-private/head
     CargaPedidoComponent,
     CargaMuebleComponent,
     PageNotFoundComponent,
-    HeaderPrivateComponent
+    HeaderPrivateComponent,
+    FooterPrivateComponent,
+    FooterPublicComponent
   ],
   imports: [
     FormsModule,
